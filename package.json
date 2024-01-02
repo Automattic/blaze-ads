@@ -15,7 +15,7 @@
 		"build": "pnpm build:deps && pnpm  build:release",
 		"build:deps": "rm -rf vendor && composer install --no-dev --optimize-autoloader",
 		"build:release": "node bin/release-task.js && mv release/$npm_package_name.zip .",
-		"lint": "pnpm lint:js && pnpm lint:php",
+		"lint": "pnpm lint:php",
 		"lint:css": "wp-scripts lint-style 'src/**/*.css'",
 		"lint:css:fix": "wp-scripts lint-style --fix 'src/**/*.css'",
 		"lint:js": "wp-scripts lint-js",

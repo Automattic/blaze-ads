@@ -1,0 +1,4 @@
+Significance: patch
+Type: add
+
+Adds a Github workflow to the repository, to use for PR checks

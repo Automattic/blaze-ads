@@ -1,0 +1,60 @@
+name: Linting and testing
+
+on:
+  pull_request:
+  merge_group:
+
+env:
+  WP_VERSION: latest
+  WC_VERSION: '7.6.0'
+
+jobs:
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      # clone the repository
+      - uses: actions/checkout@v4
+      - name: "Set up pnpm"
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: "Set up Node"
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: "pnpm"
+      - name: "Set up PHP"
+        uses: ./.github/actions/setup-php
+      # enable dependencies caching
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer/
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      # install dependencies and run linter
+      - run: pnpm install && pnpm lint
+
+  test:
+    name: Testing
+    runs-on: ubuntu-latest
+    steps:
+      # clone the repository
+      - uses: actions/checkout@v4
+      - name: "Set up pnpm"
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: "Set up Node"
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: "pnpm"
+      - name: "Set up PHP"
+        uses: ./.github/actions/setup-php
+      # enable dependencies caching
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer/
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      # run tests
+      - run: bash bin/run-ci-tests.sh
