@@ -10,7 +10,7 @@ WOOBLAZE_DIR="$GITHUB_WORKSPACE"
 echo 'Updating composer version & Install dependencies...'
 composer self-update && composer install --no-progress
 
-echo 'Starting MySQL service....'
+echo 'Starting MySQL service...'
 sudo systemctl start mysql.service
 
 # On GitHub actions, set MySQL authentication to mysql_native_password instead of caching_sha2_password
