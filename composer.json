@@ -1,0 +1,72 @@
+{
+	"name": "automattic/woo-blaze",
+	"description": "Run AI experiments in WooCommerce.",
+	"homepage": "https://github.com/automattic/woo-blaze",
+	"type": "wordpress-plugin",
+	"license": "GPL-3.0-or-later",
+	"prefer-stable": true,
+	"minimum-stability": "dev",
+	"config": {
+		"platform": {
+			"php": "7.4"
+		},
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"automattic/jetpack-autoloader": true,
+			"composer/installers": true
+		}
+	},
+	"require": {
+		"php": ">=7.4",
+		"composer/installers": "~1.7",
+		"automattic/jetpack-connection": "1.51.7",
+		"automattic/jetpack-config": "1.15.2",
+		"automattic/jetpack-autoloader": "2.11.18",
+		"ext-json": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"woocommerce/woocommerce-sniffs": "^0.1.3",
+		"automattic/jetpack-changelogger": "3.3.0",
+		"spatie/phpunit-watcher": "1.23",
+		"yoast/phpunit-polyfills": "^2.0",
+		"php-stubs/wordpress-tests-stubs": "^6.3"
+	},
+	"scripts": {
+		"test": [
+			"phpunit"
+		],
+		"phpcs": [
+			"phpcs -s -p"
+		],
+		"phpcs-pre-commit": [
+			"phpcs -s -p -n"
+		],
+		"phpcbf": [
+			"phpcbf -p"
+		]
+	},
+	"extra": {
+		"scripts-description": {
+			"test": "Run unit tests",
+			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+		},
+		"changelogger": {
+			"formatter": {
+				"filename": "bin/class-woo-blaze-changelog-formatter.php"
+			},
+			"types": {
+				"fix": "Fixes an existing bug",
+				"add": "Adds functionality",
+				"update": "Update existing functionality",
+				"dev": "Development related task",
+				"tweak": "A minor adjustment to the codebase",
+				"performance": "Address performance issues",
+				"enhancement": "Improve existing functionality"
+			},
+			"versioning": "wordpress",
+			"changelog": "CHANGELOG.md"
+		}
+	}
+}

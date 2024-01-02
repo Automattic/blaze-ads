@@ -1,0 +1,9 @@
+# node_modules/* is ignored by default
+
+bin/*
+!bin/release-task.js
+
+dist/*
+docker/*
+vendor/*
+release/*

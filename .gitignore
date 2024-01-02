@@ -1,0 +1,39 @@
+# Node dependencies
+node_modules/
+
+# Directories/files that may appear in your environment
+.DS_Store
+Thumbs.db
+*.sql
+*.tar.gz
+*.tgz
+*.zip
+.idea
+.vscode/
+
+# Composer
+/vendor/
+/vendor-dist/
+/lib/vendor/
+contributors.md
+
+# Bundle
+release
+build
+dist
+languages/*.pot
+woo-blaze.zip
+
+#Tests
+.phpunit.result.cache
+
+# Volumes mounted by Docker containers
+docker/data
+docker/wordpress
+docker/logs
+
+# Local machine docker override
+docker-compose.override.yml
+
+# Tunneling scripts
+/docker/bin/jt
