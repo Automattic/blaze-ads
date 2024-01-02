@@ -1,0 +1,4 @@
+Significance: patch
+Type: add
+
+Adds a Github workflow to use for Pull Request checks
