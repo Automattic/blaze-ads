@@ -10,7 +10,7 @@
  * Requires at least: 6.3
  * Requires PHP: 7.4
  *
- * @package Woo_Blaze
+ * @package WooBlaze
  */
 
 defined( 'ABSPATH' ) || exit;
