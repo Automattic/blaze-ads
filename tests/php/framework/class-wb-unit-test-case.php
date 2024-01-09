@@ -2,8 +2,12 @@
 /**
  * Class WB_Unit_Test_Case
  *
- * @package WooCommerce\Blaze\Tests
+ * @package WooBlaze\Tests
  */
+
+namespace WooBlaze\Tests\Framework;
+
+use WP_UnitTestCase;
 
 /**
  * WB Unit Test Case.

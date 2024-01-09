@@ -2,8 +2,10 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package WooCommerce\Blaze\Tests
+ * @package WooBlaze\Tests
  */
+
+namespace WooBlaze\Tests;
 
 /**
  * Class Woo_Blaze_Unit_Tests_Bootstrap
