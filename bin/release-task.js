@@ -13,7 +13,7 @@ const pluginSlug = process.env.npm_package_name;
 const releaseFolder = 'release';
 const targetFolder = `${ releaseFolder }/${ pluginSlug }`;
 const filesToCopy = [
-	'src',
+	'includes',
 	'vendor',
 	'woo-blaze.php',
 	'changelog.txt',
