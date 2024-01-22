@@ -16,6 +16,7 @@ const filesToCopy = [
 	'includes',
 	'vendor',
 	'woo-blaze.php',
+	'languages',
 	'changelog.txt',
 	'readme.txt',
 ];
