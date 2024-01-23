@@ -4,7 +4,7 @@ Tags: woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 0.0.1
+Stable tag: 0.0.1-alpha
 
 Drive sales, and elevate your products to center stage, effortlessly. Witness your business flourishing in the blink of an eye. Only with Woo Blaze.
 
