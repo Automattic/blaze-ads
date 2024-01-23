@@ -2,7 +2,7 @@
 /**
  * Jetpack Changelogger Formatter for Woo Blaze
  *
- * @package  WooCommerce\Blaze
+ *  @package Automattic\WooBlaze
  */
 
 use Automattic\Jetpack\Changelog\Changelog;
@@ -23,61 +23,28 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 	 *
 	 * @var string
 	 */
-	public $bullet = '-   ';
+	private $bullet = '*';
 
 	/**
-	 * Prologue text.
+	 * Output date format.
 	 *
 	 * @var string
 	 */
-	public $prologue = "# Changelog \n\n";
+	private $date_format = 'Y-m-d';
 
 	/**
-	 * Epilogue text.
+	 * Title for the changelog.
 	 *
 	 * @var string
 	 */
-	public $epilogue = '';
+	private $title = '*** Woo Blaze Changelog ***';
 
 	/**
-	 * Entry pattern regex.
+	 * Separator used in headings and change entries.
 	 *
 	 * @var string
 	 */
-	public $entry_pattern = '/^##?#\s+([^\n=]+)\s+((?:(?!^##).)+)/ms';
-
-	/**
-	 * Heading pattern regex.
-	 *
-	 * @var string
-	 */
-	public $heading_pattern = '/^## \[+(\[?[^] ]+\]?)\]\(.+\) - (.+?)\n/s';
-
-	/**
-	 * Subheading pattern regex.
-	 *
-	 * @var string
-	 */
-	public $subentry_pattern = '/^###(.+)\n/m';
-
-	/**
-	 * Return the epiologue.
-	 */
-	public function getEpilogue() {
-		return $this->epilogue;
-	}
-
-	/**
-	 * Get Release link given a version number.
-	 *
-	 * @param string $version Release version.
-	 *
-	 * @return string Link to the version's release.
-	 * @throws \InvalidArgumentException When directory parsing fails.
-	 */
-	public function getReleaseLink( $version ) {
-		return 'https://github.com/automattic/woo-blaze/releases/tag/' . $version;
-	}
+	private $separator = '-';
 
 	/**
 	 * Modified version of parse() from KeepAChangelogParser.
@@ -85,7 +52,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 	 * @param string $changelog Changelog contents.
 	 *
 	 * @return Changelog
-	 * @throws \InvalidArgumentException If the changelog data cannot be parsed.
+	 * @throws InvalidArgumentException If the changelog data cannot be parsed.
 	 */
 	public function parse( $changelog ) {
 		$ret = new Changelog();
@@ -103,54 +70,39 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 			);
 		}
 
+		// Remove title. Check if the first line containing the defined title, and remove it.
+		list( $first_line, $remaining ) = explode( "\n", $changelog, 2 );
+		if ( false !== strpos( $first_line, $this->title ) ) {
+			$changelog = $remaining;
+		}
+
 		// Entries make up the rest of the document.
 		$entries       = array();
-		$entry_pattern = $this->entry_pattern;
-		preg_match_all( $entry_pattern, $changelog, $matches );
+		$entry_pattern = '/^=\s+([^\n=]+)\s+=(((?!^=).)+)/ms';
+		preg_match_all( $entry_pattern, $changelog, $version_sections );
 
-		foreach ( $matches[0] as $section ) {
-			// Remove the epilogue, if it exists.
-			$section = str_replace( $this->epilogue, '', $section );
-
-			$heading_pattern  = $this->heading_pattern;
-			$subentry_pattern = $this->subentry_pattern;
-
+		foreach ( $version_sections[0] as $section ) {
+			$heading_pattern = '/^= +(\[?[^] ]+\]?) - (.+?) =/';
 			// Parse the heading and create a ChangelogEntry for it.
 			preg_match( $heading_pattern, $section, $heading );
 
-			// Check if the heading may be a sub-heading.
-			preg_match( $subentry_pattern, $section, $subheading );
-			$is_subentry = count( $subheading ) > 0;
-
-			if ( ! count( $heading ) && ! count( $subheading ) ) {
-				throw new \InvalidArgumentException( 'Invalid heading' );
+			if ( ! count( $heading ) ) {
+				throw new InvalidArgumentException( "Invalid heading: $heading" );
 			}
 
-			$version         = '';
-			$timestamp       = new \DateTime( 'now', new \DateTimeZone( 'UTC' ) );
-			$entry_timestamp = new \DateTime( 'now', new \DateTimeZone( 'UTC' ) );
+			$version   = $heading[1];
+			$timestamp = $heading[2];
 
-			if ( count( $heading ) ) {
-				$version   = $heading[1];
-				$timestamp = $heading[2];
-
-				try {
-					$timestamp = new \DateTime( $timestamp, new \DateTimeZone( 'UTC' ) );
-				} catch ( \Exception $ex ) {
-					throw new \InvalidArgumentException( "Heading has an invalid timestamp: $heading", 0, $ex );
-				}
-
-				if ( strtotime( $heading[2], 0 ) !== strtotime( $heading[2], 1000000000 ) ) {
-					throw new \InvalidArgumentException( "Heading has a relative timestamp: $heading" );
-				}
-				$entry_timestamp = $timestamp;
-
-				$content = trim( preg_replace( $heading_pattern, '', $section ) );
-			} elseif ( $is_subentry ) {
-				// It must be a subheading.
-				$version = $subheading[0]; // For now.
-				$content = trim( preg_replace( $subentry_pattern, '', $section ) );
+			try {
+				$timestamp = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) );
+			} catch ( \Exception $ex ) {
+				throw new InvalidArgumentException( "Heading has an invalid timestamp: $heading", 0, $ex );
 			}
+
+			if ( strtotime( $heading[2], 0 ) !== strtotime( $heading[2], 1000000000 ) ) {
+				throw new InvalidArgumentException( "Heading has a relative timestamp: $heading" );
+			}
+			$entry_timestamp = $timestamp;
 
 			$entry = $this->newChangelogEntry(
 				$version,
@@ -160,6 +112,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 			);
 
 			$entries[] = $entry;
+			$content   = trim( preg_replace( $heading_pattern, '', $section ) );
 
 			if ( '' === $content ) {
 				// Huh, no changes.
@@ -172,18 +125,13 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 				$rows    = explode( "\n", $content );
 				foreach ( $rows as $row ) {
 					$row          = trim( $row );
-					$row          = preg_replace( '/' . $this->bullet . '/', '', $row, 1 );
-					$row_segments = explode( ' - ', $row );
+					$row          = preg_replace( '/\\' . $this->bullet . '/', '', $row, 1 );
+					$row_segments = explode( $this->separator, $row, 2 );
 					$significance = trim( strtolower( $row_segments[0] ) );
 
 					$changes[] = array(
-						'subheading'   => $is_subentry ? '' : trim( $row_segments[0] ),
-						'content'      => $is_subentry ? trim( $row ) : trim( isset( $row_segments[1] ) ? $row_segments[1] : '' ),
-						'significance' => in_array(
-							$significance,
-							array( 'patch', 'minor', 'major' ),
-							true
-						) ? $significance : null,
+						'subheading' => trim( $row_segments[0] ),
+						'content'    => trim( $row_segments[1] ),
 					);
 				}
 
@@ -191,10 +139,9 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 					$entry->appendChange(
 						$this->newChangeEntry(
 							array(
-								'subheading'   => $change['subheading'],
-								'content'      => $change['content'],
-								'significance' => $change['significance'],
-								'timestamp'    => $entry_timestamp,
+								'subheading' => $change['subheading'],
+								'content'    => $change['content'],
+								'timestamp'  => $entry_timestamp,
 							)
 						)
 					);
@@ -204,8 +151,6 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 		}
 
 		$ret->setEntries( $entries );
-		$ret->setPrologue( $this->prologue );
-		$ret->setEpilogue( $this->getEpilogue() );
 
 		return $ret;
 	}
@@ -218,55 +163,29 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 	 * @return string
 	 */
 	public function format( Changelog $changelog ) {
-		$ret         = '';
-		$date_format = 'Y-m-d';
-		$bullet      = $this->bullet;
-		$indent      = str_repeat( ' ', strlen( $bullet ) );
-
-		$prologue = trim( $changelog->getPrologue() );
-		if ( '' !== $prologue ) {
-			$ret .= "$prologue\n\n";
-		}
+		$ret = '';
 
 		foreach ( $changelog->getEntries() as $entry ) {
-			$version      = $entry->getVersion();
-			$is_subentry  = preg_match( $this->subentry_pattern, $version, $subentry );
 			$timestamp    = $entry->getTimestamp();
-			$release_link = $this->getReleaseLink( $version );
+			$release_date = null === $timestamp ? $this->get_unreleased_date() : $timestamp->format( $this->date_format );
 
-			if ( $is_subentry ) {
-				$ret .= '###' . $subentry[1] . " \n\n";
-			} else {
-				$ret .= '## [' . $version . '](' . $release_link . ') - ' . $timestamp->format( $date_format ) . " \n\n";
-			}
+			$ret .= '= ' . $entry->getVersion() . ' ' . $this->separator . ' ' . $release_date . " =\n";
 
 			$prologue = trim( $entry->getPrologue() );
-
 			if ( '' !== $prologue ) {
-				$ret .= "$prologue\n\n";
+				$ret .= "\n$prologue\n\n";
 			}
 
-			foreach ( $entry->getChangesBySubheading() as $heading => $changes ) {
-				foreach ( $changes as $change ) {
-					$significance    = $change->getSignificance();
-					$breaking_change = 'major' === $significance ? ' [ **BREAKING CHANGE** ]' : '';
-					$text            = trim( $change->getContent() );
-					if ( '' !== $text ) {
-						$preamble = $is_subentry ? '' : $bullet . ucfirst( $significance ) . $breaking_change . ' - ';
-						$ret      = $preamble . str_replace( "\n", "\n$indent", $text ) . "\n";
-					}
+			foreach ( $entry->getChanges() as $change ) {
+				$text = trim( $change->getContent() );
+				if ( '' !== $text ) {
+					$ret .= $this->bullet . ' ' . $change->getSubheading() . ' ' . $this->separator . ' ' . $text . "\n";
 				}
 			}
+
 			$ret = trim( $ret ) . "\n\n";
 		}
 
-		$epilogue = trim( $changelog->getEpilogue() );
-		if ( '' !== $epilogue ) {
-			$ret .= "$epilogue\n";
-		}
-
-		$ret = trim( $ret ) . "\n";
-
-		return $ret;
+		return $this->title . "\n\n" . trim( $ret ) . "\n";
 	}
 }

@@ -1,0 +1,50 @@
+name: "Release - Build zip file"
+
+# This action will run inside the package creation workflows or when it is triggered manually
+on:
+  workflow_call:
+    inputs:
+      repo-branch:
+        type: string
+        required: false
+        description: "Branch to be used for building zip file"
+  workflow_dispatch:
+    inputs:
+      repo-branch:
+        type: string
+        required: true
+        default: "trunk"
+        description: "Branch to be used for building zip file"
+
+jobs:
+  build-zip:
+    name: "Build the zip file"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.repo-branch || github.ref }}
+
+      - name: "Set up repository"
+        uses: ./.github/actions/setup-repo
+
+      - name: "Build the plugin"
+        id: build_plugin
+        run: |
+          pnpm build
+          
+          echo "RELEASE_FILENAME=$RELEASE_FILENAME" >> $GITHUB_OUTPUT  
+
+      - name: "Add file size notice"
+        run: |
+          echo ":information_source: Ignore the artifact size mentioned since GitHub calculates the size of the source folder instead of the zip file created." >> $GITHUB_STEP_SUMMARY
+
+      - name: "Upload the zip file as an artifact"
+        uses: actions/upload-artifact@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: "woo-blaze"
+          path: release
+          retention-days: 14

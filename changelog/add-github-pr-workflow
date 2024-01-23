@@ -1,4 +1,5 @@
 Significance: patch
 Type: add
+Comment: Initial version of the PR checks pipeline
 
-Adds a Github workflow to the repository, to use for PR checks
+
