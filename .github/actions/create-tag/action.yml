@@ -3,7 +3,7 @@ description: "Create a tag if the format is correct"
 
 inputs:
   version:
-    description: "The version that the action should use to create the tag (e.g. 0.5.0 or 0.5.0-test-2)"
+    description: "The version that the action should use to create the tag (e.g. 0.5.0)"
     required: true
 
 outputs:
