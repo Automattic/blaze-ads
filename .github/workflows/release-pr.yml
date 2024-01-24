@@ -36,7 +36,8 @@ jobs:
         uses: ./.github/actions/setup-repo
 
       - name: "Install dependencies"
-      - run: pnpm install
+        run: |
+          pnpm install
 
       - name: "Create a release branch"
         id: create_branch
