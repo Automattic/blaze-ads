@@ -35,6 +35,9 @@ jobs:
       - name: "Set up repository"
         uses: ./.github/actions/setup-repo
 
+      - name: "Install dependencies"
+      - run: pnpm install
+
       - name: "Create a release branch"
         id: create_branch
         uses: ./.github/actions/create-branch
@@ -83,7 +86,7 @@ jobs:
       - name: "Create a PR to trunk"
         id: create-pr-to-trunk
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOTWOO_TOKEN }}
           BRANCH_NAME: ${{ steps.create_branch.outputs.branch-name }}
           CHANGELOG: ${{ steps.generate_changelog.outputs.changelog }}
           RELEASE_VERSION: ${{ steps.create_branch.outputs.trimmed-version }}
@@ -97,12 +100,13 @@ jobs:
 
       - name: Add comment to PR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_PR_ID: ${{ steps.create-pr-to-trunk.outputs.RELEASE_PR_ID }}
         run: |
-          gh pr comment https://github.com/Automattic/woo-blaze/pull/$RELEASE_PR_ID --body="### Release zip build & Smoke tests
+          gh pr comment https://github.com/Automattic/woo-blaze/pull/$RELEASE_PR_ID --body="### Release zip build
 
-          Check status of zip file build & smoke tests at https://github.com/Automattic/woo-blaze/actions/runs/${GITHUB_RUN_ID}"
+          Check status of zip file build at https://github.com/Automattic/woo-blaze/actions/runs/${GITHUB_RUN_ID}". 
+          Use this zip file to run smoke tests.
 
   build-zip-and-run-smoke-tests:
     name: "Build release zip file"
