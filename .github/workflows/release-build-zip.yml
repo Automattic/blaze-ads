@@ -29,12 +29,13 @@ jobs:
       - name: "Set up repository"
         uses: ./.github/actions/setup-repo
 
+      - name: "Install dependencies"
+        run: |
+          pnpm install
+
       - name: "Build the plugin"
         id: build_plugin
-        run: |
-          pnpm build
-          
-          echo "RELEASE_FILENAME=$RELEASE_FILENAME" >> $GITHUB_OUTPUT  
+        uses: ./.github/actions/build
 
       - name: "Add file size notice"
         run: |

@@ -30,7 +30,7 @@
 		"test:php-watch": "pnpm test:php -w",
 		"changelog": "./vendor/bin/changelogger add",
 		"postinstall": "composer install",
-		"prepare": "husky install"
+		"prepare": "is-ci || husky install"
 	},
 	"devDependencies": {
 		"@woocommerce/dependency-extraction-webpack-plugin": "1.6.0",
@@ -42,6 +42,7 @@
 		"chalk": "4",
 		"eslint-import-resolver-typescript": "^3.6.1",
 		"husky": "^8.0.0",
+		"is-ci": "^3.0.1",
 		"lint-staged": "^15.2.0",
 		"prettier": "npm:wp-prettier@^3.0.3",
 		"shelljs": "^0.8.5"

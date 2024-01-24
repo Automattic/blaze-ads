@@ -15,7 +15,6 @@ runs:
       env:
         RELEASE_FILENAME: "woo-blaze.zip"
       run: |
-        pnpm install
         pnpm build
         
         if [[ ! -f $RELEASE_FILENAME ]]; then

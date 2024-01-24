@@ -44,6 +44,10 @@ jobs:
       - name: "Set up repository"
         uses: ./.github/actions/setup-repo
 
+      - name: "Install dependencies"
+        run: |
+          pnpm install
+
       - name: "Create a tag"
         id: create_tag
         uses: ./.github/actions/create-tag
