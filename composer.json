@@ -63,10 +63,10 @@
     "changelogger": {
       "changelog": "changelog.txt",
       "types": {
-        "fix": "Fixes an existing bug",
-        "add": "Adds functionality",
-        "update": "Update existing functionality",
-        "dev": "Development related task"
+        "fix": "Fix",
+        "add": "Add",
+        "update": "Update",
+        "dev": "Dev"
       },
       "formatter": {
         "filename": "bin/class-woo-blaze-changelog-formatter.php"
