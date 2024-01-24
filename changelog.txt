@@ -1,1 +1,5 @@
 *** Woo Blaze Changelog ***
+
+= 0.0.1 - 2024-01-24 =
+* Add - Adds GitHub actions and workflows to the repository
+* Add - Adds the Blaze for Woo entry point
