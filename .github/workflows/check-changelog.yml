@@ -2,6 +2,8 @@ name: Check changelog
 
 on:
   pull_request:
+    branches-ignore:
+      - 'release/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
