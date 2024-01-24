@@ -2,11 +2,9 @@ name: Check changelog
 
 on:
   pull_request:
-    branches-ignore:
-      - 'release/**'
-  push:
-    branches-ignore:
-      - 'release/**'
+    branches:
+      - '*/**'
+      - '!release/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,7 +12,7 @@ concurrency:
 
 jobs:
   check-changelog:
-    name: Linting
+    name: Check changelog
     runs-on: ubuntu-latest
     steps:
       # clone the repository
