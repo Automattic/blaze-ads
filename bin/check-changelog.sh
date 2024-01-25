@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE=${1-origin/develop}
+BASE=${1-origin/trunk}
 HEAD=${2-HEAD}
 
 # Get only added files from git diff.
