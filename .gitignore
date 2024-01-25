@@ -19,7 +19,6 @@ contributors.md
 
 # Bundle
 release
-build
 dist
 languages/*.pot
 woo-blaze.zip

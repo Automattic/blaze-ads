@@ -1,0 +1,92 @@
+name: "Release - Create tag and release trunk"
+
+# This action will run when it is triggered manually
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  get-last-released-version:
+    name: "Get the last released version"
+    runs-on: ubuntu-latest
+    outputs:
+      releaseVersion: ${{ steps.current-version.outputs.RELEASE_VERSION }}
+
+    steps:
+      - name: "Checkout repository (trunk)"
+        uses: actions/checkout@v3
+        with:
+          ref: 'trunk'
+
+      - name: "Get the last released version"
+        id: current-version
+        run: |
+          VERSION=$(jq '.version' package.json -r)
+          echo "Last released version found: $VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+  create-gh-release:
+    name: "Create a GH release"
+    needs: get-last-released-version
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ needs.get-last-released-version.outputs.releaseVersion }}
+
+    steps:
+      - name: "Checkout repository (trunk)"
+        uses: actions/checkout@v3
+        with:
+          ref: 'trunk'
+
+      - name: "Set up repository"
+        uses: ./.github/actions/setup-repo
+
+      - name: "Install dependencies"
+        run: |
+          pnpm install
+
+      - name: "Create a tag"
+        id: create_tag
+        uses: ./.github/actions/create-tag
+        with:
+          version: ${{ env.RELEASE_VERSION }}
+
+      - name: "Get the last changelog in changelog.txt"
+        id: get_changelog
+        run: |
+          CHANGELOG=$(awk '/^= / { if (p) { exit }; p=1; next } p && NF' changelog.txt)
+          CHANGELOG="${CHANGELOG//$'\n'/\\n}"  
+          echo "CHANGELOG=$CHANGELOG" >> $GITHUB_OUTPUT
+
+      - name: "Build the plugin"
+        id: build_plugin
+        uses: ./.github/actions/build
+
+      - name: "Create a GH release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG: ${{ steps.get_changelog.outputs.changelog }}
+          TAG_MESSAGE: ${{ steps.create_tag.outputs.tag-message }}
+          FILENAME: ${{ steps.build_plugin.outputs.release-filename }}
+        run: |
+          RELEASE_NOTES=$(echo -e "${CHANGELOG}")
+          gh release create $RELEASE_VERSION --notes "$RELEASE_NOTES" --title "$TAG_MESSAGE" $FILENAME
+
+#  trigger-translations:
+#    name: "Trigger translations update for the release"
+#    needs: [ get-last-released-version, create-gh-release ]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: "Checkout repository (trunk)"
+#        uses: actions/checkout@v3
+#        with:
+#          ref: 'trunk'
+#
+#      - name: "Trigger translations update on GlotPress"
+#        uses: ./.github/actions/trigger-translations
+#        with:
+#          release-version: ${{ needs.get-last-released-version.outputs.releaseVersion }}
+#          glotpress-url: ${{ secrets.GLOTPRESS_IMPORT_URL }}

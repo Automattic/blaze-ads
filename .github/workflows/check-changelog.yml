@@ -1,0 +1,31 @@
+name: Check changelog
+
+on:
+  pull_request:
+    branches:
+      - '*/**'
+      - '!release/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-changelog:
+    name: Check changelog
+    runs-on: ubuntu-latest
+    steps:
+      # clone the repository
+      - uses: actions/checkout@v3
+      - name: "Set up Repository (PHP only)"
+        uses: ./.github/actions/setup-repo
+        with:
+          setup-node-pnpm: "false"
+      # Install composer packages.
+      - run: composer self-update && composer install --no-progress
+      # Fetch the target branch before running the check.
+      - name: Fetch the target origin branch
+        run: git fetch origin $GITHUB_BASE_REF
+      # Check if any changelog file is added when comparing the current branch vs the target branch.
+      - name: Check changelog
+        run: bash bin/check-changelog.sh origin/$GITHUB_BASE_REF HEAD

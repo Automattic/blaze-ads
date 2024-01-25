@@ -61,20 +61,16 @@
       "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
     },
     "changelogger": {
+      "changelog": "changelog.txt",
+      "types": {
+        "fix": "Fix",
+        "add": "Add",
+        "update": "Update",
+        "dev": "Dev"
+      },
       "formatter": {
         "filename": "bin/class-woo-blaze-changelog-formatter.php"
-      },
-      "types": {
-        "fix": "Fixes an existing bug",
-        "add": "Adds functionality",
-        "update": "Update existing functionality",
-        "dev": "Development related task",
-        "tweak": "A minor adjustment to the codebase",
-        "performance": "Address performance issues",
-        "enhancement": "Improve existing functionality"
-      },
-      "versioning": "wordpress",
-      "changelog": "CHANGELOG.md"
+      }
     },
     "textdomain": "woo-blaze"
   }

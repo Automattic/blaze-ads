@@ -1,0 +1,37 @@
+name: "Create a branch"
+description: "Create a branch if the format is correct"
+
+inputs:
+  version:
+    description: "The version that the action should use to create the branch (e.g. 0.5.0)"
+    required: true
+
+outputs:
+  trimmed-version:
+    description: "The trimmed version"
+    value: ${{ steps.version_format_check.outputs.trimmed-version }}
+  branch-name:
+    description: "The name of the branch created"
+    value: ${{ steps.create_branch.outputs.BRANCH_NAME }}
+
+runs:
+  using: composite
+  steps:
+    - name: "Check the format of the version provide"
+      id: version_format_check
+      uses: ./.github/actions/version-check
+      with:
+        version: ${{ inputs.version }}
+
+    - name: "Create a branch"
+      id: create_branch
+      shell: bash
+      env:
+        VERSION: ${{ steps.version_format_check.outputs.trimmed-version }}
+      run: |
+        BRANCH_NAME="release/$VERSION"
+        echo ":rocket: Created branch $BRANCH_NAME. :rocket:" >> $GITHUB_STEP_SUMMARY
+
+        git checkout -b $BRANCH_NAME
+        git push origin $BRANCH_NAME
+        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
