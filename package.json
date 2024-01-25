@@ -12,7 +12,7 @@
 		"docker:up": "docker-compose up --build -d",
 		"docker:up:recreate": "docker-compose up --build --force-recreate -d && ./bin/docker-setup.sh",
 		"docker:down": "docker-compose down",
-		"build": "pnpm build:deps && pnpm  build:release",
+		"build": "pnpm build:deps && pnpm i18n:pot && pnpm build:release",
 		"build:deps": "rm -rf vendor && composer install --no-dev --optimize-autoloader",
 		"build:release": "node bin/release-task.js && mv release/$npm_package_name.zip .",
     "postbuild": "pnpm i18n:pot",
