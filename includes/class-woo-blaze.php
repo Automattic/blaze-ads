@@ -28,6 +28,7 @@ class Woo_Blaze {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
+		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ), 999 );
 		new Woo_Blaze_Marketing_Channel();
 	}
 
