@@ -147,7 +147,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_setup_url(): string {
-		return admin_url( sprintf( 'tools.php?page=advertising#!/advertising/%s', $this->get_site_hostname() ) );
+		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/%s', $this->get_site_hostname() ) );
 	}
 
 	/**
@@ -174,7 +174,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_campaign_url( $campaign, $site_url ): string {
-		return sprintf( 'https://%s/wp-admin/tools.php?page=advertising#!/advertising/campaigns/%s/%s', $site_url, $campaign['campaign_id'], $site_url );
+		return admin_url( sprintf( 'tools.php?page=advertising#!/advertising/campaigns/%s/%s', $campaign['campaign_id'], $site_url ) );
 	}
 
 	/**
@@ -248,7 +248,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return mixed
 	 */
 	public function get_campaign_create_url(): string {
-		return admin_url( sprintf( 'tools.php?page=advertising#!/advertising/posts/promote/post-0/%s', $this->get_site_hostname() ) );
+		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/posts/promote/post-0/%s', $this->get_site_hostname() ) );
 	}
 
 	/**
