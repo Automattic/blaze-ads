@@ -89,21 +89,24 @@ class Woo_Blaze {
 	 * @param int    $blog_id The blog ID.
 	 * @param string $route The route to call.
 	 * @param string $method The HTTP method to use.
+	 * @param array  $query_params The query parameters to send.
 	 *
 	 * @return mixed
 	 */
-	public static function call_dsp_server( $blog_id, $route, $method = 'GET' ) {
+	public static function call_dsp_server( $blog_id, $route, $method = 'GET', $query_params = array() ) {
 
 		// Make the API request.
-		$params                = '?order=asc&order_by=post_date&page=1';
-		$url                   = sprintf( '/sites/%d/wordads/dsp/api/%s/%s', $blog_id, $route, $params );
-		$response              = Client::wpcom_json_api_request_as_user(
+		$url = sprintf( '/sites/%d/wordads/dsp/api/%s', $blog_id, $route );
+		$url = add_query_arg( $query_params, $url );
+
+		$response = Client::wpcom_json_api_request_as_user(
 			$url,
 			'v2',
 			array( 'method' => $method ),
 			null,
 			'wpcom'
 		);
+
 		$response_code         = wp_remote_retrieve_response_code( $response );
 		$response_body_content = wp_remote_retrieve_body( $response );
 		$response_body         = json_decode( $response_body_content, true );
