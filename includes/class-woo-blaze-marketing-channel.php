@@ -215,9 +215,15 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return MarketingCampaign[]
 	 */
 	public function get_campaigns(): array {
+
+		$query_params = array(
+			'status' => 'active',
+		);
+
 		$marketing_campaigns = array();
 		$blog_id             = Jetpack_Options::get_option( 'id' );
 		$path                = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
+		$path                = add_query_arg( $query_params, $path );
 		$response            = Woo_Blaze::call_dsp_server( $blog_id, $path );
 
 		if ( ! isset( $response['campaigns'] ) ) {
