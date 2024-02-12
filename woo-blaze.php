@@ -3,7 +3,7 @@
  * Plugin Name: Woo Blaze
  * Plugin URI: https://github.com/automattic/woo-blaze
  * Description: Drive sales, and elevate your products to center stage, effortlessly. Witness your business flourishing in the blink of an eye.
- * Version: 0.0.3-alpha
+ * Version: 0.0.1-alpha
  * Author: Automattic
  * Author URI: https://automattic.com/
  * Text Domain: woo-blaze
