@@ -174,7 +174,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_campaign_url( $campaign, $site_url ): string {
-		return admin_url( sprintf( 'tools.php?page=advertising#!/advertising/campaigns/%s/%s', $campaign['campaign_id'], $site_url ) );
+		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/campaigns/%s/%s', $campaign['campaign_id'], $site_url ) );
 	}
 
 	/**
