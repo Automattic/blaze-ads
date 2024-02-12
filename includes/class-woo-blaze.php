@@ -7,8 +7,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use Automattic\Jetpack\Blaze\Dashboard_REST_Controller;
+use Automattic\Jetpack\Connection\Client;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection;
 use WooBlaze\Blaze_Dashboard;
+use WooBlaze\Woo_Blaze_Marketing_Channel;
 
 /**
  * Main class for the Woo Blaze extension. Its responsibility is to initialize the extension.
@@ -26,6 +29,7 @@ class Woo_Blaze {
 	 */
 	public static function init(): void {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ), 999 );
+		new Woo_Blaze_Marketing_Channel();
 	}
 
 	/**
@@ -79,4 +83,33 @@ class Woo_Blaze {
 		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
 	}
 
+	/**
+	 * Calls the DSP server
+	 *
+	 * @param int    $blog_id The blog ID.
+	 * @param string $route The route to call.
+	 * @param string $method The HTTP method to use.
+	 * @param array  $query_params The query parameters to send.
+	 *
+	 * @return mixed
+	 */
+	public static function call_dsp_server( $blog_id, $route, $method = 'GET', $query_params = array() ) {
+
+		// Make the API request.
+		$url = sprintf( '/sites/%d/wordads/dsp/api/%s', $blog_id, $route );
+		$url = add_query_arg( $query_params, $url );
+
+		$response = Client::wpcom_json_api_request_as_user(
+			$url,
+			'v2',
+			array( 'method' => $method ),
+			null,
+			'wpcom'
+		);
+
+		$response_code         = wp_remote_retrieve_response_code( $response );
+		$response_body_content = wp_remote_retrieve_body( $response );
+		$response_body         = json_decode( $response_body_content, true );
+		return $response_body;
+	}
 }
