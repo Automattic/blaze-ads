@@ -1,7 +1,1 @@
 *** Woo Blaze Changelog ***
-
-= 0.0.3 - 2024-02-12 =
-* Add - Added i18n modules and build commands in package.json
-* Add - Adds GitHub actions and workflows to the repository
-* Add - Adds the Blaze for Woo entry point
-* Add - translation github action
