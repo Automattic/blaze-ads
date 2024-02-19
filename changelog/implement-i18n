@@ -1,4 +1,0 @@
-Significance: minor
-Type: add
-
-Added i18n modules and build commands in package.json
