@@ -11,11 +11,11 @@ use WooBlaze\Tests\Framework\WB_Unit_Test_Case;
 use WooBlaze\Blaze_Dashboard;
 
 /**
- * Woo Blaze Dashboard Test.
+ * Blaze Dashboard Test.
  *
  * Tests the Woo_Blaze_Dashboard class.
  */
-class Woo_Blaze_Dashboard_Test extends WB_Unit_Test_Case {
+class Blaze_Dashboard_Test extends WB_Unit_Test_Case {
 	/**
 	 * Test has root dom.
 	 *

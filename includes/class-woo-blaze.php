@@ -12,6 +12,7 @@ use Automattic\Jetpack\Connection\Client;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection;
 use WooBlaze\Blaze_Dashboard;
 use WooBlaze\Woo_Blaze_Marketing_Channel;
+use WooBlaze\Blaze_Conversions;
 
 /**
  * Main class for the Woo Blaze extension. Its responsibility is to initialize the extension.
@@ -30,6 +31,7 @@ class Woo_Blaze {
 	public static function init(): void {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ), 999 );
 		new Woo_Blaze_Marketing_Channel();
+		( new Blaze_Conversions() )->init_hooks();
 	}
 
 	/**
