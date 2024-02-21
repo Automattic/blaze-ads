@@ -29,6 +29,11 @@ class Woo_Blaze {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
+		// Stop if WooCommerce is not installed or is disabled.
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return;
+		}
+
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ), 999 );
 		new Woo_Blaze_Marketing_Channel();
 		( new Blaze_Conversions() )->init_hooks();
@@ -112,6 +117,7 @@ class Woo_Blaze {
 		$response_code         = wp_remote_retrieve_response_code( $response );
 		$response_body_content = wp_remote_retrieve_body( $response );
 		$response_body         = json_decode( $response_body_content, true );
+
 		return $response_body;
 	}
 }
