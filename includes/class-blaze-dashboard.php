@@ -126,7 +126,7 @@ class Blaze_Dashboard {
 	 * @param string $hook The current admin page.
 	 */
 	public function load_admin_scripts( $hook ) {
-		if ( 'marketing_page_wc-blaze' !== $hook ) {
+		if ( ! str_ends_with( $hook, '_wc-blaze' ) ) {
 			return;
 		}
 
