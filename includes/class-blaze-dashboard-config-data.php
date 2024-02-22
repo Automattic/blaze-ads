@@ -24,7 +24,7 @@ class Blaze_Dashboard_Config_Data {
 	 *
 	 * @param array|null $config_data The config data.
 	 */
-	public function get_js_config_data( array $config_data = null ) {
+	public function get_js_config_data( array $config_data = null ): string {
 		return 'window.configData = ' . wp_json_encode(
 			null === $config_data ? $this->get_data() : $config_data
 		) . ';';
@@ -91,15 +91,15 @@ class Blaze_Dashboard_Config_Data {
 	/**
 	 * Gets the WordPress.com user's identity, if connected.
 	 *
-	 * @return array|bool
+	 * @return array
 	 */
-	protected function get_connected_user_identity() {
+	protected function get_connected_user_identity(): array {
 		$user_data = ( new Jetpack_Connection() )->get_connected_user_data();
 		if ( ! $user_data ) {
 			return array(
 				'ID'         => 1000,
 				'username'   => 'no-user',
-				'localeSlug' => $this->get_site_locale(),
+				'localeSlug' => $this->get_locale(),
 				'site_count' => 1,
 			);
 		}
@@ -108,7 +108,7 @@ class Blaze_Dashboard_Config_Data {
 			'ID'         => $user_data['ID'],
 			'username'   => $user_data['login'],
 			'email'      => $user_data['email'],
-			'localeSlug' => $this->get_site_locale(),
+			'localeSlug' => $this->get_locale(),
 			'site_count' => 1,
 		);
 	}
@@ -118,38 +118,36 @@ class Blaze_Dashboard_Config_Data {
 	 *
 	 * @return float The current site GMT Offset by hours.
 	 */
-	protected function get_gmt_offset() {
+	protected function get_gmt_offset(): float {
 		return (float) get_option( 'gmt_offset' );
 	}
 
 	/**
 	 * Page base for the Calypso admin page.
 	 */
-	protected function get_admin_path() {
+	protected function get_admin_path(): string {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( ! isset( $_SERVER['PHP_SELF'] ) || ! isset( $_SERVER['QUERY_STRING'] ) ) {
 			$parsed = wp_parse_url( admin_url( 'tools.php?page=advertising' ) );
 
 			return $parsed['path'] . '?' . $parsed['query'];
 		}
-		// We do this because page.js requires the exactly page base to be set otherwise it will not work properly.
+		// We do this because page.js requires the exact page base to be set otherwise it will not work properly.
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		return wp_unslash( $_SERVER['PHP_SELF'] ) . '?' . wp_unslash( $_SERVER['QUERY_STRING'] );
 	}
 
 	/**
-	 * Get locale acceptable by Calypso.
+	 * Get the user's locale acceptable by Calypso.
 	 */
-	protected function get_site_locale() {
+	protected function get_locale() {
 		/**
 		 * In WP, locales are formatted as LANGUAGE_REGION, for example `en`, `en_US`, `es_AR`,
 		 * but Calypso expects language-region, e.g. `en-us`, `en`,  `es-ar`. So we need to convert
 		 * them to lower case and replace the underscore with a dash.
 		 */
-		$locale = strtolower( get_locale() );
-		$locale = str_replace( '_', '-', $locale );
-
-		return $locale;
+		$locale = strtolower( get_user_locale() );
+		return str_replace( '_', '-', $locale );
 	}
 
 	/**
@@ -169,7 +167,7 @@ class Blaze_Dashboard_Config_Data {
 	 *
 	 * @return array An array of capabilities.
 	 */
-	protected function get_current_user_capabilities() {
+	protected function get_current_user_capabilities(): array {
 		$user = wp_get_current_user();
 		if ( ! $user || is_wp_error( $user ) ) {
 			return array();
