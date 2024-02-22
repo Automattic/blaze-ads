@@ -1,4 +1,0 @@
-Significance: patch
-Type: fix
-
-Fixes initialization of the plugin in installations without WooCommerce

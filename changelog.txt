@@ -1,5 +1,10 @@
 *** Woo Blaze Changelog ***
 
+= 0.0.5 - 2024-02-22 =
+* Fix - change the condition in load_admin_scripts to include all hooks ending with _wc-blaze
+* Fix - Fixes initialization of the plugin in installations without WooCommerce
+* Fix - Fixes the locale used to render the dashboard
+
 = 0.0.4 - 2024-02-21 =
 * Add - Adds a conversion pixel call when a order is made
 * Add - Implemented MultiMedia Marketing Channel interface to include Blaze/Promote post as an available marketing channel

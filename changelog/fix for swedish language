@@ -1,4 +1,0 @@
-Significance: patch
-Type: fix
-
-change the condition in load_admin_scripts to include all hooks ending with _wc-blaze
