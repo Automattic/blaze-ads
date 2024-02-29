@@ -65,6 +65,8 @@ class Woo_Blaze_Unit_Tests_Bootstrap {
 	 * Load Plugin
 	 */
 	public function load_plugins() {
+		require_once $this->plugins_dir . '/jetpack/jetpack.php';
+
 		require_once $this->plugins_dir . '/woocommerce/woocommerce.php';
 
 		require_once $this->plugin_dir . '/woo-blaze.php';

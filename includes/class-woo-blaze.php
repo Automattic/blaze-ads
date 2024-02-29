@@ -29,14 +29,17 @@ class Woo_Blaze {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
-		// Stop if WooCommerce is not installed or is disabled.
-		if ( ! class_exists( 'WooCommerce' ) ) {
+		// Stop if WooCommerce or Jetpack is not installed or is disabled.
+		if ( ! class_exists( 'WooCommerce' ) || ! class_exists( 'Automattic\Jetpack\Blaze' ) ) {
 			return;
 		}
 
+		// Add initial actions.
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ), 999 );
-		new Woo_Blaze_Marketing_Channel();
-		( new Blaze_Conversions() )->init_hooks();
+
+		// Initialize services.
+		( new Woo_Blaze_Marketing_Channel() )->initialize();
+		( new Blaze_Conversions() )->initialize();
 	}
 
 	/**
@@ -46,8 +49,7 @@ class Woo_Blaze {
 	 * @return bool
 	 */
 	public static function should_initialize(): bool {
-		$should_initialize = true;
-		$site_id           = Jetpack_Connection::get_site_id();
+		$site_id = Jetpack_Connection::get_site_id();
 
 		// Only admins should be able to Blaze posts on a site.
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -56,17 +58,10 @@ class Woo_Blaze {
 
 		// Check if the site supports Blaze.
 		if ( is_numeric( $site_id ) && ! \Automattic\Jetpack\Blaze::site_supports_blaze( $site_id ) ) {
-			$should_initialize = false;
+			return false;
 		}
 
-		/**
-		 * Filter to disable all Blaze functionality.
-		 *
-		 * @param bool $should_initialize Whether Blaze should be enabled. Default to true.
-		 *
-		 * @since 0.3.0
-		 */
-		return apply_filters( 'woo_blaze_enabled', $should_initialize );
+		return true;
 	}
 
 	/**

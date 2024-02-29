@@ -23,8 +23,8 @@ class Blaze_Conversions_Test extends WB_Unit_Test_Case {
 	 *
 	 * @covers WooBlaze\Blaze_Conversions::init_hooks
 	 */
-	public function test_init_hooks() {
-		( new Blaze_Conversions() )->init_hooks();
+	public function test_initialize() {
+		( new Blaze_Conversions() )->initialize();
 		$this->assertNotFalse( has_action( 'woocommerce_thankyou' ) );
 	}
 

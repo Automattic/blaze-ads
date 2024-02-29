@@ -15,6 +15,7 @@ use Automattic\WooCommerce\Admin\Marketing\MarketingCampaign;
 use Automattic\WooCommerce\Admin\Marketing\MarketingCampaignType;
 use Automattic\WooCommerce\Admin\Marketing\MarketingChannelInterface;
 use Automattic\WooCommerce\Admin\Marketing\Price;
+use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Jetpack_Options;
 
 /**
@@ -30,27 +31,28 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 *
 	 * @var array
 	 */
-	protected $campaign_types;
+	protected array $campaign_types;
 
 	/**
 	 * MarketingChannelRegistrar constructor.
 	 */
 	public function __construct() {
-		$this->campaign_types = $this->generate_campaign_types();
-		$wc_container         = $GLOBALS['wc_container'];
-		$marketing_channels   = $wc_container->get( MarketingChannels::class );
-		$marketing_channels->register( $this );
 	}
 
 	/**
 	 * Initialize the marketing channel.
 	 *
-	 * @return array
+	 * @return void
 	 */
 	public function initialize(): void {
-		if ( ! $this->can_register_marketing_channel() ) {
+		if ( ! $this->can_register_marketing_channel() || ! Woo_Blaze::should_initialize() ) {
 			return;
 		}
+
+		$this->campaign_types = $this->generate_campaign_types();
+		$wc_container         = $GLOBALS['wc_container'];
+		$marketing_channels   = $wc_container->get( MarketingChannels::class );
+		$marketing_channels->register( $this );
 	}
 
 
@@ -93,7 +95,10 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'Drive sales, and elevate your products to center stage, effortlessly. Witness your business flourishing in the blink of an eye.', 'woo-blaze' );
+		return __(
+			'Drive sales, and elevate your products to center stage, effortlessly. Witness your business flourishing in the blink of an eye.',
+			'woo-blaze'
+		);
 	}
 
 	/**
@@ -120,7 +125,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return bool
 	 */
 	public function is_setup_completed(): bool {
-		return true;
+		return ( new Jetpack_Modules() )->is_active( 'blaze' ) ?? false;
 	}
 
 	/**
@@ -147,7 +152,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_setup_url(): string {
-		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/%s', $this->get_site_hostname() ) );
+		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/setup/%s', $this->get_site_hostname() ) );
 	}
 
 	/**
@@ -162,6 +167,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 			? $campaign['campaign_stats']['total_budget']
 			: 0;
 		$price        = new Price( $price_amount, 'USD' );
+
 		return $price;
 	}
 
@@ -174,13 +180,19 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_campaign_url( $campaign, $site_url ): string {
-		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/campaigns/%s/%s', $campaign['campaign_id'], $site_url ) );
+		return admin_url(
+			sprintf(
+				'admin.php?page=wc-blaze#!/wc-blaze/campaigns/%s/%s',
+				$campaign['campaign_id'],
+				$site_url
+			)
+		);
 	}
 
 	/**
 	 *  Returns the site hostname.
 	 *
-	 *  @return string
+	 * @return string
 	 */
 	public function get_site_hostname(): string {
 		return parse_url( get_site_url(), PHP_URL_HOST );
@@ -206,6 +218,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 				$this->get_campaign_price( $campaign )
 			);
 		}
+
 		return $marketing_campaigns;
 	}
 
@@ -221,17 +234,16 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 			'status'   => 'active',
 		);
 
-		$marketing_campaigns = array();
-		$blog_id             = Jetpack_Options::get_option( 'id' );
-		$path                = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
-		$response            = Woo_Blaze::call_dsp_server( $blog_id, $path, 'GET', $query_params );
+		$blog_id  = Jetpack_Options::get_option( 'id' );
+		$path     = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
+		$response = Woo_Blaze::call_dsp_server( $blog_id, $path, 'GET', $query_params );
 
 		if ( ! isset( $response['campaigns'] ) ) {
-			return $marketing_campaigns;
+			return array();
 		}
 
 		$campaigns = array_map(
-			function( $campaign ) {
+			function ( $campaign ) {
 				return array(
 					'campaign_id'    => $campaign['campaign_id'],
 					'start_date'     => $campaign['start_date'],
@@ -244,8 +256,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 			$response['campaigns']
 		);
 
-		$marketing_campaigns = $this->get_marketing_campaigns( $campaigns );
-		return $marketing_campaigns;
+		return $this->get_marketing_campaigns( $campaigns );
 	}
 
 	/**
@@ -254,7 +265,12 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return mixed
 	 */
 	public function get_campaign_create_url(): string {
-		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/posts/promote/post-0/%s', $this->get_site_hostname() ) );
+		return admin_url(
+			sprintf(
+				'admin.php?page=wc-blaze#!/wc-blaze/posts/promote/post-0/%s',
+				$this->get_site_hostname()
+			)
+		);
 	}
 
 	/**

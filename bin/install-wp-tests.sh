@@ -215,8 +215,13 @@ install_woocommerce() {
 	fi
 }
 
+install_jetpack() {
+  wp plugin --allow-root install --activate jetpack
+}
+
 install_wp
 install_db
 configure_wp
 install_test_suite
+install_jetpack
 install_woocommerce

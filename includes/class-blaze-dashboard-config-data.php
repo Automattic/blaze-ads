@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection;
 use Automattic\Jetpack\Constants;
 use Automattic\Jetpack\Current_Plan;
+use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Jetpack_Options;
 
 /**
@@ -54,6 +55,7 @@ class Blaze_Dashboard_Config_Data {
 			'site_name'                => \get_bloginfo( 'name' ),
 			'sections'                 => array(),
 			'is_woo_store'             => true, // Flag used to differentiate a WooCommerce installation.
+			'need_setup'               => ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ?? false,
 			// Features are inlined in Calypso Blaze app (wp-calypso/apps/blaze-dashboard).
 			'features'                 => array(),
 			'initial_state'            => array(
@@ -147,6 +149,7 @@ class Blaze_Dashboard_Config_Data {
 		 * them to lower case and replace the underscore with a dash.
 		 */
 		$locale = strtolower( get_user_locale() );
+
 		return str_replace( '_', '-', $locale );
 	}
 

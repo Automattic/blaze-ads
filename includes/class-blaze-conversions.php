@@ -26,7 +26,7 @@ class Blaze_Conversions {
 	 *
 	 * @return void
 	 */
-	public function init_hooks() {
+	public function initialize() {
 		add_action( 'woocommerce_thankyou', array( $this, 'add_conversion_tracking_pixel' ), 10, 1 );
 	}
 

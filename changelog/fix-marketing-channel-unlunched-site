@@ -1,0 +1,4 @@
+Significance: patch
+Type: fix
+
+Hides the Woo Blaze marketing channel if the site is not Blaze eligible
