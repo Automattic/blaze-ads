@@ -1,5 +1,9 @@
 *** Woo Blaze Changelog ***
 
+= 0.0.6 - 2024-02-29 =
+* Fix - Hides the Woo Blaze marketing channel if the site is not Blaze eligible
+* Add - Adds configuration needed to the dashboard to render the finish setup page
+
 = 0.0.5 - 2024-02-22 =
 * Fix - change the condition in load_admin_scripts to include all hooks ending with _wc-blaze
 * Fix - Fixes initialization of the plugin in installations without WooCommerce
