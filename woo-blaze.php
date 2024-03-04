@@ -26,6 +26,9 @@ if ( ! $is_autoloading_ready ) {
 	return;
 }
 
+add_filter( 'woocommerce_translations_updates_for_woo-blaze', '__return_true' );
+
+
 /**
  * Initialize the Jetpack functionalities: connection, etc.
  */

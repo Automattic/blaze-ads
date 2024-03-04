@@ -8,6 +8,10 @@
 		"node": "^20.8.1",
 		"pnpm": "^8.12.1"
 	},
+  "config": {
+    "translate": true,
+    "translate_project": "woocommerce/woo-blaze"
+  },
 	"scripts": {
 		"docker:up": "docker-compose up --build -d",
 		"docker:up:recreate": "docker-compose up --build --force-recreate -d && ./bin/docker-setup.sh",
