@@ -1,0 +1,4 @@
+Significance: patch
+Type: fix
+
+added translations hook to automatically fetch translated strings from WP GlotPress project
