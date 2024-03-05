@@ -8,9 +8,6 @@
 		"node": "^20.8.1",
 		"pnpm": "^8.12.1"
 	},
-  "woorelease": {
-    "translate": true
-  },
 	"scripts": {
 		"docker:up": "docker-compose up --build -d",
 		"docker:up:recreate": "docker-compose up --build --force-recreate -d && ./bin/docker-setup.sh",
