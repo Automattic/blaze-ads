@@ -6,7 +6,6 @@
  * Version: 0.0.6
  * Author: Automattic
  * Author URI: https://automattic.com/
- * Woo: 5278104:bf3cf30871604e15eec560c962593c1f
  * Text Domain: woo-blaze
  * Domain Path: /languages
  * Requires at least: 6.3
