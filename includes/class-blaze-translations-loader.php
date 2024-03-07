@@ -47,7 +47,7 @@ class Blaze_Translations_Loader {
 				$transient->translations = $merged_translations;
 			}
 		} catch ( \Exception $ex ) {
-			// TODO maybe add some kind of logging here.
+			// TO DO maybe add some kind of logging here.
 			// 'Error with loading WooBlaze translations from WordPress.com. Reason: ' . $ex->getMessage().
 			return $transient;
 		}
@@ -104,7 +104,7 @@ class Blaze_Translations_Loader {
 
 		$response_code = wp_remote_retrieve_response_code( $raw_response );
 		if ( 200 !== $response_code ) {
-			// TODO maybe add some kind of logging here.
+			// TO DO maybe add some kind of logging here.
 			// sprintf( 'Raw response: %s', var_export( $raw_response, true ) ).
 			throw new \Exception(
 				sprintf( 'Request failed. HTTP response code: %s', $response_code )
@@ -115,7 +115,7 @@ class Blaze_Translations_Loader {
 
 		if ( array_key_exists( 'success', $response ) && false === $response['success'] ) {
 			// The shape of response is not known, so more specific error message can't be provided in exception. Logging the response body for debuggin purposes.
-			// TODO maybe add some kind of logging here.
+			// TO DO maybe add some kind of logging here.
 			// sprintf( 'Unexpected response body: %s', var_export( $response, true ) ).
 			throw new \Exception( 'Unexpected response body.' );
 		}
