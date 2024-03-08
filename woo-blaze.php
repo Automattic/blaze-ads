@@ -16,6 +16,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+define( 'WOOBLAZE_PLUGIN_FILE', __FILE__ );
+
 define( 'WOOBLAZE_ABSPATH', __DIR__ . '/' );
 
 require_once __DIR__ . '/vendor/autoload_packages.php';

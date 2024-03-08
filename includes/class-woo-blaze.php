@@ -13,11 +13,20 @@ use Automattic\Jetpack\Connection\Manager as Jetpack_Connection;
 use WooBlaze\Blaze_Dashboard;
 use WooBlaze\Woo_Blaze_Marketing_Channel;
 use WooBlaze\Blaze_Conversions;
+use WooBlaze\Blaze_Translations_Loader;
 
 /**
  * Main class for the Woo Blaze extension. Its responsibility is to initialize the extension.
  */
 class Woo_Blaze {
+
+
+	/**
+	 * Cache for plugin headers to avoid multiple calls to get_file_data
+	 *
+	 * @var array
+	 */
+	private static $plugin_headers = null;
 
 	/**
 	 * Static-only class.
@@ -29,6 +38,9 @@ class Woo_Blaze {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
+
+		define( 'WOOBLAZE_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
+
 		// Stop if WooCommerce or Jetpack is not installed or is disabled.
 		if ( ! class_exists( 'WooCommerce' ) || ! class_exists( 'Automattic\Jetpack\Blaze' ) ) {
 			return;
@@ -40,6 +52,7 @@ class Woo_Blaze {
 		// Initialize services.
 		( new Woo_Blaze_Marketing_Channel() )->initialize();
 		( new Blaze_Conversions() )->initialize();
+		( new Blaze_Translations_Loader() )->initialize();
 	}
 
 	/**
@@ -114,5 +127,24 @@ class Woo_Blaze {
 		$response_body         = json_decode( $response_body_content, true );
 
 		return $response_body;
+	}
+
+	/**
+	 * Get plugin headers and cache the result to avoid reopening the file.
+	 * First call should execute get_file_data and fetch headers from plugin details comment.
+	 * Subsequent calls return the value stored in the variable $plugin_headers.
+	 *
+	 * @return array Array with plugin headers
+	 */
+	public static function get_plugin_headers() {
+		if ( null === self::$plugin_headers ) {
+			self::$plugin_headers = get_file_data(
+				WOOBLAZE_PLUGIN_FILE,
+				array(
+					'Version' => 'Version',
+				)
+			);
+		}
+		return self::$plugin_headers;
 	}
 }
