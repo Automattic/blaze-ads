@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Woo_Blaze_Dependency_Service
+ * Class Blaze_Dependency_Service
  *
  * @package Automattic\WooBlaze
  */
@@ -9,13 +9,11 @@ namespace WooBlaze;
 
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Validates dependencies (core, plugins, versions) for Blaze
  * Used in the plugin main class for validation.
  */
-class Woo_Blaze_Dependency_Service {
+class Blaze_Dependency_Service {
 
 	const WOOCORE_NOT_FOUND    = 'woocore_disabled';
 	const WOOCORE_INCOMPATIBLE = 'woocore_outdated';
@@ -27,7 +25,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return void
 	 */
-	public function init_hooks() {
+	public function initialize() {
 		add_filter( 'admin_notices', array( $this, 'display_admin_notices' ) );
 	}
 
@@ -36,8 +34,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return bool True if all required dependencies are met.
 	 */
-	public function has_valid_dependencies() {
-
+	public function has_valid_dependencies(): bool {
 		return empty( $this->get_invalid_dependencies() );
 	}
 
@@ -64,7 +61,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return bool
 	 */
-	public function is_woo_core_active() {
+	public function is_woo_core_active(): bool {
 		return class_exists( 'WooCommerce' );
 	}
 
@@ -74,8 +71,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return array of invalid dependencies as string constants.
 	 */
-	public function get_invalid_dependencies() {
-
+	public function get_invalid_dependencies(): array {
 		$invalid_dependencies = array();
 
 		if ( ! $this->is_woo_core_active() ) {
@@ -98,8 +94,9 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return bool True when installing plugin.
 	 */
-	private static function is_at_plugin_install_page() {
+	private static function is_at_plugin_install_page(): bool {
 		$cur_screen = get_current_screen();
+
 		return $cur_screen && 'update' === $cur_screen->id && 'plugins' === $cur_screen->parent_base;
 	}
 
@@ -108,7 +105,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return bool
 	 */
-	public function is_woo_core_version_compatible() {
+	public function is_woo_core_version_compatible(): bool {
 		$plugin_headers = \Woo_Blaze::get_plugin_headers();
 		$wc_version     = $plugin_headers['WCRequires'];
 
@@ -121,8 +118,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return bool True if WordPress version is greater than or equal the minimum accepted
 	 */
-	public function is_wp_version_compatible() {
-
+	public function is_wp_version_compatible(): bool {
 		$plugin_headers = \Woo_Blaze::get_plugin_headers();
 		$wp_version     = $plugin_headers['RequiresWP'];
 
@@ -137,8 +133,7 @@ class Woo_Blaze_Dependency_Service {
 	 *
 	 * @return string HTML to render admin notice for the unmet dependency.
 	 */
-	private function get_notice_for_invalid_dependency( $code ) {
-
+	private function get_notice_for_invalid_dependency( string $code ): string {
 		$plugin_headers = \Woo_Blaze::get_plugin_headers();
 		$wp_version     = $plugin_headers['RequiresWP'];
 		$wc_version     = $plugin_headers['WCRequires'];
@@ -160,11 +155,17 @@ class Woo_Blaze_Dependency_Service {
 				if ( current_user_can( 'install_plugins' ) ) {
 					if ( is_wp_error( validate_plugin( 'woocommerce/woocommerce.php' ) ) ) {
 						// WooCommerce is not installed.
-						$activate_url  = wp_nonce_url( admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ), 'install-plugin_woocommerce' );
+						$activate_url  = wp_nonce_url(
+							admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ),
+							'install-plugin_woocommerce'
+						);
 						$activate_text = __( 'Install WooCommerce', 'woo-blaze' );
 					} else {
 						// WooCommerce is installed, so it just needs to be enabled.
-						$activate_url  = wp_nonce_url( admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php' ), 'activate-plugin_woocommerce/woocommerce.php' );
+						$activate_url  = wp_nonce_url(
+							admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php' ),
+							'activate-plugin_woocommerce/woocommerce.php'
+						);
 						$activate_text = __( 'Activate WooCommerce', 'woo-blaze' );
 					}
 					$error_message .= ' <a href="' . $activate_url . '">' . $activate_text . '</a>';
@@ -175,7 +176,10 @@ class Woo_Blaze_Dependency_Service {
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
 					/* translators: %1: Woo Blaze, %2: current Woo Blaze version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
-						__( '%1$s %2$s requires <strong>%3$s %4$s</strong> or greater to be installed (you are using %5$s). ', 'woo-blaze' ),
+						__(
+							'%1$s %2$s requires <strong>%3$s %4$s</strong> or greater to be installed (you are using %5$s). ',
+							'woo-blaze'
+						),
 						'Woo Blaze',
 						WOOBLAZE_VERSION_NUMBER,
 						'WooCommerce',
@@ -190,7 +194,10 @@ class Woo_Blaze_Dependency_Service {
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
 					/* translators: %1: Woo Blaze, %2: required WP version number, %3: currently installed WP version number */
-						__( '%1$s requires <strong>WordPress %2$s</strong> or greater (you are using %3$s).', 'woo-blaze' ),
+						__(
+							'%1$s requires <strong>WordPress %2$s</strong> or greater (you are using %3$s).',
+							'woo-blaze'
+						),
 						'Woo Blaze',
 						$wp_version,
 						get_bloginfo( 'version' )
@@ -198,7 +205,10 @@ class Woo_Blaze_Dependency_Service {
 					array( 'strong' => '<strong>' )
 				);
 				if ( current_user_can( 'update_core' ) ) {
-					$error_message .= ' <a href="' . admin_url( 'update-core.php' ) . '">' . __( 'Update WordPress', 'woo-blaze' ) . '</a>';
+					$error_message .= ' <a href="' . admin_url( 'update-core.php' ) . '">' . __(
+						'Update WordPress',
+						'woo-blaze'
+					) . '</a>';
 				}
 				break;
 

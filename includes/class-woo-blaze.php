@@ -7,20 +7,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\Jetpack\Blaze\Dashboard_REST_Controller;
-use Automattic\Jetpack\Connection\Client;
-use Automattic\Jetpack\Connection\Manager as Jetpack_Connection;
+use WooBlaze\Blaze_Marketing_Channel;
 use WooBlaze\Blaze_Dashboard;
-use WooBlaze\Woo_Blaze_Marketing_Channel;
 use WooBlaze\Blaze_Conversions;
 use WooBlaze\Blaze_Translations_Loader;
-use WooBlaze\Woo_Blaze_Dependency_Service;
+use WooBlaze\Blaze_Dependency_Service;
 
 /**
  * Main class for the Woo Blaze extension. Its responsibility is to initialize the extension.
  */
 class Woo_Blaze {
-
 
 	/**
 	 * Cache for plugin headers to avoid multiple calls to get_file_data
@@ -28,14 +24,6 @@ class Woo_Blaze {
 	 * @var array
 	 */
 	private static $plugin_headers = null;
-
-	/**
-	 * Instance of Woo_Blaze_Dependency_Service, created in init function
-	 *
-	 * @var Woo_Blaze_Dependency_Service
-	 */
-	private static $dependency_service;
-
 
 	/**
 	 * Static-only class.
@@ -47,115 +35,41 @@ class Woo_Blaze {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
-
 		define( 'WOOBLAZE_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
-
 		define( 'WOOBLAZE_WC_VERSION', defined( 'WC_VERSION' ) ? WC_VERSION : '0.0.0' );
 
 		// Initialize the dependency service. so that admins get notices even if dependencies are not met.
-		self::$dependency_service = new Woo_Blaze_Dependency_Service();
-		self::$dependency_service->init_hooks();
+		$dependency_service = new Blaze_Dependency_Service();
+		$dependency_service->initialize();
 
-		// Stop if dependencies are not met.
-		if ( false === self::$dependency_service->has_valid_dependencies() ) {
+		// Stop if dependencies are not met, or we shouldn't initialize.
+		if ( false === $dependency_service->has_valid_dependencies() || ! self::should_initialize() ) {
 			return;
 		}
-
-		// Stop if Jetpack is not installed or is disabled.
-		if ( ! class_exists( 'Automattic\Jetpack\Blaze' ) ) {
-			return;
-		}
-
-		// Add initial actions.
-		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ), 999 );
 
 		// Initialize services.
-		( new Woo_Blaze_Marketing_Channel() )->initialize();
+		( new Blaze_Dashboard() )->initialize();
+		( new Blaze_Marketing_Channel() )->initialize();
 		( new Blaze_Conversions() )->initialize();
 		( new Blaze_Translations_Loader() )->initialize();
 	}
 
+
 	/**
-	 * Determines if criteria is met to enable Blaze features.
-	 * Keep in mind that this makes remote requests, so we want to avoid calling it when unnecessary, like in the frontend.
+	 * Determines if criteria is met to enable Woo Blaze dashboard.
 	 *
 	 * @return bool
 	 */
 	public static function should_initialize(): bool {
-		$site_id = Jetpack_Connection::get_site_id();
-
-		// Only admins should be able to Blaze posts on a site.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
-		// Check if the site supports Blaze.
-		if ( is_numeric( $site_id ) && ! \Automattic\Jetpack\Blaze::site_supports_blaze( $site_id ) ) {
-			return false;
-		}
-
-		return true;
+		return current_user_can( 'manage_options' );
 	}
-
-	/**
-	 * Adds Blaze entry point to the menu under the Marketing section.
-	 */
-	public static function add_admin_menu(): void {
-		if ( ! self::should_initialize() ) {
-			return;
-		}
-
-		$blaze_dashboard = new Blaze_Dashboard();
-
-		$page_suffix = add_submenu_page(
-			'woocommerce-marketing',
-			esc_attr__( 'Blaze for WooCommerce', 'woo-blaze' ),
-			__( 'Blaze for WooCommerce', 'woo-blaze' ),
-			'manage_options',
-			'wc-blaze',
-			array( $blaze_dashboard, 'render' )
-		);
-		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
-	}
-
-	/**
-	 * Calls the DSP server
-	 *
-	 * @param int    $blog_id The blog ID.
-	 * @param string $route The route to call.
-	 * @param string $method The HTTP method to use.
-	 * @param array  $query_params The query parameters to send.
-	 *
-	 * @return mixed
-	 */
-	public static function call_dsp_server( $blog_id, $route, $method = 'GET', $query_params = array() ) {
-
-		// Make the API request.
-		$url = sprintf( '/sites/%d/wordads/dsp/api/%s', $blog_id, $route );
-		$url = add_query_arg( $query_params, $url );
-
-		$response = Client::wpcom_json_api_request_as_user(
-			$url,
-			'v2',
-			array( 'method' => $method ),
-			null,
-			'wpcom'
-		);
-
-		$response_code         = wp_remote_retrieve_response_code( $response );
-		$response_body_content = wp_remote_retrieve_body( $response );
-		$response_body         = json_decode( $response_body_content, true );
-
-		return $response_body;
-	}
-
 
 	/**
 	 * Prints the given message in an "admin notice" wrapper with "error" class.
 	 *
 	 * @param string $message Message to print. Can contain HTML.
 	 */
-	public static function display_admin_error( $message ) {
+	public static function display_admin_error( string $message ) {
 		self::display_admin_notice( $message, 'notice-error' );
 	}
 
@@ -166,7 +80,7 @@ class Woo_Blaze {
 	 * @param string $message Message to print. Can contain HTML.
 	 * @param string $classes Space separated list of classes to be applied to notice element.
 	 */
-	public static function display_admin_notice( $message, $classes ) {
+	public static function display_admin_notice( string $message, string $classes ) {
 		?>
 		<div class="notice wcpay-notice <?php echo esc_attr( $classes ); ?>">
 			<p><b>Woo Blaze</b></p>
@@ -183,7 +97,7 @@ class Woo_Blaze {
 	 *
 	 * @return array Array with plugin headers
 	 */
-	public static function get_plugin_headers() {
+	public static function get_plugin_headers(): ?array {
 		if ( null === self::$plugin_headers ) {
 			self::$plugin_headers = get_file_data(
 				WOOBLAZE_PLUGIN_FILE,
@@ -194,6 +108,7 @@ class Woo_Blaze {
 				)
 			);
 		}
+
 		return self::$plugin_headers;
 	}
 }

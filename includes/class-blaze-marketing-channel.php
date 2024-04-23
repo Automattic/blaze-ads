@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Woo_Blaze_Marketing_Channel
+ * Class Blaze_Marketing_Channel
  *
  * @package Automattic\WooBlaze
  */
@@ -9,13 +9,13 @@ namespace WooBlaze;
 
 defined( 'ABSPATH' ) || exit;
 
-use Woo_Blaze;
 use Automattic\WooCommerce\Admin\Marketing\MarketingChannels;
 use Automattic\WooCommerce\Admin\Marketing\MarketingCampaign;
 use Automattic\WooCommerce\Admin\Marketing\MarketingCampaignType;
 use Automattic\WooCommerce\Admin\Marketing\MarketingChannelInterface;
 use Automattic\WooCommerce\Admin\Marketing\Price;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
+use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
 use Jetpack_Options;
 
 /**
@@ -24,7 +24,7 @@ use Jetpack_Options;
  *
  * Class Woo_Blaze_Marketing_Channel
  */
-class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
+class Blaze_Marketing_Channel implements MarketingChannelInterface {
 
 	/**
 	 * The campaign types supported by Blaze.
@@ -45,7 +45,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return void
 	 */
 	public function initialize(): void {
-		if ( ! $this->can_register_marketing_channel() || ! Woo_Blaze::should_initialize() ) {
+		if ( ! $this->can_register_marketing_channel() ) {
 			return;
 		}
 
@@ -125,7 +125,14 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return bool
 	 */
 	public function is_setup_completed(): bool {
-		return ( new Jetpack_Modules() )->is_active( 'blaze' ) ?? false;
+		$connection = new Jetpack_Connection_Manager();
+		if ( ! $connection->is_connected() || ! $connection->is_user_connected() ) {
+			return false;
+		}
+		if ( is_plugin_active( 'jetpack/jetpack.php' ) && ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -236,7 +243,7 @@ class Woo_Blaze_Marketing_Channel implements MarketingChannelInterface {
 
 		$blog_id  = Jetpack_Options::get_option( 'id' );
 		$path     = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
-		$response = Woo_Blaze::call_dsp_server( $blog_id, $path, 'GET', $query_params );
+		$response = Woo_Blaze_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
 
 		if ( ! isset( $response['campaigns'] ) ) {
 			return array();

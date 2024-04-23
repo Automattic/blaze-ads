@@ -9,208 +9,103 @@ namespace WooBlaze;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\Jetpack\Assets;
+use Automattic\Jetpack\Blaze as Jetpack_Blaze;
+use Automattic\Jetpack\Blaze\Dashboard as Jetpack_Blaze_Dashboard;
+use Automattic\Jetpack\Modules as Jetpack_Modules;
+use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
 
 /**
- * Entry point page for the Woo Blaze extension. Its responsibility is to render the Blaze Dashboard widget.
- * The screen content itself is rendered remotely.
+ * Its responsibility is to render the customized version of the Blaze Dashboard.
  */
 class Blaze_Dashboard {
 
 	/**
-	 * List of dependencies needed to render the dashboard in wp-admin.
-	 *
-	 * @var array
+	 * Initializes/configures the Jetpack Blaze module.
 	 */
-	const JS_DEPENDENCIES = array(
-		'lodash',
-		'react',
-		'react-dom',
-		'wp-components',
-		'wp-compose',
-		'wp-i18n',
-		'wp-is-shallow-equal',
-		'wp-primitives',
-		'wp-url',
-		'moment',
-	);
+	public function initialize() {
+		Jetpack_Blaze::init();
+
+		// Configures the additional information we need in the state.
+		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'woo_blaze_initial_config_data' ), 10, 1 );
+
+		// Add initial actions.
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 999 );
+		add_action( 'admin_init', array( $this, 'jetpack_dashboard_redirection' ), 999 );
+
+	}
 
 	/**
-	 * URL where we load the Blaze dashboard remotely.
-	 *
-	 * @var string
+	 * Adds Blaze entry point to the menu under the Marketing section.
 	 */
-	const CDN_URL = 'https://widgets.wp.com/blaze-dashboard/%s/%s';
+	public function add_admin_menu(): void {
+		$menu_slug = 'wc-blaze';
+
+		$blaze_dashboard = new Jetpack_Blaze_Dashboard( 'admin.php', $menu_slug, 'woo-blaze' );
+		// The is_woo_blaze_active method was removed when the new compatibility functions were added in jetpack Blaze.
+		if ( method_exists( '\Automattic\Jetpack\Blaze', 'is_woo_blaze_active' ) ) {
+			$blaze_dashboard = new Blaze_Compat_Dashboard();
+		}
+
+		$page_suffix = add_submenu_page(
+			'woocommerce-marketing',
+			esc_attr__( 'Blaze for WooCommerce', 'woo-blaze' ),
+			__( 'Blaze for WooCommerce', 'woo-blaze' ),
+			'manage_options',
+			$menu_slug,
+			array( $blaze_dashboard, 'render' )
+		);
+		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
+	}
 
 	/**
-	 * Script handle for the JS file we enqueue in the dashboard page.
-	 *
-	 * @var string
-	 */
-	const SCRIPT_HANDLE = 'woo-blaze-dashboard';
-
-	/**
-	 * We bump the asset version when the Jetpack Blaze back end is not compatible anymore.
-	 *
-	 * @var string
-	 */
-	const BLAZEDASH_VERSION = 'v1';
-
-	/**
-	 * Cache key for the cache buster.
-	 *
-	 * @var string
-	 */
-	const BLAZEDASH_CACHE_BUSTER_CACHE_KEY = 'woo_blaze_admin_asset_cache_buster';
-
-	/**
-	 * Override render function
+	 * Handles the redirection from the Jetpack Blaze dashboard URL to the new Woo Blaze dashboard
 	 *
 	 * @return void
 	 */
-	public function render() {
-		?>
-		<div id="wpcom" class="woo-blaze-dashboard" style="min-height: calc(100vh - 100px);">
-			<div
-				class="hide-if-js">
-				<?php
-				esc_html_e(
-					'Your Woo Blaze dashboard requires JavaScript to function properly.',
-					'woo-blaze'
-				);
-				?>
-			</div>
-			<div class="hide-if-no-js" style="height: 100%">
-				<img
-					class="woo-blaze-dashboard-loading-spinner"
-					width="32"
-					height="32"
-					style="position: absolute; left: 50%; top: 50%;"
-					alt=<?php echo esc_attr( __( 'Loading', 'woo-blaze' ) ); ?>
-					src="//en.wordpress.com/i/loading/loading-64.gif"
-				/>
-			</div>
-		</div>
-		<script>
-			jQuery(document).ready(function($) {
-				// Load SVG sprite.
-				$.get('https://widgets.wp.com/blaze-dashboard/common/gridicons-506499ddac13811fee8e.svg', function(data) {
-					var div = document.createElement('div');
-					div.innerHTML = new XMLSerializer().serializeToString(data.documentElement);
-					div.style = 'display: none';
-					document.body.insertBefore(div, document.body.childNodes[0]);
-				});
-				// we intercept on all anchor tags and change it to hashbang style.
-				$('#wpcom').on('click', 'a', function(e) {
-					const link = e && e.currentTarget && e.currentTarget.attributes && e.currentTarget.attributes.href && e.currentTarget.attributes.href.value;
-					if (link && link.startsWith('/wc-blaze')) {
-						location.hash = `#!${link}`;
-						return false;
-					}
-				});
-			});
-		</script>
-		<?php
+	public function jetpack_dashboard_redirection() {
+		global $pagenow;
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( 'tools.php' === $pagenow && isset( $_GET['page'] ) && 'advertising' === $_GET['page'] ) {
+			wp_safe_redirect( admin_url( '/admin.php?page=wc-blaze', 'http' ), 302 );
+			exit;
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
-	 * Initialize the admin resources.
-	 */
-	public function admin_init() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'load_admin_scripts' ) );
-	}
-
-	/**
-	 * Load the admin scripts.
+	 * Sets the initial config data needed by the Woo Blaze dashboard.
 	 *
-	 * @param string $hook The current admin page.
+	 * @param array $data Initial state for the Blaze Dashboard app.
+	 *
+	 * @return array
 	 */
-	public function load_admin_scripts( $hook ) {
-		if ( ! str_ends_with( $hook, '_wc-blaze' ) ) {
-			return;
-		}
+	public function woo_blaze_initial_config_data( array $data ): array {
+		$connection = new Jetpack_Connection_Manager();
+		$site_id    = Jetpack_Connection_Manager::get_site_id();
 
-		$asset_handle = self::SCRIPT_HANDLE;
-		$asset_name   = 'build.min';
-
-		$dashboard_config = new Blaze_Dashboard_Config_Data();
-
-		$config_data = $dashboard_config->get_data();
-
-		if ( file_exists( __DIR__ . "/../dist/{$asset_name}.js" ) ) {
-			// Load local assets for the convenience of development.
-			Assets::register_script(
-				$asset_handle,
-				"../dist/{$asset_name}.js",
-				__FILE__,
-				array(
-					'enqueue'    => true,
-					'in_footer'  => true,
-					'textdomain' => 'woo-blaze',
+		$setup_reason = null;
+		if ( ! $connection->is_connected() || ! $connection->is_user_connected() ) {
+			$setup_reason = 'disconnected';
+// phpcs:disable Squiz.PHP.CommentedOutCode.Found
+			// } elseif ( is_plugin_active( 'jetpack/jetpack.php' ) && ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ) {
+			// $setup_reason = 'blaze_disabled';
+// phpcs:enable Squiz.PHP.CommentedOutCode.Found
+		} elseif ( is_numeric( $site_id ) && ! Jetpack_Blaze::site_supports_blaze( $site_id ) ) {
+			if ( '-1' === get_option( 'blog_public' ) || (
+					( function_exists( 'site_is_coming_soon' ) && \site_is_coming_soon() )
+					|| (bool) get_option( 'wpcom_public_coming_soon' )
 				)
-			);
-		} else {
-			$css_url    = $asset_name . ( is_rtl() ? '.rtl' : '' ) . '.css';
-			$css_handle = $asset_handle . '-style';
-
-			wp_enqueue_script(
-				$asset_handle,
-				sprintf( self::CDN_URL, self::BLAZEDASH_VERSION, "{$asset_name}.js" ),
-				self::JS_DEPENDENCIES,
-				$this->get_cdn_asset_cache_buster(),
-				true
-			);
-			wp_enqueue_style(
-				$css_handle,
-				sprintf( self::CDN_URL, self::BLAZEDASH_VERSION, $css_url ),
-				array(),
-				$this->get_cdn_asset_cache_buster()
-			);
+			) {
+				$setup_reason = 'site_private_or_coming_soon';
+			} else {
+				$setup_reason = 'site_ineligible';
+			}
 		}
 
-		wp_add_inline_script(
-			$asset_handle,
-			$dashboard_config->get_js_config_data( $config_data ),
-			'before'
-		);
-	}
+		$data['is_woo_store'] = true; // Flag used to differentiate a WooCommerce installation.
+		$data['need_setup']   = $setup_reason ?? false;
 
-	/**
-	 * Returns cache buster string for assets.
-	 * Development mode doesn't need this, as it's handled by `Assets` class.
-	 */
-	protected function get_cdn_asset_cache_buster() {
-		// We fall back to this default key in case of error or missing cache_buster inside build_meta.json.
-		$default_cache_buster_key = gmdate( 'YmdH' );
-
-		// Use cached cache buster in production.
-		$remote_asset_version = get_transient( self::BLAZEDASH_CACHE_BUSTER_CACHE_KEY );
-		if ( ! empty( $remote_asset_version ) ) {
-			return $remote_asset_version;
-		}
-
-		// If no cached cache buster, we fetch it from CDN and set to transient.
-		$response = wp_remote_get(
-			sprintf( self::CDN_URL, self::BLAZEDASH_VERSION, 'build_meta.json' ),
-			array( 'timeout' => 5 )
-		);
-
-		if ( is_wp_error( $response ) ) {
-			return $default_cache_buster_key;
-		}
-
-		$build_meta = json_decode( wp_remote_retrieve_body( $response ), true );
-		if ( ! empty( $build_meta['cache_buster'] ) ) {
-			// Cache the cache buster for 15 mins.
-			set_transient(
-				self::BLAZEDASH_CACHE_BUSTER_CACHE_KEY,
-				$build_meta['cache_buster'],
-				15 * MINUTE_IN_SECONDS
-			);
-
-			return $build_meta['cache_buster'];
-		}
-
-		return $default_cache_buster_key;
+		return $data;
 	}
 }

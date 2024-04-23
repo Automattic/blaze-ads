@@ -9,10 +9,47 @@ namespace WooBlaze;
 
 defined( 'ABSPATH' ) || exit;
 
+use Automattic\Jetpack\Connection\Client;
+
 /**
  * Woo Blaze Utils class
  */
 class Woo_Blaze_Utils {
+
+	/**
+	 * Calls the DSP server
+	 *
+	 * @param int    $blog_id The blog ID.
+	 * @param string $route The route to call.
+	 * @param string $method The HTTP method to use.
+	 * @param array  $query_params The query parameters to send.
+	 *
+	 * @return mixed
+	 */
+	public static function call_dsp_server(
+		int $blog_id,
+		string $route,
+		string $method = 'GET',
+		array $query_params = array()
+	) {
+		// Make the API request.
+		$url = sprintf( '/sites/%d/wordads/dsp/api/%s', $blog_id, $route );
+		$url = add_query_arg( $query_params, $url );
+
+		$response = Client::wpcom_json_api_request_as_user(
+			$url,
+			'v2',
+			array( 'method' => $method ),
+			null,
+			'wpcom'
+		);
+
+		$response_code         = wp_remote_retrieve_response_code( $response );
+		$response_body_content = wp_remote_retrieve_body( $response );
+		$response_body         = json_decode( $response_body_content, true );
+
+		return $response_body;
+	}
 
 	/**
 	 * Mirrors JS's createInterpolateElement functionality.
@@ -21,9 +58,9 @@ class Woo_Blaze_Utils {
 	 * @param string $string string to process.
 	 * @param array  $element_map map of elements to not escape.
 	 *
-	 * @return string String where all of the html was escaped, except for the tags specified in element map.
+	 * @return string String where all the html was escaped, except for the tags specified in element map.
 	 */
-	public static function esc_interpolated_html( $string, $element_map ) {
+	public static function esc_interpolated_html( string $string, array $element_map ): string {
 		// Regex to match string expressions wrapped in angle brackets.
 		$tokenizer    = '/<(\/)?(\w+)\s*(\/)?>/';
 		$string_queue = array();

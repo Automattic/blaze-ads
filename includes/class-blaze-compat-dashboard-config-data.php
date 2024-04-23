@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Blaze_Dashboard_Config_Data
+ * Class Blaze_Compat_Dashboard_Config_Data
  *
  * @package WooBlaze
  */
@@ -18,7 +18,7 @@ use Jetpack_Options;
 /**
  * Its responsibility is to generate the initial configuration needed to render the Dashboard.
  */
-class Blaze_Dashboard_Config_Data {
+class Blaze_Compat_Dashboard_Config_Data {
 
 	/**
 	 * Set configData to window.configData.

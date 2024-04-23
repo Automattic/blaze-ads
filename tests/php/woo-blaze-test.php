@@ -17,30 +17,49 @@ use \Woo_Blaze;
  */
 class Woo_Blaze_Test extends WB_Unit_Test_Case {
 
+	/**
+	 * Editor user ID
+	 * @var int
+	 */
+	protected int $editor_id;
+
 	public function set_up() {
 		parent::set_up();
 
-		wp_set_current_user(
-			self::factory()->user->create(
-				array( 'role' => 'administrator' )
-			)
+		$this->editor_id = self::factory()->user->create(
+			array( 'role' => 'editor' )
 		);
 	}
 
-	public function test_it_runs_adds_admin_menu_at_priority_999() {
-		$install_actions_priority = has_action(
-			'admin_menu',
-			array( Woo_Blaze::class, 'add_admin_menu' )
-		);
+	/**
+	 * Ensures the plugins initialize only for admins
+	 *
+	 * @covers WooBlaze::should_initialize
+	 */
+	public function test_editor_not_eligible_to_blaze() {
+		// The default user is admin (check WB_Unit_Test_Case set_up method.
+		$this->assertTrue( Woo_Blaze::should_initialize() );
 
-		$this->assertEquals( 999, $install_actions_priority );
+		wp_set_current_user( $this->editor_id );
+		$this->assertFalse( Woo_Blaze::should_initialize() );
 	}
 
-	public function test_it_adds_admin_menu_correctly() {
-		Woo_Blaze::add_admin_menu();
+	/**
+	 * Ensures the correct version is defined in the WOOBLAZE_VERSION_NUMBER variable.
+	 */
+	public function test_sets_correct_plugin_defined_version() {
+		$this->assertNotEmpty( WOOBLAZE_VERSION_NUMBER );
+		$this->assertMatchesRegularExpression( '/\d+.\d+.\d+/', WOOBLAZE_VERSION_NUMBER );
+	}
 
-		$menu_url = menu_page_url( 'wc-blaze' );
-		$this->assertNotEmpty( $menu_url );
-		$this->assertMatchesRegularExpression( '/woocommerce-marketing/', $menu_url );
+	/**
+	 * Ensures the correct version is defined in the WOOBLAZE_VERSION_NUMBER variable.
+	 */
+	public function test_correct_plugin_headers_are_collected() {
+		$headers = Woo_Blaze::get_plugin_headers();
+		$this->assertNotEmpty( $headers );
+		$this->assertNotEmpty( $headers['Version'] );
+		$this->assertMatchesRegularExpression( '/\d+.\d+.\d+/', $headers['Version'] );
+
 	}
 }
