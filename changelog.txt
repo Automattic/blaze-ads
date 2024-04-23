@@ -1,5 +1,10 @@
 *** Woo Blaze Changelog ***
 
+= 0.1.0 - 2024-04-23 =
+* Fix - Added translations fetching support from the translate.wordpress api service
+* Add - Added admin notices to notify of plugin dependencies
+* Update - Updates the Blaze module customization to adapt to the next Jetpack version
+
 = 0.0.6 - 2024-02-29 =
 * Fix - Hides the Woo Blaze marketing channel if the site is not Blaze eligible
 * Add - Adds configuration needed to the dashboard to render the finish setup page

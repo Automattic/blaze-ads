@@ -1,4 +1,0 @@
-Significance: patch
-Type: fix
-
-Added translations fetching support from the translate.wordpress api service
