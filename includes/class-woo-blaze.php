@@ -14,6 +14,7 @@ use WooBlaze\Blaze_Dashboard;
 use WooBlaze\Woo_Blaze_Marketing_Channel;
 use WooBlaze\Blaze_Conversions;
 use WooBlaze\Blaze_Translations_Loader;
+use WooBlaze\Woo_Blaze_Dependency_Service;
 
 /**
  * Main class for the Woo Blaze extension. Its responsibility is to initialize the extension.
@@ -29,6 +30,14 @@ class Woo_Blaze {
 	private static $plugin_headers = null;
 
 	/**
+	 * Instance of Woo_Blaze_Dependency_Service, created in init function
+	 *
+	 * @var Woo_Blaze_Dependency_Service
+	 */
+	private static $dependency_service;
+
+
+	/**
 	 * Static-only class.
 	 */
 	private function __construct() {
@@ -41,8 +50,19 @@ class Woo_Blaze {
 
 		define( 'WOOBLAZE_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
 
-		// Stop if WooCommerce or Jetpack is not installed or is disabled.
-		if ( ! class_exists( 'WooCommerce' ) || ! class_exists( 'Automattic\Jetpack\Blaze' ) ) {
+		define( 'WOOBLAZE_WC_VERSION', defined( 'WC_VERSION' ) ? WC_VERSION : '0.0.0' );
+
+		// Initialize the dependency service. so that admins get notices even if dependencies are not met.
+		self::$dependency_service = new Woo_Blaze_Dependency_Service();
+		self::$dependency_service->init_hooks();
+
+		// Stop if dependencies are not met.
+		if ( false === self::$dependency_service->has_valid_dependencies() ) {
+			return;
+		}
+
+		// Stop if Jetpack is not installed or is disabled.
+		if ( ! class_exists( 'Automattic\Jetpack\Blaze' ) ) {
 			return;
 		}
 
@@ -129,6 +149,33 @@ class Woo_Blaze {
 		return $response_body;
 	}
 
+
+	/**
+	 * Prints the given message in an "admin notice" wrapper with "error" class.
+	 *
+	 * @param string $message Message to print. Can contain HTML.
+	 */
+	public static function display_admin_error( $message ) {
+		self::display_admin_notice( $message, 'notice-error' );
+	}
+
+
+	/**
+	 * Prints the given message in an "admin notice" wrapper with provided classes.
+	 *
+	 * @param string $message Message to print. Can contain HTML.
+	 * @param string $classes Space separated list of classes to be applied to notice element.
+	 */
+	public static function display_admin_notice( $message, $classes ) {
+		?>
+		<div class="notice wcpay-notice <?php echo esc_attr( $classes ); ?>">
+			<p><b>Woo Blaze</b></p>
+			<p><?php echo $message; // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+		</div>
+		<?php
+	}
+
+
 	/**
 	 * Get plugin headers and cache the result to avoid reopening the file.
 	 * First call should execute get_file_data and fetch headers from plugin details comment.
@@ -141,7 +188,9 @@ class Woo_Blaze {
 			self::$plugin_headers = get_file_data(
 				WOOBLAZE_PLUGIN_FILE,
 				array(
-					'Version' => 'Version',
+					'Version'    => 'Version',
+					'WCRequires' => 'WC requires at least',
+					'RequiresWP' => 'Requires at least',
 				)
 			);
 		}

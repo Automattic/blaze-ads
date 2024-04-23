@@ -8,6 +8,7 @@
  * Author URI: https://automattic.com/
  * Text Domain: woo-blaze
  * Domain Path: /languages
+ * WC requires at least: 7.6
  * Requires at least: 6.3
  * Requires PHP: 7.4
  *
