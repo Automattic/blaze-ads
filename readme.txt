@@ -6,7 +6,7 @@ Tested up to: 6.4
 Requires PHP: 7.4
 Stable tag: 0.1.0
 
-Drive sales, and elevate your products to center stage, effortlessly. Witness your business flourishing in the blink of an eye. Only with Woo Blaze.
+One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
 
 == Description ==
 
