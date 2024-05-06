@@ -30,6 +30,7 @@
     "automattic/jetpack-constants": "^2.0.1",
     "automattic/jetpack-blaze": "^0.20.0",
     "automattic/jetpack-sync": "^2.10.5",
+    "automattic/jetpack-identity-crisis": "^0.18.3",
     "automattic/jetpack-plans": "*",
     "automattic/jetpack-status": "*",
     "ext-json": "*"

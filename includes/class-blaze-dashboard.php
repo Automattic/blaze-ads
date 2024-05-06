@@ -19,6 +19,7 @@ use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
  */
 class Blaze_Dashboard {
 
+
 	/**
 	 * Initializes/configures the Jetpack Blaze module.
 	 */
@@ -31,6 +32,7 @@ class Blaze_Dashboard {
 		// Add initial actions.
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 999 );
 		add_action( 'admin_init', array( $this, 'jetpack_dashboard_redirection' ), 999 );
+		add_action( 'admin_init', array( $this, 'jetpack_connect_onboarding' ), 1000 ); // Run this after dashboard redirect.
 
 	}
 
@@ -74,6 +76,16 @@ class Blaze_Dashboard {
 	}
 
 	/**
+	 * Runs the onboarding logic for Jetpack connect.
+	 *
+	 * @return void
+	 */
+	public function jetpack_connect_onboarding() {
+		$connect_handler = new Jetpack_Connect_Handler();
+		$connect_handler->maybe_handle_onboarding();
+	}
+
+	/**
 	 * Sets the initial config data needed by the Woo Blaze dashboard.
 	 *
 	 * @param array $data Initial state for the Blaze Dashboard app.
@@ -106,6 +118,33 @@ class Blaze_Dashboard {
 		$data['is_woo_store'] = true; // Flag used to differentiate a WooCommerce installation.
 		$data['need_setup']   = $setup_reason ?? false;
 
+		if ( 'disconnected' === $setup_reason ) {
+			$data['connect_url'] = $this->get_connect_url();
+
+			$jetpack_error_message = get_transient( Jetpack_Connect_Handler::ERROR_MESSAGE_TRANSIENT );
+			delete_transient( Jetpack_Connect_Handler::ERROR_MESSAGE_TRANSIENT );
+			$data['jetpack_error_message'] = $jetpack_error_message;
+		}
+
 		return $data;
+	}
+
+
+	/**
+	 * Returns the Jetpack connect URL.
+	 * In reality this is just to trigger a page reload that re-reruns the onboarding logic and this could have been a window.reload on client
+	 * this method simply makes sure the server controls the url that handles the connect redirect for easy change without needing to update the client.
+	 *
+	 * @param string $wcblaze_connect_from Optional. A page ID representing where the user should be returned to after connecting. Default is '1' - redirects back to the overview page.
+	 *
+	 * @return string Jetpack connect url.
+	 */
+	public function get_connect_url( $wcblaze_connect_from = '1' ): string {
+		$url = add_query_arg(
+			array( 'woo-blaze-connect' => $wcblaze_connect_from ),
+			admin_url( 'admin.php?page=wc-blaze' )
+		);
+
+		return html_entity_decode( wp_nonce_url( $url, 'woo-blaze-connect' ) );
 	}
 }
