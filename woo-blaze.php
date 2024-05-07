@@ -52,6 +52,8 @@ function wooblaze_jetpack_init() {
 			'priority'      => 5,
 		)
 	);
+
+	$jetpack_config->ensure( 'sync' );
 }
 
 /**
@@ -64,17 +66,20 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		'headerText'                => __( 'Safe Mode', 'woo-blaze' ),
 		'mainTitle'                 => __( 'Safe Mode activated', 'woo-blaze' ),
 		'mainBodyText'              => sprintf(
-			/* translators: %s: Blaze for WooCommerce. */
-			__( 'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. <safeModeLink>Learn more</safeModeLink>', 'woo-blaze' ),
+		/* translators: %s: Blaze for WooCommerce. */
+			__(
+				'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. <safeModeLink>Learn more</safeModeLink>',
+				'woo-blaze'
+			),
 			'Blaze for WooCommerce'
 		),
 		'migratedTitle'             => sprintf(
-			/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze for WooCommerce. */
 			__( '%s connection successfully transferred', 'woo-blaze' ),
 			'Blaze for WooCommerce'
 		),
 		'migratedBodyText'          => sprintf(
-			/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze for WooCommerce. */
 			__( 'Safe Mode has been deactivated and %s is fully functional.', 'woo-blaze' ),
 			'Blaze for WooCommerce'
 		),
@@ -84,20 +89,26 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		'startFreshButtonLabel'     => __( 'Create a new connection', 'woo-blaze' ),
 		'nonAdminTitle'             => __( 'Safe Mode activated', 'woo-blaze' ),
 		'nonAdminBodyText'          => sprintf(
-			/* translators: %s: Blaze for WooCommerce. */
-			__( 'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. A site adminstrator can resolve this issue. <safeModeLink>Learn more</safeModeLink>', 'woo-blaze' ),
+		/* translators: %s: Blaze for WooCommerce. */
+			__(
+				'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. A site adminstrator can resolve this issue. <safeModeLink>Learn more</safeModeLink>',
+				'woo-blaze'
+			),
 			'Blaze for WooCommerce'
 		),
 		// When doc is ready, set support URL similar to 'https://woocommerce.com/document/woopayments/testing-and-troubleshooting/safe-mode/'.
 		'supportURL'                => 'https://jetpack.com/redirect/?source=jetpack-support-safe-mode',
 		'adminBarSafeModeLabel'     => sprintf(
-			/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze for WooCommerce. */
 			__( '%s Safe Mode', 'woo-blaze' ),
 			'Blaze for WooCommerce'
 		),
 		'dynamicSiteUrlText'        => sprintf(
-			/* translators: %s: Blaze for WooCommerce. */
-			__( "<strong>Notice:</strong> It appears that your 'wp-config.php' file might be using dynamic site URL values. Dynamic site URLs could cause %s to enter Safe Mode. <dynamicSiteUrlSupportLink>Learn how to set a static site URL.</dynamicSiteUrlSupportLink>", 'woo-blaze' ),
+		/* translators: %s: Blaze for WooCommerce. */
+			__(
+				"<strong>Notice:</strong> It appears that your 'wp-config.php' file might be using dynamic site URL values. Dynamic site URLs could cause %s to enter Safe Mode. <dynamicSiteUrlSupportLink>Learn how to set a static site URL.</dynamicSiteUrlSupportLink>",
+				'woo-blaze'
+			),
 			'Blaze for WooCommerce'
 		),
 		// When doc is ready, set support URL similar to 'https://woocommerce.com/document/woopayments/testing-and-troubleshooting/safe-mode/#dynamic-site-urls'.
@@ -119,7 +130,7 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		$wpcom_url = untrailingslashit( $urls['wpcom_url'] );
 
 		$custom_content['migrateCardBodyText'] = sprintf(
-			/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
+		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
 			__(
 				'Transfer your %3$s connection from <hostname>%2$s</hostname> to this site <hostname>%1$s</hostname>. <hostname>%2$s</hostname> will be disconnected from %3$s.',
 				'woo-blaze'
@@ -130,7 +141,7 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		);
 
 		$custom_content['startFreshCardBodyText'] = sprintf(
-			/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
+		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
 			__(
 				'Create a new connection to %3$s for <hostname>%1$s</hostname>. Your <hostname>%2$s</hostname> connection will remain as is.',
 				'woo-blaze'
@@ -143,6 +154,10 @@ function wooblaze_jetpack_idc_custom_content(): array {
 
 	return $custom_content;
 }
+
+
+// Jetpack's Rest_Authentication needs to be initialized even before plugins_loaded.
+Automattic\Jetpack\Connection\Rest_Authentication::init();
 
 // Jetpack-config will initialize the modules on "plugins_loaded" with priority 2, so this code needs to be run before that.
 add_action( 'plugins_loaded', 'wooblaze_jetpack_init', 1 );
