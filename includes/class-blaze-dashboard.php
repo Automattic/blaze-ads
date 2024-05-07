@@ -24,8 +24,6 @@ class Blaze_Dashboard {
 	 * Initializes/configures the Jetpack Blaze module.
 	 */
 	public function initialize() {
-		Jetpack_Blaze::init();
-
 		// Configures the additional information we need in the state.
 		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'woo_blaze_initial_config_data' ), 10, 1 );
 
@@ -38,6 +36,11 @@ class Blaze_Dashboard {
 			1000
 		); // Run this after dashboard redirect.
 
+		// We initialize the module ony if we are running standalone, or if Jetpack Blaze is enabled inside Jetpack plugin.
+		// We don't want to override the user's decision to disable Blaze. We have a specific page that shows how to re-enable it.
+		if ( $this->is_blaze_module_active() ) {
+			Jetpack_Blaze::init();
+		}
 	}
 
 	/**
@@ -103,10 +106,8 @@ class Blaze_Dashboard {
 		$setup_reason = null;
 		if ( ! $connection->is_connected() || ! $connection->is_user_connected() ) {
 			$setup_reason = 'disconnected';
-// phpcs:disable Squiz.PHP.CommentedOutCode.Found
-			// } elseif ( is_plugin_active( 'jetpack/jetpack.php' ) && ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ) {
-			// $setup_reason = 'blaze_disabled';
-// phpcs:enable Squiz.PHP.CommentedOutCode.Found
+		} elseif ( ! $this->is_blaze_module_active() ) {
+			$setup_reason = 'blaze_disabled';
 		} elseif ( is_numeric( $site_id ) && ! Jetpack_Blaze::site_supports_blaze( $site_id ) ) {
 			if ( '-1' === get_option( 'blog_public' ) || (
 					( function_exists( 'site_is_coming_soon' ) && \site_is_coming_soon() )
@@ -131,6 +132,15 @@ class Blaze_Dashboard {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Returns if the Jetpack Blaze module is active in the site.
+	 *
+	 * @return bool Jetpack Blaze module status
+	 */
+	public function is_blaze_module_active(): bool {
+		return ! class_exists( 'Jetpack' ) || ( new Jetpack_Modules() )->is_active( 'blaze' );
 	}
 
 
