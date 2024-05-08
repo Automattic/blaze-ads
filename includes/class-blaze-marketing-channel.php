@@ -14,8 +14,6 @@ use Automattic\WooCommerce\Admin\Marketing\MarketingCampaign;
 use Automattic\WooCommerce\Admin\Marketing\MarketingCampaignType;
 use Automattic\WooCommerce\Admin\Marketing\MarketingChannelInterface;
 use Automattic\WooCommerce\Admin\Marketing\Price;
-use Automattic\Jetpack\Modules as Jetpack_Modules;
-use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
 use Jetpack_Options;
 
 /**
@@ -125,14 +123,8 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return bool
 	 */
 	public function is_setup_completed(): bool {
-		$connection = new Jetpack_Connection_Manager();
-		if ( ! $connection->is_connected() || ! $connection->is_user_connected() ) {
-			return false;
-		}
-		if ( is_plugin_active( 'jetpack/jetpack.php' ) && ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ) {
-			return false;
-		}
-		return true;
+		$setup_reason = ( new Blaze_Dashboard() )->check_setup_plugin_status();
+		return null === $setup_reason;
 	}
 
 	/**
@@ -159,6 +151,10 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_setup_url(): string {
+		if ( $this->is_setup_completed() ) {
+			return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/%s', $this->get_site_hostname() ) );
+		}
+
 		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/setup/%s', $this->get_site_hostname() ) );
 	}
 

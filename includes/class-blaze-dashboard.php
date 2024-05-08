@@ -100,10 +100,33 @@ class Blaze_Dashboard {
 	 * @return array
 	 */
 	public function woo_blaze_initial_config_data( array $data ): array {
+		$setup_reason = $this->check_setup_plugin_status();
+
+		$data['is_woo_store'] = true; // Flag used to differentiate a WooCommerce installation.
+		$data['need_setup']   = $setup_reason ?? false;
+
+		if ( 'disconnected' === $setup_reason ) {
+			$data['connect_url'] = $this->get_connect_url();
+
+			$jetpack_error_message = get_transient( Jetpack_Connect_Handler::ERROR_MESSAGE_TRANSIENT );
+			delete_transient( Jetpack_Connect_Handler::ERROR_MESSAGE_TRANSIENT );
+			$data['jetpack_error_message'] = $jetpack_error_message;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Checks the status of the plugin setup
+	 *
+	 * @return string Setup reason. NULL if no setup is required.
+	 */
+	public function check_setup_plugin_status(): ?string {
 		$connection = new Jetpack_Connection_Manager();
 		$site_id    = Jetpack_Connection_Manager::get_site_id();
 
 		$setup_reason = null;
+
 		if ( ! $connection->is_connected() || ! $connection->is_user_connected() ) {
 			$setup_reason = 'disconnected';
 		} elseif ( ! $this->is_blaze_module_active() ) {
@@ -118,18 +141,7 @@ class Blaze_Dashboard {
 			$setup_reason = 'site_ineligible';
 		}
 
-		$data['is_woo_store'] = true; // Flag used to differentiate a WooCommerce installation.
-		$data['need_setup']   = $setup_reason ?? false;
-
-		if ( 'disconnected' === $setup_reason ) {
-			$data['connect_url'] = $this->get_connect_url();
-
-			$jetpack_error_message = get_transient( Jetpack_Connect_Handler::ERROR_MESSAGE_TRANSIENT );
-			delete_transient( Jetpack_Connect_Handler::ERROR_MESSAGE_TRANSIENT );
-			$data['jetpack_error_message'] = $jetpack_error_message;
-		}
-
-		return $data;
+		return $setup_reason;
 	}
 
 	/**
