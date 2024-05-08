@@ -1,5 +1,11 @@
 *** Woo Blaze Changelog ***
 
+= 0.1.1 - 2024-05-08 =
+* Fix - Fixes the marketing channel setup check
+* Add - Add Jetpack connect and IDC customization
+* Add - Adds the integration with Jetpack Sync module
+* Update - Updates the blaze disabled check to improve compatibility with the Jetapck plugin
+
 = 0.1.0 - 2024-04-23 =
 * Fix - Added translations fetching support from the translate.wordpress api service
 * Add - Added admin notices to notify of plugin dependencies

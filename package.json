@@ -2,7 +2,7 @@
 	"name": "woo-blaze",
 	"title": "Woo Blaze",
 	"license": "GPL-3.0-or-later",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Woo Blaze",
 	"engines": {
 		"node": "^20.8.1",
