@@ -108,16 +108,14 @@ class Blaze_Dashboard {
 			$setup_reason = 'disconnected';
 		} elseif ( ! $this->is_blaze_module_active() ) {
 			$setup_reason = 'blaze_disabled';
+		} elseif ( '-1' === get_option( 'blog_public' ) || (
+				( function_exists( 'site_is_coming_soon' ) && \site_is_coming_soon() )
+				|| (bool) get_option( 'wpcom_public_coming_soon' )
+			)
+		) {
+			$setup_reason = 'site_private_or_coming_soon';
 		} elseif ( is_numeric( $site_id ) && ! Jetpack_Blaze::site_supports_blaze( $site_id ) ) {
-			if ( '-1' === get_option( 'blog_public' ) || (
-					( function_exists( 'site_is_coming_soon' ) && \site_is_coming_soon() )
-					|| (bool) get_option( 'wpcom_public_coming_soon' )
-				)
-			) {
-				$setup_reason = 'site_private_or_coming_soon';
-			} else {
-				$setup_reason = 'site_ineligible';
-			}
+			$setup_reason = 'site_ineligible';
 		}
 
 		$data['is_woo_store'] = true; // Flag used to differentiate a WooCommerce installation.
