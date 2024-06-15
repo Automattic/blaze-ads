@@ -66,8 +66,8 @@ jobs:
         run: |
           CURRENT_VERSION=$(jq '.version' package.json -r)
 
-          # 'Version' header in woo-blaze.php
-          sed -i "s/^ \* Version: .*$/ * Version: $RELEASE_VERSION/" woo-blaze.php
+          # 'Version' header in blaze-ads.php
+          sed -i "s/^ \* Version: .*$/ * Version: $RELEASE_VERSION/" blaze-ads.php
 
           # 'version' field in package.json and package-lock.json
           pnpm version $RELEASE_VERSION --no-git-tag-version
@@ -92,7 +92,7 @@ jobs:
           CHANGELOG: ${{ steps.generate_changelog.outputs.changelog }}
           RELEASE_VERSION: ${{ steps.create_branch.outputs.trimmed-version }}
         run: |
-          PR_BODY=$(echo -e ":warning: Please complete these checks before finishing the release. :warning:\n\n- [ ] The plugin version is bumped (\`package.json\` and \`woo-blaze.php\`)\n- [ ] The \`changelog.txt\` file is correct, and the entries from \`/changelog\` folder were deleted\n- [ ] CI checks are passing\n- [ ] Smoke test the plugin using the generated zip file (found in a comment below)\n\nAll good ✅ ? Then, feel free to merge this PR and, after that, execute the [Release - Tag and release trunk](https://github.com/Automattic/woo-blaze/actions/workflows/release-generate.yml) to finish the GitHub release.\n#### Changelog:\n\`\`\`\n${CHANGELOG}\n\`\`\`")
+          PR_BODY=$(echo -e ":warning: Please complete these checks before finishing the release. :warning:\n\n- [ ] The plugin version is bumped (\`package.json\` and \`blaze-ads.php\`)\n- [ ] The \`changelog.txt\` file is correct, and the entries from \`/changelog\` folder were deleted\n- [ ] CI checks are passing\n- [ ] Smoke test the plugin using the generated zip file (found in a comment below)\n\nAll good ✅ ? Then, feel free to merge this PR and, after that, execute the [Release - Tag and release trunk](https://github.com/Automattic/woo-blaze/actions/workflows/release-generate.yml) to finish the GitHub release.\n#### Changelog:\n\`\`\`\n${CHANGELOG}\n\`\`\`")
           PR_URL=$(gh pr create --title "Release branch for $RELEASE_VERSION" --body="$PR_BODY" --base="trunk")
           PR_ID=${PR_URL##*/}
           if [[ $PR_ID =~ ^[0-9]+$ ]]; then

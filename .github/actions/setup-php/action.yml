@@ -8,7 +8,7 @@ runs:
       shell: bash
       id: get_min_php_version
       run: |
-        MIN_PHP_VERSION=$(sed -n 's/.*PHP: //p' woo-blaze.php)
+        MIN_PHP_VERSION=$(sed -n 's/.*PHP: //p' blaze-ads.php)
         echo "MIN_PHP_VERSION=$MIN_PHP_VERSION" >> $GITHUB_OUTPUT
 
     - name: "Setup PHP"

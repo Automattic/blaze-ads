@@ -16,7 +16,7 @@
     <coverage includeUncoveredFiles="true">
         <include>
             <directory suffix=".php">./includes</directory>
-            <file>woo-blaze.php</file>
+            <file>blaze-ads.php</file>
         </include>
         <exclude>
             <directory suffix=".php">./vendor</directory>
