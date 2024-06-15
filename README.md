@@ -35,7 +35,7 @@ To generate this plugin's zip file, run this command:
 pnpm build
 ```
 
-The release file will be located at the root of the repo with the name `woo-blaze.zip`. 
+The release file will be located at the root of the repo with the name `blaze-ads.zip`. 
 
 ## Debugging
 

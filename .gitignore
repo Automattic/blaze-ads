@@ -21,7 +21,7 @@ contributors.md
 release
 dist
 languages/*.pot
-woo-blaze.zip
+blaze-ads.zip
 
 #Tests
 .phpunit.result.cache

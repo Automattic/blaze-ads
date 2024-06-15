@@ -46,6 +46,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: "woo-blaze"
+          name: "blaze-ads"
           path: release
           retention-days: 14

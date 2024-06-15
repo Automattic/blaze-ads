@@ -1,7 +1,7 @@
 {
   "name": "automattic/woo-blaze",
   "description": "Run AI experiments in WooCommerce.",
-  "homepage": "https://github.com/automattic/woo-blaze",
+  "homepage": "https://github.com/automattic/blaze-ads",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",
   "prefer-stable": true,

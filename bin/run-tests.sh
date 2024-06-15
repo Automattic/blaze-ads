@@ -16,14 +16,14 @@ done
 echo "Installing the test environment..."
 
 docker-compose exec -u www-data wordpress \
-	/var/www/html/wp-content/plugins/woo-blaze/bin/install-wp-tests.sh
+	/var/www/html/wp-content/plugins/blaze-ads/bin/install-wp-tests.sh
 
 if $WATCH_FLAG; then
 	echo "Running the tests on watch mode..."
 
 	# Change directory to Woo Blaze' root in order to have access to .phpunit-watcher.yml
 	docker-compose exec -u www-data wordpress bash -c \
-		"cd /var/www/html/wp-content/plugins/woo-blaze && \
+		"cd /var/www/html/wp-content/plugins/blaze-ads && \
 		php -d xdebug.remote_autostart=on \
 		./vendor/bin/phpunit-watcher watch --configuration ./phpunit.xml $*"
 else
@@ -31,7 +31,7 @@ else
 
 	docker-compose exec -u www-data wordpress \
 		php -d xdebug.remote_autostart=on \
-		/var/www/html/wp-content/plugins/woo-blaze/vendor/bin/phpunit \
-		--configuration /var/www/html/wp-content/plugins/woo-blaze/phpunit.xml \
+		/var/www/html/wp-content/plugins/blaze-ads/vendor/bin/phpunit \
+		--configuration /var/www/html/wp-content/plugins/blaze-ads/phpunit.xml \
 		$*
 fi
