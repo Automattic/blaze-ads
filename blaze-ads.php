@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Woo Blaze
+ * Plugin Name: Blaze Ads
  * Plugin URI: https://github.com/automattic/blaze-ads
  * Description: One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
  * Version: 0.1.1
