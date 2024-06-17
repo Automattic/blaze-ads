@@ -15,7 +15,7 @@
 		"build": "pnpm build:deps && pnpm i18n:pot && pnpm build:release",
 		"build:deps": "rm -rf vendor && composer install --no-dev --optimize-autoloader",
 		"build:release": "node bin/release-task.js && mv release/$npm_package_name.zip .",
-		"i18n:pot": "wpi18n makepot --domain-path languages --pot-file woo-blaze.pot --type plugin --main-file blaze-ads.php --exclude bin,docker,node_modules,release,tests,vendor",
+		"i18n:pot": "wpi18n makepot --domain-path languages --pot-file blaze-ads.pot --type plugin --main-file blaze-ads.php --exclude bin,docker,node_modules,release,tests,vendor",
 		"lint": "pnpm lint:php",
 		"lint:css": "wp-scripts lint-style 'src/**/*.css'",
 		"lint:css:fix": "wp-scripts lint-style --fix 'src/**/*.css'",
