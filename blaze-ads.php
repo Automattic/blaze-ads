@@ -37,7 +37,7 @@ function wooblaze_jetpack_init() {
 	$jetpack_config->ensure(
 		'connection',
 		array(
-			'slug' => 'woo-blaze',
+			'slug' => 'blaze-ads',
 			'name' => 'Woo Blaze',
 		)
 	);
@@ -45,7 +45,7 @@ function wooblaze_jetpack_init() {
 	$jetpack_config->ensure(
 		'identity_crisis',
 		array(
-			'slug'          => 'woo-blaze',
+			'slug'          => 'blaze-ads',
 			'customContent' => wooblaze_jetpack_idc_custom_content(),
 			'logo'          => plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE ),
 			'admin_page'    => '/wp-admin/admin.php?page=wc-blaze',
