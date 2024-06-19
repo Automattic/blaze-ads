@@ -38,7 +38,7 @@ function wooblaze_jetpack_init() {
 		'connection',
 		array(
 			'slug' => 'blaze-ads',
-			'name' => 'Woo Blaze',
+			'name' => 'Blaze for WooCommerce',
 		)
 	);
 

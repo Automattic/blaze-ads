@@ -37,7 +37,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 	 *
 	 * @var string
 	 */
-	private $title = '*** Woo Blaze Changelog ***';
+	private $title = '*** Blaze for WooCommerce Changelog ***';
 
 	/**
 	 * Separator used in headings and change entries.

@@ -75,7 +75,7 @@ class Blaze_Compat_Dashboard {
 				class="hide-if-js">
 				<?php
 				esc_html_e(
-					'Your Woo Blaze dashboard requires JavaScript to function properly.',
+					'Your Blaze for WooCommerce dashboard requires JavaScript to function properly.',
 					'blaze-ads'
 				);
 				?>
