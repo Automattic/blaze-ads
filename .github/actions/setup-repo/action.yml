@@ -18,7 +18,7 @@ runs:
       uses: pnpm/action-setup@v2
       if: ${{ inputs.setup-node-pnpm == 'true' }}
       with:
-        version: 8
+        version: 9
     - name: "Set up Node"
       uses: actions/setup-node@v4
       if: ${{ inputs.setup-node-pnpm == 'true' }}
