@@ -36,7 +36,7 @@ while [[ $? -ne 0 ]]; do
 done
 
 # If the plugin is already active then return early
-cli wp plugin is-active woo-blaze > /dev/null
+cli wp plugin is-active blaze-ads > /dev/null
 if [[ $? -eq 0 ]]; then
 	set -e
 	echo
@@ -118,7 +118,7 @@ echo "Importing some sample data..."
 cli wp import wp-content/plugins/woocommerce/sample-data/sample_products.xml --authors=skip
 
 echo "Activating the Woo Blaze plugin..."
-cli wp plugin activate woo-blaze
+cli wp plugin activate blaze-ads
 
 echo
 echo "SUCCESS! You should now be able to access http://${SITE_URL}/wp-admin/"

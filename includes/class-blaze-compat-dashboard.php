@@ -75,8 +75,8 @@ class Blaze_Compat_Dashboard {
 				class="hide-if-js">
 				<?php
 				esc_html_e(
-					'Your Woo Blaze dashboard requires JavaScript to function properly.',
-					'woo-blaze'
+					'Your Blaze for WooCommerce dashboard requires JavaScript to function properly.',
+					'blaze-ads'
 				);
 				?>
 			</div>
@@ -86,7 +86,7 @@ class Blaze_Compat_Dashboard {
 					width="32"
 					height="32"
 					style="position: absolute; left: 50%; top: 50%;"
-					alt=<?php echo esc_attr( __( 'Loading', 'woo-blaze' ) ); ?>
+					alt=<?php echo esc_attr( __( 'Loading', 'blaze-ads' ) ); ?>
 					src="//en.wordpress.com/i/loading/loading-64.gif"
 				/>
 			</div>
@@ -145,7 +145,7 @@ class Blaze_Compat_Dashboard {
 				array(
 					'enqueue'    => true,
 					'in_footer'  => true,
-					'textdomain' => 'woo-blaze',
+					'textdomain' => 'blaze-ads',
 				)
 			);
 		} else {

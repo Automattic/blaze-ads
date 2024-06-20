@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Woo Blaze
- * Plugin URI: https://github.com/automattic/woo-blaze
+ * Plugin Name: Blaze Ads
+ * Plugin URI: https://github.com/automattic/blaze-ads
  * Description: One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
  * Version: 0.1.1
  * Author: Automattic
  * Author URI: https://automattic.com/
- * Text Domain: woo-blaze
+ * Text Domain: blaze-ads
  * Domain Path: /languages
  * WC requires at least: 7.6
  * Requires at least: 6.3
@@ -37,15 +37,15 @@ function wooblaze_jetpack_init() {
 	$jetpack_config->ensure(
 		'connection',
 		array(
-			'slug' => 'woo-blaze',
-			'name' => 'Woo Blaze',
+			'slug' => 'blaze-ads',
+			'name' => 'Blaze for WooCommerce',
 		)
 	);
 
 	$jetpack_config->ensure(
 		'identity_crisis',
 		array(
-			'slug'          => 'woo-blaze',
+			'slug'          => 'blaze-ads',
 			'customContent' => wooblaze_jetpack_idc_custom_content(),
 			'logo'          => plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE ),
 			'admin_page'    => '/wp-admin/admin.php?page=wc-blaze',
@@ -63,36 +63,36 @@ function wooblaze_jetpack_init() {
  */
 function wooblaze_jetpack_idc_custom_content(): array {
 	$custom_content = array(
-		'headerText'                => __( 'Safe Mode', 'woo-blaze' ),
-		'mainTitle'                 => __( 'Safe Mode activated', 'woo-blaze' ),
+		'headerText'                => __( 'Safe Mode', 'blaze-ads' ),
+		'mainTitle'                 => __( 'Safe Mode activated', 'blaze-ads' ),
 		'mainBodyText'              => sprintf(
 		/* translators: %s: Blaze for WooCommerce. */
 			__(
 				'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. <safeModeLink>Learn more</safeModeLink>',
-				'woo-blaze'
+				'blaze-ads'
 			),
 			'Blaze for WooCommerce'
 		),
 		'migratedTitle'             => sprintf(
 		/* translators: %s: Blaze for WooCommerce. */
-			__( '%s connection successfully transferred', 'woo-blaze' ),
+			__( '%s connection successfully transferred', 'blaze-ads' ),
 			'Blaze for WooCommerce'
 		),
 		'migratedBodyText'          => sprintf(
 		/* translators: %s: Blaze for WooCommerce. */
-			__( 'Safe Mode has been deactivated and %s is fully functional.', 'woo-blaze' ),
+			__( 'Safe Mode has been deactivated and %s is fully functional.', 'blaze-ads' ),
 			'Blaze for WooCommerce'
 		),
-		'migrateCardTitle'          => __( 'Transfer connection', 'woo-blaze' ),
-		'migrateButtonLabel'        => __( 'Transfer your connection', 'woo-blaze' ),
-		'startFreshCardTitle'       => __( 'Create a new connection', 'woo-blaze' ),
-		'startFreshButtonLabel'     => __( 'Create a new connection', 'woo-blaze' ),
-		'nonAdminTitle'             => __( 'Safe Mode activated', 'woo-blaze' ),
+		'migrateCardTitle'          => __( 'Transfer connection', 'blaze-ads' ),
+		'migrateButtonLabel'        => __( 'Transfer your connection', 'blaze-ads' ),
+		'startFreshCardTitle'       => __( 'Create a new connection', 'blaze-ads' ),
+		'startFreshButtonLabel'     => __( 'Create a new connection', 'blaze-ads' ),
+		'nonAdminTitle'             => __( 'Safe Mode activated', 'blaze-ads' ),
 		'nonAdminBodyText'          => sprintf(
 		/* translators: %s: Blaze for WooCommerce. */
 			__(
 				'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. A site adminstrator can resolve this issue. <safeModeLink>Learn more</safeModeLink>',
-				'woo-blaze'
+				'blaze-ads'
 			),
 			'Blaze for WooCommerce'
 		),
@@ -100,14 +100,14 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		'supportURL'                => 'https://jetpack.com/redirect/?source=jetpack-support-safe-mode',
 		'adminBarSafeModeLabel'     => sprintf(
 		/* translators: %s: Blaze for WooCommerce. */
-			__( '%s Safe Mode', 'woo-blaze' ),
+			__( '%s Safe Mode', 'blaze-ads' ),
 			'Blaze for WooCommerce'
 		),
 		'dynamicSiteUrlText'        => sprintf(
 		/* translators: %s: Blaze for WooCommerce. */
 			__(
 				"<strong>Notice:</strong> It appears that your 'wp-config.php' file might be using dynamic site URL values. Dynamic site URLs could cause %s to enter Safe Mode. <dynamicSiteUrlSupportLink>Learn how to set a static site URL.</dynamicSiteUrlSupportLink>",
-				'woo-blaze'
+				'blaze-ads'
 			),
 			'Blaze for WooCommerce'
 		),
@@ -133,7 +133,7 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
 			__(
 				'Transfer your %3$s connection from <hostname>%2$s</hostname> to this site <hostname>%1$s</hostname>. <hostname>%2$s</hostname> will be disconnected from %3$s.',
-				'woo-blaze'
+				'blaze-ads'
 			),
 			$current_url,
 			$wpcom_url,
@@ -144,7 +144,7 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
 			__(
 				'Create a new connection to %3$s for <hostname>%1$s</hostname>. Your <hostname>%2$s</hostname> connection will remain as is.',
-				'woo-blaze'
+				'blaze-ads'
 			),
 			$current_url,
 			$wpcom_url,

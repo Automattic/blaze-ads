@@ -13,7 +13,7 @@ runs:
       id: build_plugin
       shell: bash
       env:
-        RELEASE_FILENAME: "woo-blaze.zip"
+        RELEASE_FILENAME: "blaze-ads.zip"
       run: |
         pnpm build
         

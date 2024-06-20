@@ -33,7 +33,7 @@ class Jetpack_Connect_Handler {
 	 * Setup the connection manager.
 	 */
 	public function __construct() {
-		$this->connection_manager = new Manager( 'woo-blaze' );
+		$this->connection_manager = new Manager( 'blaze-ads' );
 	}
 
 
@@ -46,7 +46,7 @@ class Jetpack_Connect_Handler {
 			return;
 		}
 
-		if ( isset( $_GET['woo-blaze-connect'] ) && check_admin_referer( 'woo-blaze-connect' ) ) {
+		if ( isset( $_GET['blaze-ads-connect'] ) && check_admin_referer( 'blaze-ads-connect' ) ) {
 				$is_connected = false;
 			if ( ! $is_connected ) {
 				$this->redirect_to_onboarding_flow_page();
@@ -62,7 +62,7 @@ class Jetpack_Connect_Handler {
 	 *
 	 * @return void
 	 */
-	private function redirect_to_onboarding_flow_page( string $source = 'woo-blaze-connect-page' ) {
+	private function redirect_to_onboarding_flow_page( string $source = 'blaze-ads-connect-page' ) {
 		$site_url = parse_url( get_site_url(), PHP_URL_HOST );
 
 		$redirect_url = add_query_arg(
@@ -130,7 +130,7 @@ class Jetpack_Connect_Handler {
 		$calypso_env           = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ), true ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'production';
 		$connect_authorize_url = add_query_arg(
 			array(
-				'from'        => 'woo-blaze',
+				'from'        => 'blaze-ads',
 				'calypso_env' => $calypso_env,
 			),
 			$this->connection_manager->get_authorization_url( null, $redirect )

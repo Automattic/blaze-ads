@@ -144,9 +144,9 @@ class Blaze_Dependency_Service {
 			case self::WOOCORE_NOT_FOUND:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1$s: Woo Blaze, %2$s: WooCommerce */
-						__( '%1$s requires <a>%2$s</a> to be installed and active.', 'woo-blaze' ),
-						'Woo Blaze',
+					/* translators: %1$s: Blaze for WooCommerce, %2$s: WooCommerce */
+						__( '%1$s requires <a>%2$s</a> to be installed and active.', 'blaze-ads' ),
+						'Blaze for WooCommerce',
 						'WooCommerce'
 					),
 					array( 'a' => '<a href="https://wordpress.org/plugins/woocommerce">' )
@@ -159,14 +159,14 @@ class Blaze_Dependency_Service {
 							admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ),
 							'install-plugin_woocommerce'
 						);
-						$activate_text = __( 'Install WooCommerce', 'woo-blaze' );
+						$activate_text = __( 'Install WooCommerce', 'blaze-ads' );
 					} else {
 						// WooCommerce is installed, so it just needs to be enabled.
 						$activate_url  = wp_nonce_url(
 							admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php' ),
 							'activate-plugin_woocommerce/woocommerce.php'
 						);
-						$activate_text = __( 'Activate WooCommerce', 'woo-blaze' );
+						$activate_text = __( 'Activate WooCommerce', 'blaze-ads' );
 					}
 					$error_message .= ' <a href="' . $activate_url . '">' . $activate_text . '</a>';
 				}
@@ -175,12 +175,12 @@ class Blaze_Dependency_Service {
 			case self::WOOCORE_INCOMPATIBLE:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1: Woo Blaze, %2: current Woo Blaze version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
+					/* translators: %1: Blaze for WooCommerce, %2: current Woo Blaze version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
 						__(
 							'%1$s %2$s requires <strong>%3$s %4$s</strong> or greater to be installed (you are using %5$s). ',
-							'woo-blaze'
+							'blaze-ads'
 						),
-						'Woo Blaze',
+						'Blaze for WooCommerce',
 						WOOBLAZE_VERSION_NUMBER,
 						'WooCommerce',
 						$wc_version,
@@ -193,12 +193,12 @@ class Blaze_Dependency_Service {
 			case self::WP_INCOMPATIBLE:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1: Woo Blaze, %2: required WP version number, %3: currently installed WP version number */
+					/* translators: %1: Blaze for WooCommerce, %2: required WP version number, %3: currently installed WP version number */
 						__(
 							'%1$s requires <strong>WordPress %2$s</strong> or greater (you are using %3$s).',
-							'woo-blaze'
+							'blaze-ads'
 						),
-						'Woo Blaze',
+						'Blaze for WooCommerce',
 						$wp_version,
 						get_bloginfo( 'version' )
 					),
@@ -207,7 +207,7 @@ class Blaze_Dependency_Service {
 				if ( current_user_can( 'update_core' ) ) {
 					$error_message .= ' <a href="' . admin_url( 'update-core.php' ) . '">' . __(
 						'Update WordPress',
-						'woo-blaze'
+						'blaze-ads'
 					) . '</a>';
 				}
 				break;

@@ -1,4 +1,4 @@
-=== Woo Blaze - Fully Integrated Solution Built and Supported by Woo ===
+=== Blaze for WooCommerce - Fully Integrated Solution Built and Supported by Woo ===
 Contributors: woocommerce, automattic
 Tags: woo blaze, blaze, advertising
 Requires at least: 6.3

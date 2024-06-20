@@ -84,7 +84,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return __( 'Woo Blaze', 'woo-blaze' );
+		return __( 'Blaze for WooCommerce', 'blaze-ads' );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	public function get_description(): string {
 		return __(
 			'Drive sales, and elevate your products to center stage, effortlessly. Witness your business flourishing in the blink of an eye.',
-			'woo-blaze'
+			'blaze-ads'
 		);
 	}
 
@@ -286,7 +286,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 			'woo-blaze' => new MarketingCampaignType(
 				'woo-blaze',
 				$this,
-				'Woo Blaze',
+				'Blaze for WooCommerce',
 				$this->get_description(),
 				$this->get_campaign_create_url(),
 				$this->get_icon_url()

@@ -1,7 +1,7 @@
 {
-  "name": "automattic/woo-blaze",
-  "description": "Run AI experiments in WooCommerce.",
-  "homepage": "https://github.com/automattic/woo-blaze",
+  "name": "automattic/blaze-ads",
+  "description": "Blaze for WooCommerce.",
+  "homepage": "https://github.com/automattic/blaze-ads",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",
   "prefer-stable": true,
@@ -75,6 +75,6 @@
         "filename": "bin/class-woo-blaze-changelog-formatter.php"
       }
     },
-    "textdomain": "woo-blaze"
+    "textdomain": "blaze-ads"
   }
 }

@@ -15,7 +15,7 @@ const targetFolder = `${ releaseFolder }/${ pluginSlug }`;
 const filesToCopy = [
 	'includes',
 	'vendor',
-	'woo-blaze.php',
+	'blaze-ads.php',
 	'languages',
 	'changelog.txt',
 	'readme.txt',

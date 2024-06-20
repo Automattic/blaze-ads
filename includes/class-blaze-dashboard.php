@@ -57,8 +57,8 @@ class Blaze_Dashboard {
 
 		$page_suffix = add_submenu_page(
 			'woocommerce-marketing',
-			esc_attr__( 'Blaze for WooCommerce', 'woo-blaze' ),
-			__( 'Blaze for WooCommerce', 'woo-blaze' ),
+			esc_attr__( 'Blaze for WooCommerce', 'blaze-ads' ),
+			__( 'Blaze for WooCommerce', 'blaze-ads' ),
 			'manage_options',
 			$menu_slug,
 			array( $blaze_dashboard, 'render' )
@@ -165,10 +165,10 @@ class Blaze_Dashboard {
 	 */
 	public function get_connect_url( $wcblaze_connect_from = '1' ): string {
 		$url = add_query_arg(
-			array( 'woo-blaze-connect' => $wcblaze_connect_from ),
+			array( 'blaze-ads-connect' => $wcblaze_connect_from ),
 			admin_url( 'admin.php?page=wc-blaze' )
 		);
 
-		return html_entity_decode( wp_nonce_url( $url, 'woo-blaze-connect' ) );
+		return html_entity_decode( wp_nonce_url( $url, 'blaze-ads-connect' ) );
 	}
 }

@@ -69,7 +69,7 @@ class Woo_Blaze_Unit_Tests_Bootstrap {
 
 		require_once $this->plugins_dir . '/woocommerce/woocommerce.php';
 
-		require_once $this->plugin_dir . '/woo-blaze.php';
+		require_once $this->plugin_dir . '/blaze-ads.php';
 	}
 
 	/**

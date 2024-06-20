@@ -83,7 +83,7 @@ class Woo_Blaze {
 	public static function display_admin_notice( string $message, string $classes ) {
 		?>
 		<div class="notice wcpay-notice <?php echo esc_attr( $classes ); ?>">
-			<p><b>Woo Blaze</b></p>
+			<p><b>Blaze for WooCommerce</b></p>
 			<p><?php echo $message; // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 		</div>
 		<?php
