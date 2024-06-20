@@ -1,4 +1,8 @@
-*** Woo Blaze Changelog ***
+*** Blaze for WooCommerce Changelog ***
+
+= 0.2.0 - 2024-06-20 =
+* Update - Change plugin slug from woo-blaze to blaze-ads
+* Update - Update the version of the packages: automattic/jetpack-blaze, automattic/jetpack-sync
 
 = 0.1.1 - 2024-05-08 =
 * Fix - Fixes the marketing channel setup check
