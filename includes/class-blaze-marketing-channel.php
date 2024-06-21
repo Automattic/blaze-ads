@@ -29,7 +29,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 *
 	 * @var array
 	 */
-	protected array $campaign_types;
+	protected $campaign_types;
 
 	/**
 	 * MarketingChannelRegistrar constructor.
