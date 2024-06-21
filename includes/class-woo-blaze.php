@@ -84,7 +84,7 @@ class Woo_Blaze {
 		?>
 		<div class="notice wcpay-notice <?php echo esc_attr( $classes ); ?>">
 			<p><b>Blaze for WooCommerce</b></p>
-			<p><?php echo $message; // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+			<p><?php echo wp_kses( $message ); ?></p>
 		</div>
 		<?php
 	}
