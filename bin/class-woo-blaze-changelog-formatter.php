@@ -78,11 +78,11 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 
 		// Entries make up the rest of the document.
 		$entries       = array();
-		$entry_pattern = '/^=\s+([^\n=]+)\s+=(((?!^=).)+)/ms';
+		$entry_pattern = '/^\d{4}-\d{2}-\d{2}\s+[^\n]+\s+(((?!^\d{4}).)+)/ms';
 		preg_match_all( $entry_pattern, $changelog, $version_sections );
 
 		foreach ( $version_sections[0] as $section ) {
-			$heading_pattern = '/^= +(\[?[^] ]+\]?) - (.+?) =/';
+			$heading_pattern = '^(\d{4}-\d{2}-\d{2}) - version ([\d\.]+)$';
 			// Parse the heading and create a ChangelogEntry for it.
 			preg_match( $heading_pattern, $section, $heading );
 
@@ -169,7 +169,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 			$timestamp    = $entry->getTimestamp();
 			$release_date = null === $timestamp ? $this->get_unreleased_date() : $timestamp->format( $this->date_format );
 
-			$ret .= '= ' . $entry->getVersion() . ' ' . $this->separator . ' ' . $release_date . " =\n";
+			$ret .= $release_date . ' ' . $this->separator . ' version ' . $entry->getVersion() . "\n";
 
 			$prologue = trim( $entry->getPrologue() );
 			if ( '' !== $prologue ) {
