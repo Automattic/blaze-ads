@@ -128,15 +128,13 @@ class Blaze_Compat_Dashboard_Config_Data {
 	 * Page base for the Calypso admin page.
 	 */
 	protected function get_admin_path(): string {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( ! isset( $_SERVER['PHP_SELF'] ) || ! isset( $_SERVER['QUERY_STRING'] ) ) {
 			$parsed = wp_parse_url( admin_url( 'tools.php?page=advertising' ) );
 
 			return $parsed['path'] . '?' . $parsed['query'];
 		}
 		// We do this because page.js requires the exact page base to be set otherwise it will not work properly.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		return wp_unslash( $_SERVER['PHP_SELF'] ) . '?' . wp_unslash( $_SERVER['QUERY_STRING'] );
+		return esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) . '?' . wp_unslash( $_SERVER['QUERY_STRING'] ) );
 	}
 
 	/**

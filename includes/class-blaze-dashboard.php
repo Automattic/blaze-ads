@@ -169,6 +169,6 @@ class Blaze_Dashboard {
 			admin_url( 'admin.php?page=wc-blaze' )
 		);
 
-		return html_entity_decode( wp_nonce_url( $url, 'blaze-ads-connect' ) );
+		return html_entity_decode( wp_nonce_url( $url, 'blaze-ads-connect' ), ENT_COMPAT );
 	}
 }
