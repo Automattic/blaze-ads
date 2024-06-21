@@ -1,5 +1,8 @@
 *** Blaze for WooCommerce Changelog ***
 
+= 0.2.1 - 2024-06-21 =
+* Fix - Fix linter issues
+
 = 0.2.0 - 2024-06-20 =
 * Update - Change plugin slug from woo-blaze to blaze-ads
 * Update - Update the version of the packages: automattic/jetpack-blaze, automattic/jetpack-sync
