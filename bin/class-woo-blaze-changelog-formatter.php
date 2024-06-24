@@ -82,7 +82,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 		preg_match_all( $entry_pattern, $changelog, $version_sections );
 
 		foreach ( $version_sections[0] as $section ) {
-			$heading_pattern = '^(\d{4}-\d{2}-\d{2}) - version ([\d\.]+)$';
+			$heading_pattern = '/^(\d{4}-\d{2}-\d{2}) - version ([\d\.]+)$/ms';
 			// Parse the heading and create a ChangelogEntry for it.
 			preg_match( $heading_pattern, $section, $heading );
 
@@ -90,8 +90,8 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 				throw new InvalidArgumentException( "Invalid heading: $heading" );
 			}
 
-			$version   = $heading[1];
-			$timestamp = $heading[2];
+			$timestamp = $heading[1];
+			$version   = $heading[2];
 
 			try {
 				$timestamp = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) );
@@ -99,7 +99,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 				throw new InvalidArgumentException( "Heading has an invalid timestamp: $heading", 0, $ex );
 			}
 
-			if ( strtotime( $heading[2], 0 ) !== strtotime( $heading[2], 1000000000 ) ) {
+			if ( strtotime( $heading[1], 0 ) !== strtotime( $heading[1], 1000000000 ) ) {
 				throw new InvalidArgumentException( "Heading has a relative timestamp: $heading" );
 			}
 			$entry_timestamp = $timestamp;
