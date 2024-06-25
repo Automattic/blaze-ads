@@ -30,7 +30,8 @@ Install and activate the WooCommerce, Jetpack and Woo Blaze plugins, if you have
 == Changelog ==
 
 = 0.3.0 - 2024-06-25 =
-
+* Add - Add Woo plugin header
+* Update - Use WooCommerce style changelog
 
 = 0.2.1 - 2024-06-21 =
 * Fix - Fix linter issues
