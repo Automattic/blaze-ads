@@ -82,7 +82,7 @@ class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements Form
 		preg_match_all( $entry_pattern, $changelog, $version_sections );
 
 		foreach ( $version_sections[0] as $section ) {
-			$heading_pattern = '/^(\d{4}-\d{2}-\d{2}) - version ([\d\.]+)$/';
+			$heading_pattern = '/^(\d{4}-\d{2}-\d{2}) - version ([\d.]+)$/m';
 			// Parse the heading and create a ChangelogEntry for it.
 			preg_match( $heading_pattern, $section, $heading );
 
