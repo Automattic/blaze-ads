@@ -8,9 +8,11 @@
  * Author URI: https://automattic.com/
  * Text Domain: blaze-ads
  * Domain Path: /languages
- * WC requires at least: 7.6
  * Requires at least: 6.3
  * Requires PHP: 7.4
+ *
+ * Woo: 0:daf4de58883c030f033f07e61debf025
+ * WC requires at least: 7.6
  *
  * @package WooBlaze
  */
