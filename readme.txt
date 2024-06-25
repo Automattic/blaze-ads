@@ -4,7 +4,7 @@ Tags: woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 
 One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
 
@@ -28,6 +28,9 @@ Blaze is an exclusive ad platform that allows you to grow your audience by promo
 Install and activate the WooCommerce, Jetpack and Woo Blaze plugins, if you haven't already done so, then go to "Marketing->Blaze for WooCommerce" in the WordPress admin menu and follow the instructions there.
 
 == Changelog ==
+
+= 0.3.0 - 2024-06-25 =
+
 
 = 0.2.1 - 2024-06-21 =
 * Fix - Fix linter issues

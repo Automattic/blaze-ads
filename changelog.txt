@@ -1,5 +1,9 @@
 *** Blaze for WooCommerce Changelog ***
 
+2024-06-25 - version 0.3.0
+* Add - Add Woo plugin header
+* Update - Use WooCommerce style changelog
+
 2024-06-21 - version 0.2.1
 * Fix - Fix linter issues
 
