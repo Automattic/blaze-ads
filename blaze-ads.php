@@ -11,7 +11,7 @@
  * Requires at least: 6.3
  * Requires PHP: 7.4
  *
- * Woo: 0:daf4de58883c030f033f07e61debf025
+ * Woo: 18734003887414:08f3f90f85674fe745c067214c433162
  * WC requires at least: 7.6
  *
  * @package WooBlaze
