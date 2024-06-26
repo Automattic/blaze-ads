@@ -51,7 +51,7 @@ runs:
         RELEASE_DATE: ${{ inputs.release-date }}
       run: |
         if ${{ env.ACTION_TYPE == 'amend-version' }}; then
-          sed -i "s/^= $CURRENT_VERSION - .* =$/= $RELEASE_VERSION - $RELEASE_DATE =/" changelog.txt
+          sed -i "s/^.* - version $CURRENT_VERSION$/$RELEASE_DATE - version $RELEASE_VERSION/" changelog.txt
         else
           # Install this dev package globally to gather changelog entries while not including it into the release package
           composer global require automattic/jetpack-changelogger:^3.3.0
@@ -67,7 +67,7 @@ runs:
           ~/.composer/vendor/bin/changelogger write --use-version="$RELEASE_VERSION" --release-date="$RELEASE_DATE" $CHANGELOG_FLAG --no-interaction --yes
         fi
         
-        CHANGELOG=$(awk '/^= / { if (p) { exit }; p=1; next } p && NF' changelog.txt)
+        CHANGELOG=$(awk '/^[0-9]{4}-[0-9]{2}-[0-9]{2}/ { if (p) { exit }; p=1; next } p && NF' changelog.txt)
         
         # Escape backslash, new line and ampersand characters. The order is important.
         CHANGELOG=${CHANGELOG//\\/\\\\}
