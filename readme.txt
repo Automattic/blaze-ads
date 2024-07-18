@@ -21,7 +21,7 @@ Blaze is an exclusive ad platform that allows you to grow your audience by promo
 = Requirements =
 
 * WordPress 6.3 or newer.
-* WooCommerce 7.6 or newer.
+* WooCommerce 7.6 or newer. (optional)
 * Jetpack latest version is recommended.
 * PHP 7.4 or newer is recommended.
 
