@@ -49,14 +49,15 @@ class Blaze_Dashboard {
 	 */
 	public function add_admin_menu(): void {
 		$menu_slug = 'wc-blaze';
+		$is_woo    = Blaze_Dependency_Service::is_woo_core_active();
 
-		$blaze_dashboard = new Jetpack_Blaze_Dashboard( 'admin.php', $menu_slug, 'woo-blaze' );
+		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $is_woo ? 'admin.php' : 'tools.php', $menu_slug, 'woo-blaze' );
 		// The is_woo_blaze_active method was removed when the new compatibility functions were added in jetpack Blaze.
 		if ( method_exists( '\Automattic\Jetpack\Blaze', 'is_woo_blaze_active' ) ) {
 			$blaze_dashboard = new Blaze_Compat_Dashboard();
 		}
 
-		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
+		if ( $is_woo ) {
 			$page_suffix = add_submenu_page(
 				'woocommerce-marketing',
 				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
