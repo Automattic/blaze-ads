@@ -13,6 +13,7 @@ use Automattic\Jetpack\Blaze as Jetpack_Blaze;
 use Automattic\Jetpack\Blaze\Dashboard as Jetpack_Blaze_Dashboard;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
+use WooBlaze\Blaze_Dependency_Service;
 
 /**
  * Its responsibility is to render the customized version of the Blaze Dashboard.
@@ -55,14 +56,26 @@ class Blaze_Dashboard {
 			$blaze_dashboard = new Blaze_Compat_Dashboard();
 		}
 
-		$page_suffix = add_submenu_page(
-			'woocommerce-marketing',
-			esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-			__( 'Blaze Ads', 'blaze-ads' ),
-			'manage_options',
-			$menu_slug,
-			array( $blaze_dashboard, 'render' )
-		);
+		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
+			$page_suffix = add_submenu_page(
+				'woocommerce-marketing',
+				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
+				__( 'Blaze Ads', 'blaze-ads' ),
+				'manage_options',
+				$menu_slug,
+				array( $blaze_dashboard, 'render' )
+			);
+		} else {
+			$page_suffix = add_submenu_page(
+				'tools.php',
+				esc_attr__( 'Advertising', 'blaze-ads' ),
+				__( 'Advertising', 'blaze-ads' ),
+				'manage_options',
+				$menu_slug,
+				array( $blaze_dashboard, 'render' ),
+				1
+			);
+		}
 		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
 	}
 

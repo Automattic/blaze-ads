@@ -60,7 +60,7 @@ class Blaze_Dependency_Service {
 	 *
 	 * @return bool
 	 */
-	public function is_woo_core_active(): bool {
+	public static function is_woo_core_active(): bool {
 		return class_exists( 'WooCommerce' );
 	}
 
@@ -73,7 +73,7 @@ class Blaze_Dependency_Service {
 	public function get_invalid_dependencies(): array {
 		$invalid_dependencies = array();
 
-		if ( $this->is_woo_core_active() && ! $this->is_woo_core_version_compatible() ) {
+		if ( self::is_woo_core_active() && ! $this->is_woo_core_version_compatible() ) {
 			$invalid_dependencies[] = self::WOOCORE_INCOMPATIBLE;
 		}
 
