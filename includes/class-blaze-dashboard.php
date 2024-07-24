@@ -27,6 +27,8 @@ class Blaze_Dashboard {
 	public function initialize() {
 		// Configures the additional information we need in the state.
 		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'woo_blaze_initial_config_data' ), 10, 1 );
+		// Allow disabling of the Jetpack Blaze menu for non-Woo sites, to avoid showing 2 advertising sub menus in the Tools menu.
+		add_filter( 'jetpack_blaze_enabled', array( $this, 'should_enable_jetpack_blaze_menu' ), 10, 1 );
 
 		// Add initial actions.
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 999 );
@@ -45,19 +47,37 @@ class Blaze_Dashboard {
 	}
 
 	/**
+	 * Checks if the Marketing Blaze submenu can be displayed on the site.
+	 *
+	 * @return bool
+	 */
+	public function can_display_marketing_menu() {
+		return Blaze_Dependency_Service::is_woo_core_active();
+	}
+
+	/**
+	 * Checks if the Jetpack Blaze menu should be enabled.
+	 *
+	 * @return bool
+	 */
+	public function should_enable_jetpack_blaze_menu() {
+		return $this->can_display_marketing_menu();
+	}
+
+	/**
 	 * Adds Blaze entry point to the menu under the Marketing section.
 	 */
 	public function add_admin_menu(): void {
-		$menu_slug = 'wc-blaze';
-		$is_woo    = Blaze_Dependency_Service::is_woo_core_active();
+		$menu_slug              = 'wc-blaze';
+		$display_marketing_menu = $this->can_display_marketing_menu();
 
-		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $is_woo ? 'admin.php' : 'tools.php', $menu_slug, 'woo-blaze' );
+		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $display_marketing_menu ? 'admin.php' : 'tools.php', $menu_slug, 'woo-blaze' );
 		// The is_woo_blaze_active method was removed when the new compatibility functions were added in jetpack Blaze.
 		if ( method_exists( '\Automattic\Jetpack\Blaze', 'is_woo_blaze_active' ) ) {
 			$blaze_dashboard = new Blaze_Compat_Dashboard();
 		}
 
-		if ( $is_woo ) {
+		if ( $display_marketing_menu ) {
 			$page_suffix = add_submenu_page(
 				'woocommerce-marketing',
 				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
