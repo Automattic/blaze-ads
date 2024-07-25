@@ -2,7 +2,7 @@ Blaze Ads - Turn your content into an ad with just a few clicks!
 
 Blaze Ads is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
+the Free Software Foundation, either version 3 of the License, or
 any later version.
 
 Blaze Ads is distributed in the hope that it will be useful,
@@ -11,7 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Blaze Ads. If not, see {URI to Plugin License}.
+along with Blaze Ads. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
