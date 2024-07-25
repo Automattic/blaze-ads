@@ -1,4 +1,4 @@
-=== Blaze for WooCommerce - Fully Integrated Solution Built and Supported by Woo ===
+=== Blaze Ads - Fully Integrated Ads Solution ===
 Contributors: woocommerce, automattic
 Tags: woo blaze, blaze, advertising
 Requires at least: 6.3
@@ -27,7 +27,7 @@ Blaze is an exclusive ad platform that allows you to grow your audience by promo
 
 == Installation ==
 
-Install and activate the WooCommerce, Jetpack and Woo Blaze plugins, if you haven't already done so, then go to "Marketing->Blaze for WooCommerce" in the WordPress admin menu and follow the instructions there.
+Install and activate the WooCommerce, Jetpack and Blaze Ads plugins, if you haven't already done so, then go to "Marketing->Blaze Ads" in the WordPress admin menu and follow the instructions there.
 
 == Changelog ==
 
