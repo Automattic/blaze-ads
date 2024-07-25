@@ -1,6 +1,6 @@
 {
   "name": "automattic/blaze-ads",
-  "description": "Blaze for WooCommerce.",
+  "description": "Blaze Ads.",
   "homepage": "https://github.com/automattic/blaze-ads",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",

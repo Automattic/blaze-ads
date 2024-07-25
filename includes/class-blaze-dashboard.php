@@ -57,8 +57,8 @@ class Blaze_Dashboard {
 
 		$page_suffix = add_submenu_page(
 			'woocommerce-marketing',
-			esc_attr__( 'Blaze for WooCommerce', 'blaze-ads' ),
-			__( 'Blaze for WooCommerce', 'blaze-ads' ),
+			esc_attr__( 'Blaze Ads', 'blaze-ads' ),
+			__( 'Blaze Ads', 'blaze-ads' ),
 			'manage_options',
 			$menu_slug,
 			array( $blaze_dashboard, 'render' )

@@ -175,12 +175,12 @@ class Blaze_Dependency_Service {
 			case self::WOOCORE_INCOMPATIBLE:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1: Blaze for WooCommerce, %2: current Woo Blaze version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
+					/* translators: %1: Blaze Ads, %2: current Woo Blaze version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
 						__(
 							'%1$s %2$s requires <strong>%3$s %4$s</strong> or greater to be installed (you are using %5$s). ',
 							'blaze-ads'
 						),
-						'Blaze for WooCommerce',
+						'Blaze Ads',
 						WOOBLAZE_VERSION_NUMBER,
 						'WooCommerce',
 						$wc_version,
@@ -193,12 +193,12 @@ class Blaze_Dependency_Service {
 			case self::WP_INCOMPATIBLE:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1: Blaze for WooCommerce, %2: required WP version number, %3: currently installed WP version number */
+					/* translators: %1: Blaze Ads, %2: required WP version number, %3: currently installed WP version number */
 						__(
 							'%1$s requires <strong>WordPress %2$s</strong> or greater (you are using %3$s).',
 							'blaze-ads'
 						),
-						'Blaze for WooCommerce',
+						'Blaze Ads',
 						$wp_version,
 						get_bloginfo( 'version' )
 					),
