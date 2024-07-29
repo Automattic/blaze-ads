@@ -103,8 +103,8 @@ class Blaze_Dashboard {
 		$setup_reason = $this->check_setup_plugin_status();
 
 		$data['is_blaze_plugin'] = true;
-		$data['is_woo_store'] = ( new Blaze_Dependency_Service() )->is_woo_core_active();
-		$data['need_setup']   = $setup_reason ?? false;
+		$data['is_woo_store']    = false;
+		$data['need_setup']      = $setup_reason ?? false;
 
 		if ( 'disconnected' === $setup_reason ) {
 			$data['connect_url'] = $this->get_connect_url();
