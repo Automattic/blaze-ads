@@ -4,7 +4,7 @@ Tags: woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,10 @@ Blaze is an exclusive ad platform that allows you to grow your audience by promo
 Install and activate the WooCommerce, Jetpack and Woo Blaze plugins, if you haven't already done so, then go to "Marketing->Blaze for WooCommerce" in the WordPress admin menu and follow the instructions there.
 
 == Changelog ==
+
+= 0.3.2 - 2024-07-29 =
+* Dev - Fix changelog entries missing when generating readme.txt
+* Dev - update license
 
 = 0.3.1 - 2024-06-25 =
 * Fix - Update Woo header value
