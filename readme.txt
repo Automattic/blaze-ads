@@ -5,6 +5,8 @@ Requires at least: 6.3
 Tested up to: 6.4
 Requires PHP: 7.4
 Stable tag: 0.3.1
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
 
