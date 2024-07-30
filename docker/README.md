@@ -56,3 +56,17 @@ services:
 ```
 I used port `9003` as an example.
 To apply the change, restart your containers using `pnpm docker:down && pnpm docker:up`
+
+## Troubleshooting
+
+These are some of the errors we have had, and we want to document them in case they resurface over time.
+
+### docker: Error response from daemon: unable to find user ...
+
+Our setup script (`blaze-ads/bin/docker-setup.sh`) uses the wordpress:cli tool to configure the development site.
+In the past, we used the user `xfs` to run the `wp cli` script, but something changed in the cli docker container, and had to update our script to start using `www-data` instead.
+
+The main problem was probably because of WP-CLI changing its base system to Alpine, and that system uses a different user.
+
+If this error happens in the future, check this page: https://hub.docker.com/_/wordpress#running-as-an-arbitrary-user
+There may be additional information there. As an alternative, you can remove the user from the wp client call inside the `docker-setup.sh` script. 
