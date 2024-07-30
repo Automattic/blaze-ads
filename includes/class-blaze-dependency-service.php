@@ -144,9 +144,9 @@ class Blaze_Dependency_Service {
 			case self::WOOCORE_NOT_FOUND:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1$s: Blaze for WooCommerce, %2$s: WooCommerce */
+					/* translators: %1$s: Blaze Ads, %2$s: WooCommerce */
 						__( '%1$s requires <a>%2$s</a> to be installed and active.', 'blaze-ads' ),
-						'Blaze for WooCommerce',
+						'Blaze Ads',
 						'WooCommerce'
 					),
 					array( 'a' => '<a href="https://wordpress.org/plugins/woocommerce">' )
