@@ -1,5 +1,9 @@
 *** Blaze for WooCommerce Changelog ***
 
+2024-07-29 - version 0.3.2
+* Dev - Fix changelog entries missing when generating readme.txt
+* Dev - update license
+
 2024-06-25 - version 0.3.1
 * Fix - Update Woo header value
 
