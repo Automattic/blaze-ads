@@ -67,7 +67,7 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Handles the redirection from the Jetpack Blaze dashboard URL to the new Woo Blaze dashboard
+	 * Handles the redirection from the Jetpack Blaze dashboard URL to the new Blaze Ads dashboard
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Sets the initial config data needed by the Woo Blaze dashboard.
+	 * Sets the initial config data needed by the Blaze Ads dashboard.
 	 *
 	 * @param array $data Initial state for the Blaze Dashboard app.
 	 *

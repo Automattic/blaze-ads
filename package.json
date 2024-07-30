@@ -1,9 +1,9 @@
 {
 	"name": "blaze-ads",
-	"title": "Woo Blaze",
+	"title": "Blaze Ads",
 	"license": "GPL-2.0-or-later",
 	"version": "0.3.2",
-	"description": "Woo Blaze",
+	"description": "Blaze Ads",
 	"engines": {
 		"node": "^20.8.1",
 		"pnpm": "^9.3.0"

@@ -40,7 +40,7 @@ cli wp plugin is-active blaze-ads > /dev/null
 if [[ $? -eq 0 ]]; then
 	set -e
 	echo
-	echo "Woo Blaze is installed and active"
+	echo "Blaze Ads is installed and active"
 	echo "SUCCESS! You should now be able to access http://${SITE_URL}/wp-admin/"
 	echo "You can login by using the username and password both as 'admin'"
 	exit 0
@@ -59,7 +59,7 @@ echo "Setting up WordPress..."
 cli wp core install \
 	--path=/var/www/html \
 	--url=$SITE_URL \
-	--title=${SITE_TITLE-"Woo Blaze Dev"} \
+	--title=${SITE_TITLE-"Blaze Ads Dev"} \
 	--admin_name=${WP_ADMIN-admin} \
 	--admin_password=${WP_ADMIN_PASSWORD-admin} \
 	--admin_email=${WP_ADMIN_EMAIL-admin@example.com} \
@@ -117,7 +117,7 @@ cli wp plugin install wordpress-importer --activate
 echo "Importing some sample data..."
 cli wp import wp-content/plugins/woocommerce/sample-data/sample_products.xml --authors=skip
 
-echo "Activating the Woo Blaze plugin..."
+echo "Activating the Blaze Ads plugin..."
 cli wp plugin activate blaze-ads
 
 echo

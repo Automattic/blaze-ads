@@ -175,7 +175,7 @@ class Blaze_Dependency_Service {
 			case self::WOOCORE_INCOMPATIBLE:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
-					/* translators: %1: Blaze Ads, %2: current Woo Blaze version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
+					/* translators: %1: Blaze Ads, %2: current Blaze Ads version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
 						__(
 							'%1$s %2$s requires <strong>%3$s %4$s</strong> or greater to be installed (you are using %5$s). ',
 							'blaze-ads'

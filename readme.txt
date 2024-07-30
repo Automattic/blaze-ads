@@ -1,6 +1,6 @@
 === Blaze Ads - Fully Integrated Ads Solution ===
 Contributors: woocommerce, automattic
-Tags: woo blaze, blaze, advertising
+Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.4
 Requires PHP: 7.4

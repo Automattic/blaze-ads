@@ -21,7 +21,7 @@ docker-compose exec -u www-data wordpress \
 if $WATCH_FLAG; then
 	echo "Running the tests on watch mode..."
 
-	# Change directory to Woo Blaze' root in order to have access to .phpunit-watcher.yml
+	# Change directory to Blaze Ads' root in order to have access to .phpunit-watcher.yml
 	docker-compose exec -u www-data wordpress bash -c \
 		"cd /var/www/html/wp-content/plugins/blaze-ads && \
 		php -d xdebug.remote_autostart=on \
