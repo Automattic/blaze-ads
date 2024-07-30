@@ -54,7 +54,8 @@ class Blaze_Compat_Dashboard_Config_Data {
 			'nonce'                    => wp_create_nonce( 'wp_rest' ),
 			'site_name'                => \get_bloginfo( 'name' ),
 			'sections'                 => array(),
-			'is_woo_store'             => true, // Flag used to differentiate a WooCommerce installation.
+			'is_blaze_plugin'          => true,
+			'is_woo_store'             => ( new Blaze_Dependency_Service() )->is_woo_core_active(),
 			'need_setup'               => ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ?? false,
 			// Features are inlined in Calypso Blaze app (wp-calypso/apps/blaze-dashboard).
 			'features'                 => array(),
