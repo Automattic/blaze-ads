@@ -43,13 +43,14 @@ class Blaze_Dashboard_Test extends WB_Unit_Test_Case {
 	}
 
 	/**
-	 * Ensure the correct config params are added for the Woo Blaze Dashboard.
+	 * Ensure the correct config params are added for the Blaze Dashboard.
 	 *
 	 * @covers WooBlaze\Blaze_Dashboard::woo_blaze_initial_config_data
 	 */
-	public function test_woo_specific_config_state_is_added() {
+	public function test_plugin_specific_config_state_is_added() {
 		$data = ( new Blaze_Dashboard() )->woo_blaze_initial_config_data( array() );
 		$this->assertNotEmpty( $data );
+		$this->assertTrue( $data['is_blaze_plugin'] );
 		$this->assertTrue( $data['is_woo_store'] );
 		$this->assertNotEmpty( $data['need_setup'] );
 	}
