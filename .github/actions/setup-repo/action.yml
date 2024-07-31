@@ -1,4 +1,4 @@
-name: "Setup Woo Blaze repository"
+name: "Setup Blaze Ads repository"
 description: "Handles the setup of the repository (e.g. Node, PNPM, PHP)."
 
 inputs:

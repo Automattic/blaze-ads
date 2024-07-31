@@ -57,8 +57,8 @@ class Blaze_Dashboard {
 
 		$page_suffix = add_submenu_page(
 			'woocommerce-marketing',
-			esc_attr__( 'Blaze for WooCommerce', 'blaze-ads' ),
-			__( 'Blaze for WooCommerce', 'blaze-ads' ),
+			esc_attr__( 'Blaze Ads', 'blaze-ads' ),
+			__( 'Blaze Ads', 'blaze-ads' ),
 			'manage_options',
 			$menu_slug,
 			array( $blaze_dashboard, 'render' )
@@ -67,7 +67,7 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Handles the redirection from the Jetpack Blaze dashboard URL to the new Woo Blaze dashboard
+	 * Handles the redirection from the Jetpack Blaze dashboard URL to the new Blaze Ads dashboard
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Sets the initial config data needed by the Woo Blaze dashboard.
+	 * Sets the initial config data needed by the Blaze Ads dashboard.
 	 *
 	 * @param array $data Initial state for the Blaze Dashboard app.
 	 *

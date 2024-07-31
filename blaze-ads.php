@@ -40,7 +40,7 @@ function wooblaze_jetpack_init() {
 		'connection',
 		array(
 			'slug' => 'blaze-ads',
-			'name' => 'Blaze for WooCommerce',
+			'name' => 'Blaze Ads',
 		)
 	);
 
@@ -68,22 +68,22 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		'headerText'                => __( 'Safe Mode', 'blaze-ads' ),
 		'mainTitle'                 => __( 'Safe Mode activated', 'blaze-ads' ),
 		'mainBodyText'              => sprintf(
-		/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze Ads. */
 			__(
 				'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. <safeModeLink>Learn more</safeModeLink>',
 				'blaze-ads'
 			),
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		),
 		'migratedTitle'             => sprintf(
-		/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze Ads. */
 			__( '%s connection successfully transferred', 'blaze-ads' ),
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		),
 		'migratedBodyText'          => sprintf(
-		/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze Ads. */
 			__( 'Safe Mode has been deactivated and %s is fully functional.', 'blaze-ads' ),
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		),
 		'migrateCardTitle'          => __( 'Transfer connection', 'blaze-ads' ),
 		'migrateButtonLabel'        => __( 'Transfer your connection', 'blaze-ads' ),
@@ -91,27 +91,27 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		'startFreshButtonLabel'     => __( 'Create a new connection', 'blaze-ads' ),
 		'nonAdminTitle'             => __( 'Safe Mode activated', 'blaze-ads' ),
 		'nonAdminBodyText'          => sprintf(
-		/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze Ads. */
 			__(
 				'We’ve detected that you have duplicate sites connected to %s. When Safe Mode is active, some features like campaign creation may not be available until you’ve resolved this issue below. Safe Mode is most frequently activated when you’re transferring your site from one domain to another, or creating a staging site for testing. A site adminstrator can resolve this issue. <safeModeLink>Learn more</safeModeLink>',
 				'blaze-ads'
 			),
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		),
 		// When doc is ready, set support URL similar to 'https://woocommerce.com/document/woopayments/testing-and-troubleshooting/safe-mode/'.
 		'supportURL'                => 'https://jetpack.com/redirect/?source=jetpack-support-safe-mode',
 		'adminBarSafeModeLabel'     => sprintf(
-		/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze Ads. */
 			__( '%s Safe Mode', 'blaze-ads' ),
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		),
 		'dynamicSiteUrlText'        => sprintf(
-		/* translators: %s: Blaze for WooCommerce. */
+		/* translators: %s: Blaze Ads. */
 			__(
 				"<strong>Notice:</strong> It appears that your 'wp-config.php' file might be using dynamic site URL values. Dynamic site URLs could cause %s to enter Safe Mode. <dynamicSiteUrlSupportLink>Learn how to set a static site URL.</dynamicSiteUrlSupportLink>",
 				'blaze-ads'
 			),
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		),
 		// When doc is ready, set support URL similar to 'https://woocommerce.com/document/woopayments/testing-and-troubleshooting/safe-mode/#dynamic-site-urls'.
 		'dynamicSiteUrlSupportLink' => 'https://jetpack.com/redirect/?source=jetpack-idcscreen-dynamic-site-urls',
@@ -132,25 +132,25 @@ function wooblaze_jetpack_idc_custom_content(): array {
 		$wpcom_url = untrailingslashit( $urls['wpcom_url'] );
 
 		$custom_content['migrateCardBodyText'] = sprintf(
-		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
+		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze Ads. */
 			__(
 				'Transfer your %3$s connection from <hostname>%2$s</hostname> to this site <hostname>%1$s</hostname>. <hostname>%2$s</hostname> will be disconnected from %3$s.',
 				'blaze-ads'
 			),
 			$current_url,
 			$wpcom_url,
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		);
 
 		$custom_content['startFreshCardBodyText'] = sprintf(
-		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze for WooCommerce. */
+		/* translators: %1$s: The current site domain name. %2$s: The original site domain name. Please keep hostname tags in your translation so that they can be formatted properly. %3$s: Blaze Ads. */
 			__(
 				'Create a new connection to %3$s for <hostname>%1$s</hostname>. Your <hostname>%2$s</hostname> connection will remain as is.',
 				'blaze-ads'
 			),
 			$current_url,
 			$wpcom_url,
-			'Blaze for WooCommerce'
+			'Blaze Ads'
 		);
 	}
 

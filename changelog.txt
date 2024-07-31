@@ -1,4 +1,4 @@
-*** Blaze for WooCommerce Changelog ***
+*** Blaze Ads Changelog ***
 
 2024-07-29 - version 0.3.2
 * Dev - Fix changelog entries missing when generating readme.txt

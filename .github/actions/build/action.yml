@@ -1,5 +1,5 @@
-name: "Build Woo Blaze"
-description: "Build Woo Blaze"
+name: "Build Blaze Ads"
+description: "Build Blaze Ads plugin zip file"
 
 outputs:
   release-filename:
