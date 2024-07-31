@@ -1,0 +1,5 @@
+Significance: patch
+Type: fix
+Comment: Fixes the setup script to use a different cli user
+
+

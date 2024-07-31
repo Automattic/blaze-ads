@@ -22,7 +22,7 @@ cli()
 	if [ -t 1 ] ; then
 		INTERACTIVE='-it'
 	fi
-	redirect_output docker run $INTERACTIVE --env-file default.env --rm --user xfs --volumes-from $WP_CONTAINER --network container:$WP_CONTAINER wordpress:cli "$@"
+	redirect_output docker run $INTERACTIVE --env-file default.env --rm --user www-data --volumes-from $WP_CONTAINER --network container:$WP_CONTAINER wordpress:cli "$@"
 }
 
 set +e
