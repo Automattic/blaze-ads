@@ -114,6 +114,17 @@ class Blaze_Dashboard {
 			$data['jetpack_error_message'] = $jetpack_error_message;
 		}
 
+		// Add additional options to the site's information.
+		if ( ! empty( $data['initial_state'] ) && ! empty( $data['initial_state']['sites'] ) && ! empty( $data['initial_state']['sites']['items'] ) ) {
+			foreach ( $data['initial_state']['sites']['items'] as $key => $site ) {
+				$options = $site['options'] ?? array();
+
+				$options['blaze_ads_version'] = WOOBLAZE_VERSION_NUMBER;
+
+				$data['initial_state']['sites']['items'][ $key ]['options'] = $options;
+			}
+		}
+
 		return $data;
 	}
 
