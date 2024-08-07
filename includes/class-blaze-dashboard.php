@@ -32,7 +32,7 @@ class Blaze_Dashboard {
 
 		// Add initial actions.
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 999 );
-		add_action( 'admin_init', array( $this, 'jetpack_dashboard_redirection' ), 999 );
+		add_action( 'admin_menu', array( $this, 'jetpack_dashboard_redirection' ), 999 );
 		add_action(
 			'admin_init',
 			array( $this, 'jetpack_connect_onboarding' ),
