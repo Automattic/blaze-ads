@@ -55,7 +55,7 @@ class Blaze_Compat_Dashboard_Config_Data {
 			'site_name'                => \get_bloginfo( 'name' ),
 			'sections'                 => array(),
 			'is_blaze_plugin'          => true,
-			'is_woo_store'             => ( new Blaze_Dependency_Service() )->is_woo_core_active(),
+			'is_woo_store'             => Blaze_Dependency_Service::is_woo_core_active(),
 			'need_setup'               => ! ( new Jetpack_Modules() )->is_active( 'blaze' ) ?? false,
 			// Features are inlined in Calypso Blaze app (wp-calypso/apps/blaze-dashboard).
 			'features'                 => array(),

@@ -21,13 +21,19 @@ Blaze is an exclusive ad platform that allows you to grow your audience by promo
 = Requirements =
 
 * WordPress 6.3 or newer.
-* WooCommerce 7.6 or newer.
+* WooCommerce 7.6 or newer. (optional)
 * Jetpack latest version is recommended.
 * PHP 7.4 or newer is recommended.
 
 == Installation ==
 
-Install and activate the WooCommerce, Jetpack and Blaze Ads plugins, if you haven't already done so, then go to "Marketing->Blaze Ads" in the WordPress admin menu and follow the instructions there.
+#### Using without WooCommerce
+
+Install Blaze Ads and Jetpack plugin (optional), then go to "Tools -> Advertising" in the WordPress admin menu and follow the instructions there.
+
+#### Using with WooCommerce
+
+Install and activate the WooCommerce, Blaze Ads plugins and Jetpack (optional), if you haven't already done so, then go to "Marketing->Blaze Ads" in the WordPress admin menu and follow the instructions there.
 
 == Changelog ==
 

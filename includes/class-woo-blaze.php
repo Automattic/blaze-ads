@@ -49,7 +49,9 @@ class Woo_Blaze {
 
 		// Initialize services.
 		( new Blaze_Dashboard() )->initialize();
-		( new Blaze_Marketing_Channel() )->initialize();
+		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
+			( new Blaze_Marketing_Channel() )->initialize();
+		}
 		( new Blaze_Conversions() )->initialize();
 		( new Blaze_Translations_Loader() )->initialize();
 	}

@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class Blaze_Dependency_Service {
 
-	const WOOCORE_NOT_FOUND    = 'woocore_disabled';
 	const WOOCORE_INCOMPATIBLE = 'woocore_outdated';
 	const WP_INCOMPATIBLE      = 'wp_outdated';
 
@@ -61,7 +60,7 @@ class Blaze_Dependency_Service {
 	 *
 	 * @return bool
 	 */
-	public function is_woo_core_active(): bool {
+	public static function is_woo_core_active(): bool {
 		return class_exists( 'WooCommerce' );
 	}
 
@@ -74,11 +73,7 @@ class Blaze_Dependency_Service {
 	public function get_invalid_dependencies(): array {
 		$invalid_dependencies = array();
 
-		if ( ! $this->is_woo_core_active() ) {
-			$invalid_dependencies[] = self::WOOCORE_NOT_FOUND;
-		}
-
-		if ( ! $this->is_woo_core_version_compatible() ) {
+		if ( self::is_woo_core_active() && ! $this->is_woo_core_version_compatible() ) {
 			$invalid_dependencies[] = self::WOOCORE_INCOMPATIBLE;
 		}
 
@@ -141,37 +136,6 @@ class Blaze_Dependency_Service {
 		$error_message = '';
 
 		switch ( $code ) {
-			case self::WOOCORE_NOT_FOUND:
-				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
-					sprintf(
-					/* translators: %1$s: Blaze Ads, %2$s: WooCommerce */
-						__( '%1$s requires <a>%2$s</a> to be installed and active.', 'blaze-ads' ),
-						'Blaze Ads',
-						'WooCommerce'
-					),
-					array( 'a' => '<a href="https://wordpress.org/plugins/woocommerce">' )
-				);
-
-				if ( current_user_can( 'install_plugins' ) ) {
-					if ( is_wp_error( validate_plugin( 'woocommerce/woocommerce.php' ) ) ) {
-						// WooCommerce is not installed.
-						$activate_url  = wp_nonce_url(
-							admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ),
-							'install-plugin_woocommerce'
-						);
-						$activate_text = __( 'Install WooCommerce', 'blaze-ads' );
-					} else {
-						// WooCommerce is installed, so it just needs to be enabled.
-						$activate_url  = wp_nonce_url(
-							admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php' ),
-							'activate-plugin_woocommerce/woocommerce.php'
-						);
-						$activate_text = __( 'Activate WooCommerce', 'blaze-ads' );
-					}
-					$error_message .= ' <a href="' . $activate_url . '">' . $activate_text . '</a>';
-				}
-
-				break;
 			case self::WOOCORE_INCOMPATIBLE:
 				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
 					sprintf(
