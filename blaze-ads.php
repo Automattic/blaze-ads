@@ -24,6 +24,7 @@ define( 'WOOBLAZE_PLUGIN_FILE', __FILE__ );
 define( 'WOOBLAZE_ABSPATH', __DIR__ . '/' );
 
 require_once __DIR__ . '/vendor/autoload_packages.php';
+use WooBlaze\Blaze_Dependency_Service;
 
 // The JetPack autoloader might not catch up yet when activating the plugin. If so, we'll stop here to avoid JetPack connection failures.
 $is_autoloading_ready = class_exists( Automattic\Jetpack\Connection\Rest_Authentication::class );
@@ -44,13 +45,14 @@ function wooblaze_jetpack_init() {
 		)
 	);
 
+	$is_woo_store = Blaze_Dependency_Service::is_woo_core_active();
 	$jetpack_config->ensure(
 		'identity_crisis',
 		array(
 			'slug'          => 'blaze-ads',
 			'customContent' => wooblaze_jetpack_idc_custom_content(),
-			'logo'          => plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE ),
-			'admin_page'    => '/wp-admin/admin.php?page=wc-blaze',
+			'logo'          => $is_woo_store ? plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE ) : null,
+			'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wc-blaze' : '/wp-admin/tools.php?page=wc-blaze',
 			'priority'      => 5,
 		)
 	);
