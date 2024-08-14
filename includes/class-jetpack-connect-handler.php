@@ -10,6 +10,7 @@ namespace WooBlaze;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Connection\Manager;
+use WooBlaze\Blaze_Dependency_Service;
 use WooBlaze\Exceptions\API_Exception;
 
 /**
@@ -127,12 +128,19 @@ class Jetpack_Connect_Handler {
 
 		// Redirect the user to the Jetpack user connection flow.
 		add_filter( 'jetpack_use_iframe_authorization_flow', '__return_false' );
-		$calypso_env           = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ), true ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'production';
+		$calypso_env = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ), true ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'production';
+
+		$query_args = array(
+			'calypso_env' => $calypso_env,
+		);
+
+		// Activates Woo-Dna Jetpack connect flow if running on Woo.
+		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
+			$query_args['from'] = 'blaze-ads';
+		}
+
 		$connect_authorize_url = add_query_arg(
-			array(
-				'from'        => 'blaze-ads',
-				'calypso_env' => $calypso_env,
-			),
+			$query_args,
 			$this->connection_manager->get_authorization_url( null, $redirect )
 		);
 		// Using wp_redirect intentionally because we're redirecting outside.
