@@ -23,8 +23,6 @@ define( 'WOOBLAZE_PLUGIN_FILE', __FILE__ );
 
 define( 'WOOBLAZE_ABSPATH', __DIR__ . '/' );
 
-define( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT', 'development' );
-
 require_once __DIR__ . '/vendor/autoload_packages.php';
 use WooBlaze\Blaze_Dependency_Service;
 
