@@ -66,9 +66,10 @@ class Jetpack_Connect_Handler {
 	private function redirect_to_onboarding_flow_page( string $source = 'blaze-ads-connect-page' ) {
 		$site_url = parse_url( get_site_url(), PHP_URL_HOST );
 
+		$admin_page = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wc-blaze' : 'tools.php?page=wc-blaze';
 		$redirect_url = add_query_arg(
 			array( 'source' => $source ),
-			admin_url( 'admin.php?page=wc-blaze' )
+			admin_url( $admin_page )
 		);
 
 		if ( ! $this->is_connected() ) {
