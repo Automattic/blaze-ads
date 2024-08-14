@@ -23,6 +23,8 @@ define( 'WOOBLAZE_PLUGIN_FILE', __FILE__ );
 
 define( 'WOOBLAZE_ABSPATH', __DIR__ . '/' );
 
+define( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT', 'development' );
+
 require_once __DIR__ . '/vendor/autoload_packages.php';
 use WooBlaze\Blaze_Dependency_Service;
 
@@ -46,15 +48,20 @@ function wooblaze_jetpack_init() {
 	);
 
 	$is_woo_store = Blaze_Dependency_Service::is_woo_core_active();
+	$idc_config   = array(
+		'slug'          => 'blaze-ads',
+		'customContent' => wooblaze_jetpack_idc_custom_content(),
+		'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wc-blaze' : '/wp-admin/tools.php?page=wc-blaze',
+		'priority'      => 5,
+	);
+
+	if ( $is_woo_store ) {
+		$idc_config['logo'] = plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE );
+	}
+
 	$jetpack_config->ensure(
 		'identity_crisis',
-		array(
-			'slug'          => 'blaze-ads',
-			'customContent' => wooblaze_jetpack_idc_custom_content(),
-			'logo'          => $is_woo_store ? plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE ) : null,
-			'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wc-blaze' : '/wp-admin/tools.php?page=wc-blaze',
-			'priority'      => 5,
-		)
+		$idc_config
 	);
 
 	$jetpack_config->ensure( 'sync' );
