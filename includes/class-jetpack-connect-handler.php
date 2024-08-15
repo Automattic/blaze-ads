@@ -10,6 +10,7 @@ namespace WooBlaze;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Connection\Manager;
+use WooBlaze\Blaze_Dependency_Service;
 use WooBlaze\Exceptions\API_Exception;
 
 /**
@@ -65,9 +66,10 @@ class Jetpack_Connect_Handler {
 	private function redirect_to_onboarding_flow_page( string $source = 'blaze-ads-connect-page' ) {
 		$site_url = parse_url( get_site_url(), PHP_URL_HOST );
 
+		$admin_page   = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wc-blaze' : 'tools.php?page=wc-blaze';
 		$redirect_url = add_query_arg(
 			array( 'source' => $source ),
-			admin_url( 'admin.php?page=wc-blaze' )
+			admin_url( $admin_page )
 		);
 
 		if ( ! $this->is_connected() ) {
@@ -127,11 +129,14 @@ class Jetpack_Connect_Handler {
 
 		// Redirect the user to the Jetpack user connection flow.
 		add_filter( 'jetpack_use_iframe_authorization_flow', '__return_false' );
-		$calypso_env           = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ), true ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'production';
+		$calypso_env  = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ), true ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'production';
+		$is_woo_store = Blaze_Dependency_Service::is_woo_core_active();
+
 		$connect_authorize_url = add_query_arg(
 			array(
-				'from'        => 'blaze-ads',
 				'calypso_env' => $calypso_env,
+				// the `from` key is not the same as the plugin slug, it's a key used by woo dna and some analytics on calypso.
+				'from'        => $is_woo_store ? 'blaze-ads-on-woo' : 'blaze-ads',
 			),
 			$this->connection_manager->get_authorization_url( null, $redirect )
 		);

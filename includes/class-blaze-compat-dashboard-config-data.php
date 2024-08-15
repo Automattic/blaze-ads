@@ -14,6 +14,8 @@ use Automattic\Jetpack\Constants;
 use Automattic\Jetpack\Current_Plan;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Jetpack_Options;
+use WooBlaze\Blaze_Dependency_Service;
+
 
 /**
  * Its responsibility is to generate the initial configuration needed to render the Dashboard.
