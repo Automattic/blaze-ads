@@ -210,9 +210,10 @@ class Blaze_Dashboard {
 	 * @return string Jetpack connect url.
 	 */
 	public function get_connect_url( $wcblaze_connect_from = '1' ): string {
-		$url = add_query_arg(
+		$admin_page = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wc-blaze' : 'tools.php?page=wc-blaze';
+		$url        = add_query_arg(
 			array( 'blaze-ads-connect' => $wcblaze_connect_from ),
-			admin_url( 'admin.php?page=wc-blaze' )
+			admin_url( $admin_page )
 		);
 
 		return html_entity_decode( wp_nonce_url( $url, 'blaze-ads-connect' ), ENT_COMPAT );
