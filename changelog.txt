@@ -1,5 +1,12 @@
 *** Blaze Ads Changelog ***
 
+2024-08-15 - version 0.4.0
+* Add - Adds additional flags to the dashboard config initial data
+* Add - Adds the plugin version as one of the props that we send to the dashboard app
+* Update - Extend plugin to support sites without woo
+* Update - Rename Blaze for WooCommerce to Blaze Ads
+* Update - update jetpack connect flow and idc for non-woo sites
+
 2024-07-29 - version 0.3.2
 * Dev - Fix changelog entries missing when generating readme.txt
 * Dev - update license
