@@ -2,7 +2,7 @@
 Contributors: woocommerce, automattic
 Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
-Tested up to: 6.4
+Tested up to: 6.6
 Requires PHP: 7.4
 Stable tag: 0.4.0
 License: GPLv2 or later

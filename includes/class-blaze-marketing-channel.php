@@ -198,7 +198,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_site_hostname(): string {
-		return parse_url( get_site_url(), PHP_URL_HOST );
+		return wp_parse_url( get_site_url(), PHP_URL_HOST );
 	}
 
 	/**
@@ -210,7 +210,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 */
 	public function get_marketing_campaigns( $campaigns ): array {
 		$marketing_campaigns = array();
-		$site_url            = parse_url( get_site_url(), PHP_URL_HOST );
+		$site_url            = wp_parse_url( get_site_url(), PHP_URL_HOST );
 
 		foreach ( $campaigns as $campaign ) {
 			$marketing_campaigns[] = new MarketingCampaign(

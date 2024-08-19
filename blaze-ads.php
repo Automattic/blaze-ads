@@ -10,6 +10,8 @@
  * Domain Path: /languages
  * Requires at least: 6.3
  * Requires PHP: 7.4
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * Woo: 18734003887414:08f3f90f85674fe745c067214c433162
  * WC requires at least: 7.6
