@@ -1,5 +1,8 @@
 *** Blaze Ads Changelog ***
 
+2024-08-19 - version 0.4.1
+* Dev - fix concerns reported by running Plugin Check (PCP)
+
 2024-08-15 - version 0.4.0
 * Add - Adds additional flags to the dashboard config initial data
 * Add - Adds the plugin version as one of the props that we send to the dashboard app

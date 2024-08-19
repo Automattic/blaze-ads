@@ -3,7 +3,7 @@
  * Plugin Name: Blaze Ads
  * Plugin URI: https://github.com/automattic/blaze-ads
  * Description: One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
- * Version: 0.4.0
+ * Version: 0.4.1
  * Author: Automattic
  * Author URI: https://automattic.com/
  * Text Domain: blaze-ads
