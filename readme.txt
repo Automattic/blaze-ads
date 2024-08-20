@@ -4,7 +4,7 @@ Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Install Blaze Ads and Jetpack plugin (optional), then go to "Tools -> Advertisin
 Install and activate the WooCommerce, Blaze Ads plugins and Jetpack (optional), if you haven't already done so, then go to "Marketing->Blaze Ads" in the WordPress admin menu and follow the instructions there.
 
 == Changelog ==
+
+= 0.4.1 - 2024-08-19 =
+* Dev - fix concerns reported by running Plugin Check (PCP)
 
 = 0.4.0 - 2024-08-15 =
 * Add - Adds additional flags to the dashboard config initial data

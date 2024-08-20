@@ -2,7 +2,7 @@
 	"name": "blaze-ads",
 	"title": "Blaze Ads",
 	"license": "GPL-2.0-or-later",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"description": "Blaze Ads",
 	"engines": {
 		"node": "^20.8.1",
