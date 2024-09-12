@@ -1,0 +1,4 @@
+Significance: patch
+Type: dev
+
+Adds composer.json to the release build

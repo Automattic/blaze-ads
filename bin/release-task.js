@@ -19,6 +19,8 @@ const filesToCopy = [
 	'languages',
 	'changelog.txt',
 	'readme.txt',
+	'composer.json',
+	'composer.lock',
 ];
 
 // start with a clean release folder
