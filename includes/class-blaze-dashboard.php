@@ -13,7 +13,6 @@ use Automattic\Jetpack\Blaze as Jetpack_Blaze;
 use Automattic\Jetpack\Blaze\Dashboard as Jetpack_Blaze_Dashboard;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
-use WooBlaze\Blaze_Dependency_Service;
 
 /**
  * Its responsibility is to render the customized version of the Blaze Dashboard.
@@ -72,10 +71,6 @@ class Blaze_Dashboard {
 		$display_marketing_menu = $this->can_display_marketing_menu();
 
 		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $display_marketing_menu ? 'admin.php' : 'tools.php', $menu_slug, 'woo-blaze' );
-		// The is_woo_blaze_active method was removed when the new compatibility functions were added in jetpack Blaze.
-		if ( method_exists( '\Automattic\Jetpack\Blaze', 'is_woo_blaze_active' ) ) {
-			$blaze_dashboard = new Blaze_Compat_Dashboard();
-		}
 
 		if ( $display_marketing_menu ) {
 			$page_suffix = add_submenu_page(
