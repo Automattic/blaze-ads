@@ -1,10 +1,10 @@
 # Blaze Ads
 
-A WooCommerce plugin that allow you to promote your store and products with a single-click advertising campaigns.
+A WordPress plugin that allow you to promote your site with a single-click advertising campaigns.
 
 ## Dependencies
-* WooCommerce
-* Jetpack
+* WooCommerce (optional)
+* Jetpack (optional)
 
 ## Development
 
@@ -26,16 +26,15 @@ pnpm install
 
 For a local docker setup, you can see instructions [here](docker/README.md).
 
-You can also use any WordPress environment tool. If you follow that path, you will need to install/activate these plugins:
-* WooCommerce
-* Jetpack
-
-To generate this plugin's zip file, run this command:
+You can also use any WordPress environment tool. To generate this plugin's zip file, run this command:
 ```
 pnpm build
 ```
 
 The release file will be located at the root of the repo with the name `blaze-ads.zip`. 
+
+Regardless of the path you choose for your environment, your installation will need a public tunnel.
+Blaze Ads internally uses a Jetpack connection, and Jetpack requires your site to be public to function correctly.
 
 ## Debugging
 
