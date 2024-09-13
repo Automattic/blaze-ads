@@ -2,10 +2,10 @@
 /**
  * Class Blaze_Dependency_Service
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,7 +29,7 @@ class Blaze_Dependency_Service {
 	}
 
 	/**
-	 * Checks if all the dependencies needed to run Woo Blaze are present
+	 * Checks if all the dependencies needed to run BlazeAds are present
 	 *
 	 * @return bool True if all required dependencies are met.
 	 */
@@ -51,7 +51,7 @@ class Blaze_Dependency_Service {
 		$invalid_dependencies = $this->get_invalid_dependencies();
 
 		if ( ! empty( $invalid_dependencies ) ) {
-			\Woo_Blaze::display_admin_error( $this->get_notice_for_invalid_dependency( $invalid_dependencies[0] ) );
+			\Blaze_Ads::display_admin_error( $this->get_notice_for_invalid_dependency( $invalid_dependencies[0] ) );
 		}
 	}
 
@@ -101,20 +101,20 @@ class Blaze_Dependency_Service {
 	 * @return bool
 	 */
 	public function is_woo_core_version_compatible(): bool {
-		$plugin_headers = \Woo_Blaze::get_plugin_headers();
+		$plugin_headers = \Blaze_Ads::get_plugin_headers();
 		$wc_version     = $plugin_headers['WCRequires'];
 
-		// Check if the version of WooCommerce is compatible with Woo Blaze.
-		return ( defined( 'WOOBLAZE_WC_VERSION' ) && version_compare( WOOBLAZE_WC_VERSION, $wc_version, '>=' ) );
+		// Check if the version of WooCommerce is compatible with Blaze Ads.
+		return ( defined( 'BLAZEADS_WC_VERSION' ) && version_compare( BLAZEADS_WC_VERSION, $wc_version, '>=' ) );
 	}
 
 	/**
-	 * Checks if the version of WordPress is compatible with Woo Blaze.
+	 * Checks if the version of WordPress is compatible with Blaze Ads.
 	 *
 	 * @return bool True if WordPress version is greater than or equal the minimum accepted
 	 */
 	public function is_wp_version_compatible(): bool {
-		$plugin_headers = \Woo_Blaze::get_plugin_headers();
+		$plugin_headers = \Blaze_Ads::get_plugin_headers();
 		$wp_version     = $plugin_headers['RequiresWP'];
 
 		return version_compare( get_bloginfo( 'version' ), $wp_version, '>=' );
@@ -129,7 +129,7 @@ class Blaze_Dependency_Service {
 	 * @return string HTML to render admin notice for the unmet dependency.
 	 */
 	private function get_notice_for_invalid_dependency( string $code ): string {
-		$plugin_headers = \Woo_Blaze::get_plugin_headers();
+		$plugin_headers = \Blaze_Ads::get_plugin_headers();
 		$wp_version     = $plugin_headers['RequiresWP'];
 		$wc_version     = $plugin_headers['WCRequires'];
 
@@ -137,7 +137,7 @@ class Blaze_Dependency_Service {
 
 		switch ( $code ) {
 			case self::WOOCORE_INCOMPATIBLE:
-				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
+				$error_message = Blaze_Ads_Utils::esc_interpolated_html(
 					sprintf(
 					/* translators: %1: Blaze Ads, %2: current Blaze Ads version, %3: WooCommerce, %4: required WC version number, %5: currently installed WC version number */
 						__(
@@ -145,17 +145,17 @@ class Blaze_Dependency_Service {
 							'blaze-ads'
 						),
 						'Blaze Ads',
-						WOOBLAZE_VERSION_NUMBER,
+						BLAZEADS_VERSION_NUMBER,
 						'WooCommerce',
 						$wc_version,
-						WOOBLAZE_WC_VERSION
+						BLAZEADS_WC_VERSION
 					),
 					array( 'strong' => '<strong>' )
 				);
 
 				break;
 			case self::WP_INCOMPATIBLE:
-				$error_message = Woo_Blaze_Utils::esc_interpolated_html(
+				$error_message = Blaze_Ads_Utils::esc_interpolated_html(
 					sprintf(
 					/* translators: %1: Blaze Ads, %2: required WP version number, %3: currently installed WP version number */
 						__(

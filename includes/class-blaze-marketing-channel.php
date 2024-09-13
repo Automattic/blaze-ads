@@ -2,10 +2,10 @@
 /**
  * Class Blaze_Marketing_Channel
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,7 +20,7 @@ use Jetpack_Options;
  * Marketing Channel implementation for Blaze Campaigns.
  * This class is responsible for registering Blaze as a marketing channel and displaying Blaze campaigns
  *
- * Class Woo_Blaze_Marketing_Channel
+ * Class Blaze_Marketing_Channel
  */
 class Blaze_Marketing_Channel implements MarketingChannelInterface {
 
@@ -239,7 +239,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 
 		$blog_id  = Jetpack_Options::get_option( 'id' );
 		$path     = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
-		$response = Woo_Blaze_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
+		$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
 
 		if ( ! isset( $response['campaigns'] ) ) {
 			return array();

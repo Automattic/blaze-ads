@@ -2,10 +2,10 @@
 /**
  * Class API_Exception
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze\Exceptions;
+namespace BlazeAds\Exceptions;
 
 defined( 'ABSPATH' ) || exit;
 

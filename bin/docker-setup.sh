@@ -3,7 +3,7 @@
 # Exit if any command fails.
 set -e
 
-WP_CONTAINER=${1-woo_blaze_wordpress}
+WP_CONTAINER=${1-blaze_ads_wordpress}
 SITE_URL=${WP_URL-"localhost:8082"}
 
 redirect_output() {

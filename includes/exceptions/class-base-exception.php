@@ -2,10 +2,10 @@
 /**
  * Class Base_Exception
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze\Exceptions;
+namespace BlazeAds\Exceptions;
 
 use Exception;
 

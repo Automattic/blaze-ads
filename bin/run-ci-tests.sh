@@ -5,7 +5,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # set environment variables
-WOOBLAZE_DIR="$GITHUB_WORKSPACE"
+BLAZEADS_DIR="$GITHUB_WORKSPACE"
 
 echo 'Updating composer version & Install dependencies...'
 composer self-update && composer install --no-progress

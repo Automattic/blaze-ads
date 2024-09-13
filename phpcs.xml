@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress Coding Standards">
-	<description>Woo Blaze dev PHP_CodeSniffer ruleset.</description>
+	<description>Blaze Ads dev PHP_CodeSniffer ruleset.</description>
 
 	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="ps" />

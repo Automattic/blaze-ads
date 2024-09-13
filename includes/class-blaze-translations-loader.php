@@ -2,19 +2,19 @@
 /**
  * Class Blaze_Translations_Loader
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 
 use DateTime;
 
 /**
- * A class for managing WordPress translations loading for WooBlaze.
+ * A class for managing WordPress translations loading for BlazeAds.
  *
- * Unlike for other WordPress.org plugins, WooBlaze translations are loaded from https://translate.wordpress.com.
+ * Unlike for other WordPress.org plugins, BlazeAds translations are loaded from https://translate.wordpress.com.
  *
  * @codeCoverageIgnore -- The most of the code interacts with global WordPress methods to wrangle translations. Not that much to test here, so excluding it from test coverage.
  */
@@ -24,7 +24,7 @@ class Blaze_Translations_Loader {
 	 * Load translations for the plugin.
 	 */
 	public function initialize() {
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'load_woo_blaze_translations' ), 10, 1 );
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'load_blaze_ads_translations' ), 10, 1 );
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Blaze_Translations_Loader {
 	 *
 	 * @return object The same or a modified version of the transient.
 	 */
-	public function load_woo_blaze_translations( $transient ): object {
+	public function load_blaze_ads_translations( $transient ): object {
 
 		// Load translations from translate.wordpress.com.
 		try {
@@ -48,7 +48,7 @@ class Blaze_Translations_Loader {
 			}
 		} catch ( \Exception $ex ) {
 			// TO DO maybe add some kind of logging here.
-			// 'Error with loading WooBlaze translations from WordPress.com. Reason: ' . $ex->getMessage().
+			// 'Error with loading BlazeAds translations from WordPress.com. Reason: ' . $ex->getMessage().
 			return $transient;
 		}
 		return $transient;
@@ -77,7 +77,7 @@ class Blaze_Translations_Loader {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		$plugin_data = get_plugin_data( WOOBLAZE_PLUGIN_FILE );
+		$plugin_data = get_plugin_data( BLAZEADS_PLUGIN_FILE );
 
 		/**
 		 * Note: TextDomain could differ from the plugin slug, but WordPress uses TextDomain to load translations.
@@ -90,7 +90,7 @@ class Blaze_Translations_Loader {
 		);
 
 		$request_body['plugins'][ $plugin_name ] = array(
-			'version' => WOOBLAZE_VERSION_NUMBER,
+			'version' => BLAZEADS_VERSION_NUMBER,
 		);
 
 		$raw_response = wp_remote_post(

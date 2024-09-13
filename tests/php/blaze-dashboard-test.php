@@ -2,25 +2,25 @@
 /**
  * Class Blaze_Dashboard_Test
  *
- * @package WooBlaze\Tests
+ * @package BlazeAds\Tests
  */
 
-namespace WooBlaze\Tests;
+namespace BlazeAds\Tests;
 
-use WooBlaze\Tests\Framework\WB_Unit_Test_Case;
-use WooBlaze\Blaze_Dashboard;
+use BlazeAds\Tests\Framework\BA_Unit_Test_Case;
+use BlazeAds\Blaze_Dashboard;
 
 /**
  * Blaze Dashboard Test.
  *
- * Tests the Woo_Blaze_Dashboard class.
+ * Tests the Blaze_Dashboard class.
  */
-class Blaze_Dashboard_Test extends WB_Unit_Test_Case {
+class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 
 	/**
 	 * Ensure the correct action/filters are added on initialize.
 	 *
-	 * @covers WooBlaze\Blaze_Dashboard::initialize
+	 * @covers BlazeAds\Blaze_Dashboard::initialize
 	 */
 	public function test_initialize() {
 		( new Blaze_Dashboard() )->initialize();
@@ -32,7 +32,7 @@ class Blaze_Dashboard_Test extends WB_Unit_Test_Case {
 	/**
 	 * Ensure the new admin menu is added in the correct section.
 	 *
-	 * @covers WooBlaze\Blaze_Dashboard::add_admin_menu
+	 * @covers BlazeAds\Blaze_Dashboard::add_admin_menu
 	 */
 	public function test_it_adds_admin_menu_correctly() {
 		( new Blaze_Dashboard() )->add_admin_menu();
@@ -45,10 +45,10 @@ class Blaze_Dashboard_Test extends WB_Unit_Test_Case {
 	/**
 	 * Ensure the correct config params are added for the Blaze Dashboard.
 	 *
-	 * @covers WooBlaze\Blaze_Dashboard::woo_blaze_initial_config_data
+	 * @covers BlazeAds\Blaze_Dashboard::blaze_ads_initial_config_data
 	 */
 	public function test_plugin_specific_config_state_is_added() {
-		$data = ( new Blaze_Dashboard() )->woo_blaze_initial_config_data( array() );
+		$data = ( new Blaze_Dashboard() )->blaze_ads_initial_config_data( array() );
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['is_blaze_plugin'] );
 		$this->assertTrue( $data['is_woo_store'] );

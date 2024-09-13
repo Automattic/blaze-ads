@@ -1,20 +1,20 @@
 <?php
 /**
- * Class Woo_Blaze_Utils
+ * Class Blaze_Ads_Utils
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Connection\Client;
 
 /**
- * Woo Blaze Utils class
+ * Blaze Ads Utils class
  */
-class Woo_Blaze_Utils {
+class Blaze_Ads_Utils {
 
 	/**
 	 * Calls the DSP server

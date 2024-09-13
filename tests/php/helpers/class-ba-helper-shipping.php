@@ -2,19 +2,19 @@
 /**
  * Order helpers.
  *
- * @package WooCommerce/Tests
+ * @package BlazeAds/Tests/Helpers
  */
 
-namespace WooBlaze\Tests\Helpers;
+namespace BlazeAds\Tests\Helpers;
 
 use \WC_Cache_Helper;
 
 /**
- * Class WB_Helper_Shipping.
+ * Class BA_Helper_Shipping.
  *
  * This helper class should ONLY be used for unit tests!.
  */
-class WB_Helper_Shipping {
+class BA_Helper_Shipping {
 
 	/**
 	 * Create a simple flat rate at the cost of 10.

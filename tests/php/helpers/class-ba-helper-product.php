@@ -2,20 +2,20 @@
 /**
  * Order helpers.
  *
- * @package WooCommerce/Tests
+ * @package BlazeAds/Tests/Helpers
  */
 
-namespace WooBlaze\Tests\Helpers;
+namespace BlazeAds\Tests\Helpers;
 
 use \WC_Product_Simple;
 use \WC_Cache_Helper;
 
 /**
- * Class WB_Helper_Product.
+ * Class BA_Helper_Product.
  *
  * This helper class should ONLY be used for unit tests!.
  */
-class WB_Helper_Product {
+class BA_Helper_Product {
 
 	/**
 	 * Delete a product.

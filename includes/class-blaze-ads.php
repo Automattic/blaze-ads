@@ -1,22 +1,22 @@
 <?php
 /**
- * Class Woo_Blaze
+ * Class Blaze_Ads
  *
- * @package WooBlaze
+ * @package BlazeAds
  */
 
 defined( 'ABSPATH' ) || exit;
 
-use WooBlaze\Blaze_Marketing_Channel;
-use WooBlaze\Blaze_Dashboard;
-use WooBlaze\Blaze_Conversions;
-use WooBlaze\Blaze_Translations_Loader;
-use WooBlaze\Blaze_Dependency_Service;
+use BlazeAds\Blaze_Marketing_Channel;
+use BlazeAds\Blaze_Dashboard;
+use BlazeAds\Blaze_Conversions;
+use BlazeAds\Blaze_Translations_Loader;
+use BlazeAds\Blaze_Dependency_Service;
 
 /**
- * Main class for the Woo Blaze extension. Its responsibility is to initialize the extension.
+ * Main class for the Blaze Ads extension. Its responsibility is to initialize the extension.
  */
-class Woo_Blaze {
+class Blaze_Ads {
 
 	/**
 	 * Cache for plugin headers to avoid multiple calls to get_file_data
@@ -35,30 +35,32 @@ class Woo_Blaze {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
-		define( 'WOOBLAZE_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
-		define( 'WOOBLAZE_WC_VERSION', defined( 'WC_VERSION' ) ? WC_VERSION : '0.0.0' );
+		define( 'BLAZEADS_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
+		define( 'BLAZEADS_WC_VERSION', defined( 'WC_VERSION' ) ? WC_VERSION : '0.0.0' );
 
 		// Initialize the dependency service. so that admins get notices even if dependencies are not met.
 		$dependency_service = new Blaze_Dependency_Service();
 		$dependency_service->initialize();
 
 		// Stop if dependencies are not met, or we shouldn't initialize.
-		if ( false === $dependency_service->has_valid_dependencies() || ! self::should_initialize() ) {
+		if ( false === $dependency_service->has_valid_dependencies() ) {
 			return;
 		}
 
 		// Initialize services.
-		( new Blaze_Dashboard() )->initialize();
+		if ( self::should_initialize() ) {
+			( new Blaze_Dashboard() )->initialize();
+		}
 		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
 			( new Blaze_Marketing_Channel() )->initialize();
+			( new Blaze_Conversions() )->initialize();
 		}
-		( new Blaze_Conversions() )->initialize();
 		( new Blaze_Translations_Loader() )->initialize();
 	}
 
 
 	/**
-	 * Determines if criteria is met to enable Woo Blaze dashboard.
+	 * Determines if criteria is met to enable Blaze Ads dashboard.
 	 *
 	 * @return bool
 	 */
@@ -112,7 +114,7 @@ class Woo_Blaze {
 	public static function get_plugin_headers(): ?array {
 		if ( null === self::$plugin_headers ) {
 			self::$plugin_headers = get_file_data(
-				WOOBLAZE_PLUGIN_FILE,
+				BLAZEADS_PLUGIN_FILE,
 				array(
 					'Version'    => 'Version',
 					'WCRequires' => 'WC requires at least',
