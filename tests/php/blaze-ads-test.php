@@ -34,14 +34,14 @@ class Blaze_Ads_Test extends BA_Unit_Test_Case {
 	/**
 	 * Ensures the plugins initialize only for admins
 	 *
-	 * @covers BlazeAds::should_initialize
+	 * @covers BlazeAds::should_initialize_dashboard
 	 */
 	public function test_editor_not_eligible_to_blaze() {
 		// The default user is admin (check BA_Unit_Test_Case set_up method).
-		$this->assertTrue( Blaze_Ads::should_initialize() );
+		$this->assertTrue( Blaze_Ads::should_initialize_dashboard() );
 
 		wp_set_current_user( $this->editor_id );
-		$this->assertFalse( Blaze_Ads::should_initialize() );
+		$this->assertFalse( Blaze_Ads::should_initialize_dashboard() );
 	}
 
 	/**

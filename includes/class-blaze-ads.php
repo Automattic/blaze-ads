@@ -48,11 +48,14 @@ class Blaze_Ads {
 		}
 
 		// Initialize services.
-		if ( self::should_initialize() ) {
+		if ( self::should_initialize_dashboard() ) {
 			( new Blaze_Dashboard() )->initialize();
+			if ( Blaze_Dependency_Service::is_woo_core_active() ) {
+				( new Blaze_Marketing_Channel() )->initialize();
+			}
 		}
+
 		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
-			( new Blaze_Marketing_Channel() )->initialize();
 			( new Blaze_Conversions() )->initialize();
 		}
 		( new Blaze_Translations_Loader() )->initialize();
@@ -64,7 +67,7 @@ class Blaze_Ads {
 	 *
 	 * @return bool
 	 */
-	public static function should_initialize(): bool {
+	public static function should_initialize_dashboard(): bool {
 		return current_user_can( 'manage_options' );
 	}
 
