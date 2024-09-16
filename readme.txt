@@ -8,32 +8,56 @@ Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-One-click and you're set! Create ads for your products and store simpler than ever. Get started now and watch your business grow.
+Promote your products and services to over 100 million users across Tumblr and WordPress blogs, with Blaze Ads.
 
 == Description ==
 
-*** Create ads with your content in a snap with Blaze ***
+Blaze Ads helps you reach over 100 million users across Tumblr and WordPress blogs—whether you're building an audience of readers, fans, customers, or subscribers.
 
-Blaze is an exclusive ad platform that allows you to grow your audience by promoting your content across Tumblr and WordPress.com.
+Turn your content into an ad with just a few clicks!
+
+Blaze Ads is the simplest way to promote your site. Start advertising in minutes and reach over 100 million shoppers across the Automattic ecosystem. Designed to work across all retail verticals and product types, Blaze helps site owners drive more traffic and generate more sales with minimal effort.
+
+Blaze Ads offers a fast, intuitive, and streamlined interface to create a Blaze Ad campaign for any of your pages, products or services, even if you’ve never advertised before. Customize your ad image, copy, and audience targeting to maximize impact, reach, and performance.
+
+= Want to learn more about Blaze? =
+
+Explore more about how Blaze can help grow your business by visiting our [information page](https://wordpress.com/advertising/). You can also dive into our comprehensive [support documents](https://wordpress.com/support/promote-a-post/) for step-by-step guides and tips, or reach out to our [dedicated support team](https://wordpress.com/help/contact/), always ready to assist with any questions you have.
+
+= Integrations =
+
+Blaze Ads seamlessly integrates with WooCommerce, offering a tailored advertising experience designed specifically for merchants. Effortlessly promote your products to a wider audience and drive more traffic to your WooCommerce store.
 
 == Getting Started ==
 
 = Requirements =
 
 * WordPress 6.3 or newer.
-* WooCommerce 7.6 or newer. (optional)
-* Jetpack latest version is recommended.
 * PHP 7.4 or newer is recommended.
 
 == Installation ==
 
-#### Using without WooCommerce
+Install Blaze Ads, then go to **Tools → Advertising** in the WordPress admin menu and follow the instructions there.
 
-Install Blaze Ads and Jetpack plugin (optional), then go to "Tools -> Advertising" in the WordPress admin menu and follow the instructions there.
+= Using with WooCommerce =
 
-#### Using with WooCommerce
+Install and activate the WooCommerce and Blaze Ads plugins, if you haven't already done so, then go to **Marketing → Blaze Ads** in the WordPress admin menu and follow the instructions there.
 
-Install and activate the WooCommerce, Blaze Ads plugins and Jetpack (optional), if you haven't already done so, then go to "Marketing->Blaze Ads" in the WordPress admin menu and follow the instructions there.
+== Frequently Asked Questions ==
+
+= Why do I need a WordPress.com account? =
+
+A WordPress.com account is required because Blaze Ads and its services are powered and hosted by WordPress.com. This ensures smooth functionality and access to all features.
+
+= How do I access the Blaze Ads dashboard? =
+
+You can find the Blaze Ads dashboard by navigating to **Tools → Advertising** in your WordPress admin menu.
+
+If your site uses WooCommerce, you’ll also find Blaze Ads alongside your other marketing channels under **Marketing → Blaze Ads**.
+
+= Are there Terms of Service and data usage policies? =
+
+Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Privacy Policy](https://automattic.com/privacy/) and our [Advertising Policy](https://automattic.com/advertising-policy/) for full details on how we handle data and ensure compliance.
 
 == Changelog ==
 
