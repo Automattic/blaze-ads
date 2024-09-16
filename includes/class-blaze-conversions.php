@@ -2,10 +2,10 @@
 /**
  * Class Blaze_Conversions
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 

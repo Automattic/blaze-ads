@@ -16,17 +16,17 @@
  * Woo: 18734003887414:08f3f90f85674fe745c067214c433162
  * WC requires at least: 7.6
  *
- * @package WooBlaze
+ * @package BlazeAds
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WOOBLAZE_PLUGIN_FILE', __FILE__ );
+define( 'BLAZEADS_PLUGIN_FILE', __FILE__ );
 
-define( 'WOOBLAZE_ABSPATH', __DIR__ . '/' );
+define( 'BLAZEADS_ABSPATH', __DIR__ . '/' );
 
 require_once __DIR__ . '/vendor/autoload_packages.php';
-use WooBlaze\Blaze_Dependency_Service;
+use BlazeAds\Blaze_Dependency_Service;
 
 // The JetPack autoloader might not catch up yet when activating the plugin. If so, we'll stop here to avoid JetPack connection failures.
 $is_autoloading_ready = class_exists( Automattic\Jetpack\Connection\Rest_Authentication::class );
@@ -37,7 +37,7 @@ if ( ! $is_autoloading_ready ) {
 /**
  * Initialize the Jetpack functionalities: connection, etc.
  */
-function wooblaze_jetpack_init() {
+function blazeads_jetpack_init() {
 	$jetpack_config = new Automattic\Jetpack\Config();
 	$jetpack_config->ensure(
 		'connection',
@@ -50,13 +50,13 @@ function wooblaze_jetpack_init() {
 	$is_woo_store = Blaze_Dependency_Service::is_woo_core_active();
 	$idc_config   = array(
 		'slug'          => 'blaze-ads',
-		'customContent' => wooblaze_jetpack_idc_custom_content(),
+		'customContent' => blazeads_jetpack_idc_custom_content(),
 		'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wc-blaze' : '/wp-admin/tools.php?page=wc-blaze',
 		'priority'      => 5,
 	);
 
 	if ( $is_woo_store ) {
-		$idc_config['logo'] = plugins_url( 'assets/images/woo-logo.svg', WOOBLAZE_PLUGIN_FILE );
+		$idc_config['logo'] = plugins_url( 'assets/images/woo-logo.svg', BLAZEADS_PLUGIN_FILE );
 	}
 
 	$jetpack_config->ensure(
@@ -72,7 +72,7 @@ function wooblaze_jetpack_init() {
  *
  * @return array
  */
-function wooblaze_jetpack_idc_custom_content(): array {
+function blazeads_jetpack_idc_custom_content(): array {
 	$custom_content = array(
 		'headerText'                => __( 'Safe Mode', 'blaze-ads' ),
 		'mainTitle'                 => __( 'Safe Mode activated', 'blaze-ads' ),
@@ -171,17 +171,17 @@ function wooblaze_jetpack_idc_custom_content(): array {
 Automattic\Jetpack\Connection\Rest_Authentication::init();
 
 // Jetpack-config will initialize the modules on "plugins_loaded" with priority 2, so this code needs to be run before that.
-add_action( 'plugins_loaded', 'wooblaze_jetpack_init', 1 );
+add_action( 'plugins_loaded', 'blazeads_jetpack_init', 1 );
 
 
 /**
  * Initialize the extension. Note that this gets called on the "plugins_loaded" filter,
  * so WooCommerce classes are guaranteed to exist at this point (if WooCommerce is enabled).
  */
-function wooblaze_init() {
-	require_once WOOBLAZE_ABSPATH . '/includes/class-woo-blaze.php';
-	Woo_Blaze::init();
+function blazeads_init() {
+	require_once BLAZEADS_ABSPATH . '/includes/class-blaze-ads.php';
+	Blaze_Ads::init();
 }
 
 // Make sure this is run *after* WooCommerce has a chance to initialize its packages (wc-admin, etc). That is run with priority 10.
-add_action( 'plugins_loaded', 'wooblaze_init', 11 );
+add_action( 'plugins_loaded', 'blazeads_init', 11 );

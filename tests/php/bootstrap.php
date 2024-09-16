@@ -2,17 +2,17 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package WooBlaze\Tests
+ * @package BlazeAds\Tests
  */
 
-namespace WooBlaze\Tests;
+namespace BlazeAds\Tests;
 
 /**
- * Class Woo_Blaze_Unit_Tests_Bootstrap
+ * Class Blaze_Ads_Unit_Tests_Bootstrap
  */
-class Woo_Blaze_Unit_Tests_Bootstrap {
+class Blaze_Ads_Unit_Tests_Bootstrap {
 
-	/** @var Woo_Blaze_Unit_Tests_Bootstrap instance */
+	/** @var Blaze_Ads_Unit_Tests_Bootstrap instance */
 	protected static $instance = null;
 
 	/** @var string directory where wordpress-tests-lib is installed */
@@ -73,18 +73,18 @@ class Woo_Blaze_Unit_Tests_Bootstrap {
 	}
 
 	/**
-	 * Load Woo Blaze-specific test cases and factories.
+	 * Load Blaze Ads-specific test cases and factories.
 	 */
 	public function includes() {
-		require_once $this->tests_dir . '/framework/class-wb-unit-test-case.php';
+		require_once $this->tests_dir . '/framework/class-ba-unit-test-case.php';
 	}
 
 	/**
 	 * Get the single class instance.
 	 *
-	 * @return Woo_Blaze_Unit_Tests_Bootstrap
+	 * @return Blaze_Ads_Unit_Tests_Bootstrap
 	 */
-	public static function instance(): Woo_Blaze_Unit_Tests_Bootstrap {
+	public static function instance(): Blaze_Ads_Unit_Tests_Bootstrap {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -93,6 +93,6 @@ class Woo_Blaze_Unit_Tests_Bootstrap {
 	}
 }
 
-Woo_Blaze_Unit_Tests_Bootstrap::instance();
+Blaze_Ads_Unit_Tests_Bootstrap::instance();
 
 

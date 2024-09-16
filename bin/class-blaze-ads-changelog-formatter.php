@@ -1,8 +1,8 @@
 <?php
 /**
- * Jetpack Changelogger Formatter for Woo Blaze
+ * Jetpack Changelogger Formatter for Blaze Ads
  *
- *  @package Automattic\WooBlaze
+ *  @package Automattic\BlazeAds
  */
 
 use Automattic\Jetpack\Changelog\Changelog;
@@ -11,11 +11,11 @@ use Automattic\Jetpack\Changelogger\PluginTrait;
 use Automattic\Jetpack\Changelogger\FormatterPlugin;
 
 /**
- * Jetpack Changelogger Formatter for Woo Blaze
+ * Jetpack Changelogger Formatter for Blaze Ads
  *
- * Class WooBlaze_Changelog_Formatter
+ * Class Blaze_Ads_Changelog_Formatter
  */
-class Woo_Blaze_Changelog_Formatter extends KeepAChangelogParser implements FormatterPlugin {
+class Blaze_Ads_Changelog_Formatter extends KeepAChangelogParser implements FormatterPlugin {
 	use PluginTrait;
 
 	/**

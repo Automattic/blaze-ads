@@ -9,7 +9,7 @@
          verbose="true"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
     <testsuites>
-        <testsuite name="wooBlaze">
+        <testsuite name="blazeAds">
             <directory suffix=".php">./tests/php</directory>
         </testsuite>
     </testsuites>

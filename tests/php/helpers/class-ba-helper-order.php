@@ -2,10 +2,10 @@
 /**
  * Order helpers.
  *
- * @package WooCommerce/Tests
+ * @package BlazeAds\Tests\Helpers
  */
 
-namespace WooBlaze\Tests\Helpers;
+namespace BlazeAds\Tests\Helpers;
 
 use \WC_Tax;
 use \WC_Order_Item_Product;
@@ -13,11 +13,11 @@ use \WC_Shipping_Rate;
 use \WC_Order_Item_Shipping;
 
 /**
- * Class WB_Helper_Order.
+ * Class BA_Helper_Order.
  *
  * This helper class should ONLY be used for unit tests!.
  */
-class WB_Helper_Order {
+class BA_Helper_Order {
 
 	/**
 	 * Delete a product.
@@ -30,10 +30,10 @@ class WB_Helper_Order {
 
 		// Delete all products in the order.
 		foreach ( $order->get_items() as $item ) {
-			WB_Helper_Product::delete_product( $item['product_id'] );
+			BA_Helper_Product::delete_product( $item['product_id'] );
 		}
 
-		WB_Helper_Shipping::delete_simple_flat_rate();
+		BA_Helper_Shipping::delete_simple_flat_rate();
 
 		// Delete the order post.
 		$order->delete( true );
@@ -50,10 +50,10 @@ class WB_Helper_Order {
 	public static function create_order( $customer_id = 1, $product = null ) {
 
 		if ( ! is_a( $product, 'WC_Product' ) ) {
-			$product = WB_Helper_Product::create_simple_product();
+			$product = BA_Helper_Product::create_simple_product();
 		}
 
-		WB_Helper_Shipping::create_simple_flat_rate();
+		BA_Helper_Shipping::create_simple_flat_rate();
 
 		$order_data = array(
 			'status'        => 'pending',

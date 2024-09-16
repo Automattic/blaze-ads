@@ -2,10 +2,10 @@
 /**
  * Class Blaze_Dashboard
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,7 +25,7 @@ class Blaze_Dashboard {
 	 */
 	public function initialize() {
 		// Configures the additional information we need in the state.
-		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'woo_blaze_initial_config_data' ), 10, 1 );
+		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'blaze_ads_initial_config_data' ), 10, 1 );
 		// Allow disabling of the Jetpack Blaze menu for non-Woo sites, to avoid showing 2 advertising sub menus in the Tools menu.
 		add_filter( 'jetpack_blaze_enabled', array( $this, 'should_enable_jetpack_blaze_menu' ), 10, 1 );
 
@@ -128,7 +128,7 @@ class Blaze_Dashboard {
 	 *
 	 * @return array
 	 */
-	public function woo_blaze_initial_config_data( array $data ): array {
+	public function blaze_ads_initial_config_data( array $data ): array {
 		$setup_reason = $this->check_setup_plugin_status();
 
 		$data['is_blaze_plugin'] = true;
@@ -148,7 +148,7 @@ class Blaze_Dashboard {
 			foreach ( $data['initial_state']['sites']['items'] as $key => $site ) {
 				$options = $site['options'] ?? array();
 
-				$options['blaze_ads_version'] = WOOBLAZE_VERSION_NUMBER;
+				$options['blaze_ads_version'] = BLAZEADS_VERSION_NUMBER;
 
 				$data['initial_state']['sites']['items'][ $key ]['options'] = $options;
 			}

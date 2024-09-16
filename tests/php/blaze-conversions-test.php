@@ -1,27 +1,27 @@
 <?php
 /**
- * Class Woo_Blaze_Dashboard_Test
+ * Class Blaze_Ads_Dashboard_Test
  *
- * @package WooBlaze\Tests
+ * @package BlazeAds\Tests
  */
 
-namespace WooBlaze\Tests;
+namespace BlazeAds\Tests;
 
-use WooBlaze\Tests\Framework\WB_Unit_Test_Case;
-use WooBlaze\Blaze_Conversions;
-use WooBlaze\Tests\Helpers\WB_Helper_Order;
+use BlazeAds\Tests\Framework\BA_Unit_Test_Case;
+use BlazeAds\Blaze_Conversions;
+use BlazeAds\Tests\Helpers\BA_Helper_Order;
 
 /**
  * Blaze Conversions Test.
  *
- * Tests the Woo_Blaze_Dashboard class.
+ * Tests the Blaze_Conversions class.
  */
-class Blaze_Conversions_Test extends WB_Unit_Test_Case {
+class Blaze_Conversions_Test extends BA_Unit_Test_Case {
 
 	/**
 	 * Ensure the hooks are added correctly
 	 *
-	 * @covers WooBlaze\Blaze_Conversions::init_hooks
+	 * @covers BlazeAds\Blaze_Conversions::init_hooks
 	 */
 	public function test_initialize() {
 		( new Blaze_Conversions() )->initialize();
@@ -31,10 +31,10 @@ class Blaze_Conversions_Test extends WB_Unit_Test_Case {
 	/**
 	 * Ensure the script can be enqueued in admin.
 	 *
-	 * @covers WooBlaze\Blaze_Conversions::add_conversion_tracking_pixel
+	 * @covers BlazeAds\Blaze_Conversions::add_conversion_tracking_pixel
 	 */
 	public function test_add_conversion_tracking_pixel() {
-		$order     = WB_Helper_Order::create_order();
+		$order     = BA_Helper_Order::create_order();
 		$entry_url = sprintf( 'https://example.com/product/belt?wpb_id=1_MsEwNsswXXXX&wpb_advertiser=56f2bb5c3513d5802f3972b2a34ca531' );
 		update_post_meta( $order->get_id(), '_wc_order_attribution_session_entry', $entry_url );
 

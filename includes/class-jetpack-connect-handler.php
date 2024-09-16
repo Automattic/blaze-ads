@@ -2,16 +2,15 @@
 /**
  * Class Jetpack_Connect_Handler
  *
- * @package Automattic\WooBlaze
+ * @package Automattic\BlazeAds
  */
 
-namespace WooBlaze;
+namespace BlazeAds;
 
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Connection\Manager;
-use WooBlaze\Blaze_Dependency_Service;
-use WooBlaze\Exceptions\API_Exception;
+use BlazeAds\Exceptions\API_Exception;
 
 /**
  * Class representing Jetpack_Connect_Handler
