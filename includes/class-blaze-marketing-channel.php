@@ -105,7 +105,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_icon_url(): string {
-		return 'https://widgets.wp.com/blaze-dashboard/common/blaze-flame-woo.svg';
+		return plugins_url( 'assets/images/blaze-flame-woo.svg', WOOBLAZE_PLUGIN_FILE );
 	}
 
 	/**

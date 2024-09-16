@@ -21,6 +21,7 @@ const filesToCopy = [
 	'readme.txt',
 	'composer.json',
 	'composer.lock',
+	'assets',
 ];
 
 // start with a clean release folder
