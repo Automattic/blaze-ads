@@ -12,13 +12,13 @@ Promote your products and services to over 100 million users across Tumblr and W
 
 == Description ==
 
-Promote your products and services to over 100 million users across Tumblr and WordPress blogs, with Blaze Ads.
+Blaze Ads helps you reach over 100 million users across Tumblr and WordPress blogs—whether you're building an audience of readers, fans, customers, or subscribers.
 
 Turn your content into an ad with just a few clicks!
 
-Blaze Ads is the simplest way to promote your products and services. Start advertising in minutes and reach over 100 million shoppers across the Automattic ecosystem. Designed to work across all retail verticals and product types, Blaze helps site owners drive more traffic and generate more sales with minimal effort.
+Blaze Ads is the simplest way to promote your site. Start advertising in minutes and reach over 100 million shoppers across the Automattic ecosystem. Designed to work across all retail verticals and product types, Blaze helps site owners drive more traffic and generate more sales with minimal effort.
 
-Blaze Ads offers a fast, intuitive, and streamlined interface to create a Blaze Ad campaign for any of your products or services, even if you’ve never advertised before. Customize your ad image, copy, and audience targeting to maximize impact, reach, and performance.
+Blaze Ads offers a fast, intuitive, and streamlined interface to create a Blaze Ad campaign for any of your pages, products or services, even if you’ve never advertised before. Customize your ad image, copy, and audience targeting to maximize impact, reach, and performance.
 
 = Want to learn more about Blaze? =
 
@@ -37,8 +37,6 @@ Blaze Ads seamlessly integrates with WooCommerce, offering a tailored advertisin
 
 == Installation ==
 
-= Using without WooCommerce =
-
 Install Blaze Ads, then go to **Tools → Advertising** in the WordPress admin menu and follow the instructions there.
 
 = Using with WooCommerce =
@@ -55,7 +53,7 @@ A WordPress.com account is required because Blaze Ads and its services are power
 
 You can find the Blaze Ads dashboard by navigating to **Tools → Advertising** in your WordPress admin menu.
 
-If your site uses WooCommerce, you’ll find Blaze Ads alongside your other marketing channels under **Marketing → Blaze Ads**.
+If your site uses WooCommerce, you’ll also find Blaze Ads alongside your other marketing channels under **Marketing → Blaze Ads**.
 
 = Are there Terms of Service and data usage policies? =
 
