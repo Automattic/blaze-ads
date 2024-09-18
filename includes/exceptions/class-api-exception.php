@@ -18,21 +18,21 @@ class API_Exception extends Base_Exception {
 	 *
 	 * @var int
 	 */
-	private $http_code = 0;
+	private int $http_code = 0;
 
 	/**
 	 * Error type attribute from the server.
 	 *
-	 * @var string
+	 * @var ?string
 	 */
-	private $error_type = null;
+	private ?string $error_type = null;
 
 	/**
 	 * Decline code if it is a card error.
 	 *
-	 * @var string
+	 * @var ?string
 	 */
-	private $decline_code = null;
+	private ?string $decline_code = null;
 
 	/**
 	 * Constructor
@@ -58,7 +58,7 @@ class API_Exception extends Base_Exception {
 	 *
 	 * @return int HTTP code, for example 404.
 	 */
-	public function get_http_code() {
+	public function get_http_code(): int {
 		return $this->http_code;
 	}
 
@@ -67,7 +67,7 @@ class API_Exception extends Base_Exception {
 	 *
 	 * @return string|null Error type, for example 'api_error' or 'card_error'.
 	 */
-	public function get_error_type() {
+	public function get_error_type(): ?string {
 		return $this->error_type;
 	}
 
@@ -76,7 +76,7 @@ class API_Exception extends Base_Exception {
 	 *
 	 * @return string|null Decline code, for example 'expired_card' or 'insufficient_funds'.
 	 */
-	public function get_decline_code() {
+	public function get_decline_code(): ?string {
 		return $this->decline_code;
 	}
 }

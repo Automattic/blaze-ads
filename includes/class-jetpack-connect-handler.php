@@ -26,17 +26,13 @@ class Jetpack_Connect_Handler {
 	 */
 	private $connection_manager;
 
-
-
 	/**
 	 * Constructor
-	 * Setup the connection manager.
+	 * Sets up the connection manager.
 	 */
 	public function __construct() {
 		$this->connection_manager = new Manager( 'blaze-ads' );
 	}
-
-
 
 	/**
 	 * Handle onboarding flow.
@@ -47,9 +43,8 @@ class Jetpack_Connect_Handler {
 		}
 
 		if ( isset( $_GET['blaze-ads-connect'] ) && check_admin_referer( 'blaze-ads-connect' ) ) {
-				$is_connected = false;
-			if ( ! $is_connected ) {
-				$this->redirect_to_onboarding_flow_page();
+			if ( ! $this->is_connected() ) {
+				$this->redirect_to_onboarding_flow_page( 'blaze-ads-connect-page' );
 			}
 		}
 	}
@@ -62,9 +57,7 @@ class Jetpack_Connect_Handler {
 	 *
 	 * @return void
 	 */
-	private function redirect_to_onboarding_flow_page( string $source = 'blaze-ads-connect-page' ) {
-		$site_url = wp_parse_url( get_site_url(), PHP_URL_HOST );
-
+	private function redirect_to_onboarding_flow_page( string $source ) {
 		$admin_page   = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wc-blaze' : 'tools.php?page=wc-blaze';
 		$redirect_url = add_query_arg(
 			array( 'source' => $source ),
@@ -86,9 +79,9 @@ class Jetpack_Connect_Handler {
 	 * Utility function to immediately redirect to the dashboard connect page.
 	 * Note that this function immediately ends the execution.
 	 *
-	 * @param string $error_message Optional error message to show in a notice.
+	 * @param string|null $error_message Optional error message to show in a notice.
 	 */
-	public function redirect_to_connect_home_page( $error_message = null ) {
+	public function redirect_to_connect_home_page( string $error_message = null ) {
 		if ( isset( $error_message ) ) {
 			set_transient( self::ERROR_MESSAGE_TRANSIENT, $error_message, 30 );
 		}
@@ -105,7 +98,7 @@ class Jetpack_Connect_Handler {
 	 *
 	 * @return bool true if Jetpack connection has access token.
 	 */
-	public function is_connected() {
+	public function is_connected(): bool {
 		return $this->connection_manager->is_connected() && $this->connection_manager->has_connected_owner();
 	}
 
@@ -117,12 +110,12 @@ class Jetpack_Connect_Handler {
 	 *
 	 * @throws API_Exception - Exception thrown on failure.
 	 */
-	public function start_connection( $redirect ) {
+	public function start_connection( string $redirect ) {
 		// Register the site to wp.com.
 		if ( ! $this->connection_manager->is_connected() ) {
 			$result = $this->connection_manager->try_registration();
 			if ( is_wp_error( $result ) ) {
-				throw new API_Exception( $result->get_error_message(), 'wcblaze_jetpack_register_site_failed', 500 );
+				throw new API_Exception( $result->get_error_message(), 'blazeads_jetpack_register_site_failed', 500 );
 			}
 		}
 

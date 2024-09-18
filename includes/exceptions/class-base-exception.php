@@ -15,13 +15,13 @@ defined( 'ABSPATH' ) || exit;
  * Abstract class for extension exceptions, where we allow to inject
  * human-friendly error codes, e.g. 'order_not_found'.
  */
-abstract class Base_Exception extends Exception {
+class Base_Exception extends Exception {
 	/**
 	 * String error code, for example 'order_not_found'.
 	 *
 	 * @var string
 	 */
-	private $error_code;
+	private string $error_code;
 
 	/**
 	 * Constructor, including the usual $message, $code, and $previous,
@@ -43,7 +43,7 @@ abstract class Base_Exception extends Exception {
 	 *
 	 * @return string Error code, for example 'order_not_found'.
 	 */
-	public function get_error_code() {
+	public function get_error_code(): string {
 		return $this->error_code;
 	}
 }

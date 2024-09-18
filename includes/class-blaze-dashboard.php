@@ -50,7 +50,7 @@ class Blaze_Dashboard {
 	 *
 	 * @return bool
 	 */
-	public function can_display_marketing_menu() {
+	public function can_display_marketing_menu(): bool {
 		return Blaze_Dependency_Service::is_woo_core_active();
 	}
 
@@ -59,7 +59,7 @@ class Blaze_Dashboard {
 	 *
 	 * @return bool
 	 */
-	public function should_enable_jetpack_blaze_menu() {
+	public function should_enable_jetpack_blaze_menu(): bool {
 		return $this->can_display_marketing_menu();
 	}
 
@@ -200,14 +200,14 @@ class Blaze_Dashboard {
 	 * In reality this is just to trigger a page reload that re-reruns the onboarding logic and this could have been a window.reload on client
 	 * this method simply makes sure the server controls the url that handles the connect redirect for easy change without needing to update the client.
 	 *
-	 * @param string $wcblaze_connect_from Optional. A page ID representing where the user should be returned to after connecting. Default is '1' - redirects back to the overview page.
+	 * @param string $blazeads_connect_from Optional. A page ID representing where the user should be returned to after connecting. Default is '1' - redirects back to the overview page.
 	 *
 	 * @return string Jetpack connect url.
 	 */
-	public function get_connect_url( $wcblaze_connect_from = '1' ): string {
+	public function get_connect_url( string $blazeads_connect_from = '1' ): string {
 		$admin_page = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wc-blaze' : 'tools.php?page=wc-blaze';
 		$url        = add_query_arg(
-			array( 'blaze-ads-connect' => $wcblaze_connect_from ),
+			array( 'blaze-ads-connect' => $blazeads_connect_from ),
 			admin_url( $admin_page )
 		);
 

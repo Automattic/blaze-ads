@@ -14,6 +14,7 @@ use Automattic\WooCommerce\Admin\Marketing\MarketingCampaign;
 use Automattic\WooCommerce\Admin\Marketing\MarketingCampaignType;
 use Automattic\WooCommerce\Admin\Marketing\MarketingChannelInterface;
 use Automattic\WooCommerce\Admin\Marketing\Price;
+use BlazeAds\Exceptions\Base_Exception;
 use Jetpack_Options;
 
 /**
@@ -29,7 +30,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 *
 	 * @var array
 	 */
-	protected $campaign_types;
+	protected array $campaign_types;
 
 	/**
 	 * MarketingChannelRegistrar constructor.
@@ -208,7 +209,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 *
 	 * @return MarketingCampaign[] Array of marketing campaign objects.
 	 */
-	public function get_marketing_campaigns( $campaigns ): array {
+	public function get_marketing_campaigns( array $campaigns ): array {
 		$marketing_campaigns = array();
 		$site_url            = wp_parse_url( get_site_url(), PHP_URL_HOST );
 
@@ -237,29 +238,34 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 			'status'   => 'active',
 		);
 
-		$blog_id  = Jetpack_Options::get_option( 'id' );
-		$path     = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
-		$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
+		$blog_id = Jetpack_Options::get_option( 'id' );
+		$path    = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
 
-		if ( ! isset( $response['campaigns'] ) ) {
+		try {
+			$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
+
+			if ( 200 !== $response['status'] || ! isset( $response['body'] ) || ! isset( $response['body']['campaigns'] ) ) {
+				return array();
+			}
+
+			$campaigns = array_map(
+				function ( $campaign ) {
+					return array(
+						'campaign_id'    => $campaign['campaign_id'],
+						'start_date'     => $campaign['start_date'],
+						'end_date'       => $campaign['end_date'],
+						'name'           => $campaign['name'],
+						'campaign_stats' => $campaign['campaign_stats'],
+						'audience_list'  => $campaign['audience_list'],
+					);
+				},
+				$response['body']['campaigns']
+			);
+
+			return $this->get_marketing_campaigns( $campaigns );
+		} catch ( Base_Exception $e ) {
 			return array();
 		}
-
-		$campaigns = array_map(
-			function ( $campaign ) {
-				return array(
-					'campaign_id'    => $campaign['campaign_id'],
-					'start_date'     => $campaign['start_date'],
-					'end_date'       => $campaign['end_date'],
-					'name'           => $campaign['name'],
-					'campaign_stats' => $campaign['campaign_stats'],
-					'audience_list'  => $campaign['audience_list'],
-				);
-			},
-			$response['campaigns']
-		);
-
-		return $this->get_marketing_campaigns( $campaigns );
 	}
 
 	/**

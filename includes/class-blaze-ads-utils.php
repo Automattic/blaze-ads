@@ -10,6 +10,7 @@ namespace BlazeAds;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Connection\Client;
+use BlazeAds\Exceptions\Base_Exception;
 
 /**
  * Blaze Ads Utils class
@@ -24,14 +25,15 @@ class Blaze_Ads_Utils {
 	 * @param string $method The HTTP method to use.
 	 * @param array  $query_params The query parameters to send.
 	 *
-	 * @return mixed
+	 * @return array with { code: int and body: mixed }.
+	 * @throws Base_Exception If the request to the DSP ends in error.
 	 */
 	public static function call_dsp_server(
 		int $blog_id,
 		string $route,
 		string $method = 'GET',
 		array $query_params = array()
-	) {
+	): array {
 		// Make the API request.
 		$url = sprintf( '/sites/%d/wordads/dsp/api/%s', $blog_id, $route );
 		$url = add_query_arg( $query_params, $url );
@@ -44,11 +46,18 @@ class Blaze_Ads_Utils {
 			'wpcom'
 		);
 
+		if ( is_wp_error( $response ) ) {
+			throw new Base_Exception( $response->get_error_message(), 'blazeads_dsp_request_failed' );
+		}
+
 		$response_code         = wp_remote_retrieve_response_code( $response );
 		$response_body_content = wp_remote_retrieve_body( $response );
 		$response_body         = json_decode( $response_body_content, true );
 
-		return $response_body;
+		return array(
+			'status' => $response_code,
+			'body'   => $response_body,
+		);
 	}
 
 	/**

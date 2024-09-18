@@ -20,9 +20,9 @@ class Blaze_Ads {
 	/**
 	 * Cache for plugin headers to avoid multiple calls to get_file_data
 	 *
-	 * @var array
+	 * @var ?array
 	 */
-	private static $plugin_headers = null;
+	private static ?array $plugin_headers = null;
 
 	/**
 	 * Static-only class.
@@ -59,7 +59,6 @@ class Blaze_Ads {
 		}
 	}
 
-
 	/**
 	 * Determines if criteria is met to enable Blaze Ads dashboard.
 	 *
@@ -77,7 +76,6 @@ class Blaze_Ads {
 	public static function display_admin_error( string $message ) {
 		self::display_admin_notice( $message, 'notice-error' );
 	}
-
 
 	/**
 	 * Prints the given message in an "admin notice" wrapper with provided classes.
@@ -103,7 +101,6 @@ class Blaze_Ads {
 		</div>
 		<?php
 	}
-
 
 	/**
 	 * Get plugin headers and cache the result to avoid reopening the file.
