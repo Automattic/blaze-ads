@@ -1,0 +1,4 @@
+Significance: minor
+Type: update
+
+Removes the custom translation code to start using the default dotorg mechanism

@@ -10,7 +10,6 @@ defined( 'ABSPATH' ) || exit;
 use BlazeAds\Blaze_Marketing_Channel;
 use BlazeAds\Blaze_Dashboard;
 use BlazeAds\Blaze_Conversions;
-use BlazeAds\Blaze_Translations_Loader;
 use BlazeAds\Blaze_Dependency_Service;
 
 /**
@@ -58,7 +57,6 @@ class Blaze_Ads {
 		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
 			( new Blaze_Conversions() )->initialize();
 		}
-		( new Blaze_Translations_Loader() )->initialize();
 	}
 
 
