@@ -19,19 +19,19 @@ class Blaze_Conversions {
 	 *
 	 * @var string
 	 */
-	const CONVERSION_PIXEL_URL = 'https://public-api.wordpress.com/wpcom/v2/wordads/dsp/api/v1/conversion/pixel.gif?%s';
+	public const CONVERSION_PIXEL_URL = 'https://public-api.wordpress.com/wpcom/v2/wordads/dsp/api/v1/conversion/pixel.gif?%s';
 
 	/**
 	 * Initialize hooks for Blaze conversions
 	 *
 	 * @return void
 	 */
-	public function initialize() {
+	public function initialize(): void {
 		add_action( 'woocommerce_thankyou', array( $this, 'add_conversion_tracking_pixel' ), 10, 1 );
 	}
 
 	/**
-	 * Adds the conversion pixel image to the thankyou checkout page
+	 * Adds the conversion pixel image to the thank you checkout page
 	 *
 	 * @param int $order_id Order id.
 	 */
@@ -40,7 +40,7 @@ class Blaze_Conversions {
 		$meta_session_entry = $order->get_meta( '_wc_order_attribution_session_entry', true );
 
 		parse_str( wp_parse_url( $meta_session_entry, PHP_URL_QUERY ), $queries );
-		if ( isset( $queries['wpb_id'] ) && isset( $queries['wpb_advertiser'] ) ) {
+		if ( isset( $queries['wpb_id'], $queries['wpb_advertiser'] ) ) {
 			$conversion_parameters = http_build_query(
 				array(
 					'wpb_id'         => $queries['wpb_id'],
@@ -55,5 +55,4 @@ class Blaze_Conversions {
 			echo '<img src="' . esc_url( $url ) . '" crossorigin="anonymous" style="display:none" width="1px" height="1px" />';
 		}
 	}
-
 }

@@ -125,6 +125,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 */
 	public function is_setup_completed(): bool {
 		$setup_reason = ( new Blaze_Dashboard() )->check_setup_plugin_status();
+
 		return null === $setup_reason;
 	}
 
@@ -166,13 +167,12 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 *
 	 * @return Price
 	 */
-	public function get_campaign_price( $campaign ): Price {
+	public function get_campaign_price( array $campaign ): Price {
 		$price_amount = isset( $campaign['campaign_stats']['total_budget'] ) && is_numeric( $campaign['campaign_stats']['total_budget'] )
 			? $campaign['campaign_stats']['total_budget']
 			: 0;
-		$price        = new Price( $price_amount, 'USD' );
 
-		return $price;
+		return new Price( $price_amount, 'USD' );
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 *
 	 * @return string
 	 */
-	public function get_campaign_url( $campaign, $site_url ): string {
+	public function get_campaign_url( array $campaign, string $site_url ): string {
 		return admin_url(
 			sprintf(
 				'admin.php?page=wc-blaze#!/wc-blaze/campaigns/%s/%s',
@@ -249,7 +249,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 			}
 
 			$campaigns = array_map(
-				function ( $campaign ) {
+				static function ( $campaign ) {
 					return array(
 						'campaign_id'    => $campaign['campaign_id'],
 						'start_date'     => $campaign['start_date'],

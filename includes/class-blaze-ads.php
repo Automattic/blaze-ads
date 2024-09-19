@@ -34,10 +34,10 @@ class Blaze_Ads {
 	 * Entry point to the initialization logic.
 	 */
 	public static function init(): void {
-		define( 'BLAZEADS_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
-		define( 'BLAZEADS_WC_VERSION', defined( 'WC_VERSION' ) ? WC_VERSION : '0.0.0' );
+		define( 'BLAZE_ADS_VERSION_NUMBER', self::get_plugin_headers()['Version'] );
+		define( 'BLAZE_ADS_WC_VERSION', defined( 'WC_VERSION' ) ? WC_VERSION : '0.0.0' );
 
-		// Initialize the dependency service. so that admins get notices even if dependencies are not met.
+		// Initialize the dependency service, so that admins get notices even if dependencies are not met.
 		$dependency_service = new Blaze_Dependency_Service();
 		$dependency_service->initialize();
 
@@ -73,7 +73,7 @@ class Blaze_Ads {
 	 *
 	 * @param string $message Message to print. Can contain HTML.
 	 */
-	public static function display_admin_error( string $message ) {
+	public static function display_admin_error( string $message ): void {
 		self::display_admin_notice( $message, 'notice-error' );
 	}
 
@@ -83,7 +83,7 @@ class Blaze_Ads {
 	 * @param string $message Message to print. Can contain HTML.
 	 * @param string $classes Space separated list of classes to be applied to notice element.
 	 */
-	public static function display_admin_notice( string $message, string $classes ) {
+	public static function display_admin_notice( string $message, string $classes ): void {
 		?>
 		<div class="notice wcpay-notice <?php echo esc_attr( $classes ); ?>">
 			<p><b>Blaze Ads</b></p>
