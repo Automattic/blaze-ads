@@ -67,7 +67,7 @@ class Blaze_Dashboard {
 	 * Adds Blaze entry point to the menu under the Marketing section.
 	 */
 	public function add_admin_menu(): void {
-		$menu_slug              = 'wc-blaze';
+		$menu_slug              = 'wp-blaze';
 		$display_marketing_menu = $this->can_display_marketing_menu();
 
 		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $display_marketing_menu ? 'admin.php' : 'tools.php', $menu_slug, 'woo-blaze' );
@@ -105,7 +105,7 @@ class Blaze_Dashboard {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( 'tools.php' === $pagenow && isset( $_GET['page'] ) && 'advertising' === $_GET['page'] ) {
-			wp_safe_redirect( admin_url( '/admin.php?page=wc-blaze', 'http' ), 302 );
+			wp_safe_redirect( admin_url( '/admin.php?page=wp-blaze', 'http' ), 302 );
 			exit;
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
@@ -205,7 +205,7 @@ class Blaze_Dashboard {
 	 * @return string Jetpack connect url.
 	 */
 	public function get_connect_url( string $blazeads_connect_from = '1' ): string {
-		$admin_page = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wc-blaze' : 'tools.php?page=wc-blaze';
+		$admin_page = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wp-blaze' : 'tools.php?page=wp-blaze';
 		$url        = add_query_arg(
 			array( 'blaze-ads-connect' => $blazeads_connect_from ),
 			admin_url( $admin_page )

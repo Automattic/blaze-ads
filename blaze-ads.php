@@ -51,7 +51,7 @@ function blazeads_jetpack_init() {
 	$idc_config   = array(
 		'slug'          => 'blaze-ads',
 		'customContent' => blazeads_jetpack_idc_custom_content(),
-		'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wc-blaze' : '/wp-admin/tools.php?page=wc-blaze',
+		'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wp-blaze' : '/wp-admin/tools.php?page=wp-blaze',
 		'priority'      => 5,
 	);
 
