@@ -36,6 +36,11 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * MarketingChannelRegistrar constructor.
 	 */
 	public function __construct() {
+		$this->campaign_types = array();
+
+		if ( $this->can_register_marketing_channel() ) {
+			$this->campaign_types = $this->generate_campaign_types();
+		}
 	}
 
 	/**
@@ -48,9 +53,8 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 			return;
 		}
 
-		$this->campaign_types = $this->generate_campaign_types();
-		$wc_container         = $GLOBALS['wc_container'];
-		$marketing_channels   = $wc_container->get( MarketingChannels::class );
+		$wc_container       = $GLOBALS['wc_container'];
+		$marketing_channels = $wc_container->get( MarketingChannels::class );
 		$marketing_channels->register( $this );
 	}
 
@@ -61,7 +65,6 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return bool
 	 */
 	public function can_register_marketing_channel(): bool {
-
 		// Check if the Multichannel Marketing plugin is active.
 		if ( ! defined( 'WC_MCM_EXISTS' ) ) {
 			return false;
@@ -134,7 +137,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_product_listings_status(): string {
-		return self::PRODUCT_LISTINGS_NOT_APPLICABLE;
+		return MarketingChannelInterface::PRODUCT_LISTINGS_NOT_APPLICABLE;
 	}
 
 	/**
