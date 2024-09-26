@@ -48,8 +48,8 @@ class Blaze_Ads_Test extends BA_Unit_Test_Case {
 	 * Ensures the correct version is defined in the BLAZEADS_VERSION_NUMBER variable.
 	 */
 	public function test_sets_correct_plugin_defined_version() {
-		$this->assertNotEmpty( BLAZEADS_VERSION_NUMBER );
-		$this->assertMatchesRegularExpression( '/\d+.\d+.\d+/', BLAZEADS_VERSION_NUMBER );
+		$this->assertNotEmpty( BLAZE_ADS_VERSION_NUMBER );
+		$this->assertMatchesRegularExpression( '/\d+.\d+.\d+/', BLAZE_ADS_VERSION_NUMBER );
 	}
 
 	/**

@@ -1,0 +1,4 @@
+Significance: patch
+Type: update
+
+minor code cleanups, type hinting, access modifiers, return types

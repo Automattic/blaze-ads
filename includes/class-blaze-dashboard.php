@@ -23,7 +23,7 @@ class Blaze_Dashboard {
 	/**
 	 * Initializes/configures the Jetpack Blaze module.
 	 */
-	public function initialize() {
+	public function initialize(): void {
 		// Configures the additional information we need in the state.
 		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'blaze_ads_initial_config_data' ), 10, 1 );
 		// Allow disabling of the Jetpack Blaze menu for non-Woo sites, to avoid showing 2 advertising sub menus in the Tools menu.
@@ -100,7 +100,7 @@ class Blaze_Dashboard {
 	 *
 	 * @return void
 	 */
-	public function jetpack_dashboard_redirection() {
+	public function jetpack_dashboard_redirection(): void {
 		global $pagenow;
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -116,7 +116,7 @@ class Blaze_Dashboard {
 	 *
 	 * @return void
 	 */
-	public function jetpack_connect_onboarding() {
+	public function jetpack_connect_onboarding(): void {
 		$connect_handler = new Jetpack_Connect_Handler();
 		$connect_handler->maybe_handle_onboarding();
 	}
@@ -148,7 +148,7 @@ class Blaze_Dashboard {
 			foreach ( $data['initial_state']['sites']['items'] as $key => $site ) {
 				$options = $site['options'] ?? array();
 
-				$options['blaze_ads_version'] = BLAZEADS_VERSION_NUMBER;
+				$options['blaze_ads_version'] = BLAZE_ADS_VERSION_NUMBER;
 
 				$data['initial_state']['sites']['items'][ $key ]['options'] = $options;
 			}
@@ -174,7 +174,7 @@ class Blaze_Dashboard {
 			$setup_reason = 'blaze_disabled';
 		} elseif ( '-1' === get_option( 'blog_public' ) || (
 				( function_exists( 'site_is_coming_soon' ) && \site_is_coming_soon() )
-				|| (bool) get_option( 'wpcom_public_coming_soon' )
+				|| get_option( 'wpcom_public_coming_soon' )
 			)
 		) {
 			$setup_reason = 'site_private_or_coming_soon';

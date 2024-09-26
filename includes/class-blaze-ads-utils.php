@@ -18,7 +18,7 @@ use BlazeAds\Exceptions\Base_Exception;
 class Blaze_Ads_Utils {
 
 	/**
-	 * Calls the DSP server
+	 * Calls the Blaze (aka DSP) server
 	 *
 	 * @param int    $blog_id The blog ID.
 	 * @param string $route The route to call.
@@ -52,7 +52,6 @@ class Blaze_Ads_Utils {
 
 		$response_code         = wp_remote_retrieve_response_code( $response );
 		$response_body_content = wp_remote_retrieve_body( $response );
-		$response_body         = json_decode( $response_body_content, true );
 
 		return array(
 			'status' => $response_code,
@@ -100,14 +99,14 @@ class Blaze_Ads_Utils {
 
 			// Check if the current token is in the map.
 			if ( isset( $element_map[ $token ] ) ) {
-				$map_matched = preg_match( '/^<(\w+)(\s.+?)?\/?>$/', $element_map[ $token ], $map_matches );
+				preg_match( '/^<(\w+)(\s.+?)?\/?>$/', $element_map[ $token ], $map_matches );
 				if ( ! $map_matches ) {
 					// Should not happen with the properly formatted html as map value. Return the whole string escaped.
 					return esc_html( $string );
 				}
 				// Add the matched token and its attributes into the token queue. It will not be escaped when constructing the final string.
 				$tag   = $map_matches[1];
-				$attrs = isset( $map_matches[2] ) ? $map_matches[2] : '';
+				$attrs = $map_matches[2] ?? '';
 				if ( $is_closing ) {
 					$token_queue[] = '</' . $tag . '>';
 				} elseif ( $is_self_closed ) {
@@ -141,5 +140,4 @@ class Blaze_Ads_Utils {
 
 		return $result;
 	}
-
 }

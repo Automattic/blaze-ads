@@ -17,7 +17,7 @@ use BlazeAds\Exceptions\API_Exception;
  */
 class Jetpack_Connect_Handler {
 
-	const ERROR_MESSAGE_TRANSIENT = 'wcblaze_error_message';
+	public const ERROR_MESSAGE_TRANSIENT = 'wcblaze_error_message';
 
 	/**
 	 * Jetpack connection handler.
@@ -37,7 +37,7 @@ class Jetpack_Connect_Handler {
 	/**
 	 * Handle onboarding flow.
 	 */
-	public function maybe_handle_onboarding() {
+	public function maybe_handle_onboarding(): void {
 		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -81,7 +81,7 @@ class Jetpack_Connect_Handler {
 	 *
 	 * @param string|null $error_message Optional error message to show in a notice.
 	 */
-	public function redirect_to_connect_home_page( string $error_message = null ) {
+	public function redirect_to_connect_home_page( string $error_message = null ): void {
 		if ( isset( $error_message ) ) {
 			set_transient( self::ERROR_MESSAGE_TRANSIENT, $error_message, 30 );
 		}
@@ -89,7 +89,6 @@ class Jetpack_Connect_Handler {
 		wp_safe_redirect( admin_url( 'admin.php?page=wc-blaze' ) );
 		exit();
 	}
-
 
 	/**
 	 * Checks if Jetpack is connected.
@@ -110,7 +109,7 @@ class Jetpack_Connect_Handler {
 	 *
 	 * @throws API_Exception - Exception thrown on failure.
 	 */
-	public function start_connection( string $redirect ) {
+	public function start_connection( string $redirect ): void {
 		// Register the site to wp.com.
 		if ( ! $this->connection_manager->is_connected() ) {
 			$result = $this->connection_manager->try_registration();

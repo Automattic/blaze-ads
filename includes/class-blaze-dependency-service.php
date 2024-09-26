@@ -15,8 +15,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class Blaze_Dependency_Service {
 
-	const WOOCORE_INCOMPATIBLE = 'woocore_outdated';
-	const WP_INCOMPATIBLE      = 'wp_outdated';
+	public const WOOCORE_INCOMPATIBLE = 'woocore_outdated';
+	public const WP_INCOMPATIBLE      = 'wp_outdated';
 
 
 	/**
@@ -24,7 +24,7 @@ class Blaze_Dependency_Service {
 	 *
 	 * @return void
 	 */
-	public function initialize() {
+	public function initialize(): void {
 		add_filter( 'admin_notices', array( $this, 'display_admin_notices' ) );
 	}
 
@@ -41,7 +41,7 @@ class Blaze_Dependency_Service {
 	/**
 	 * Render admin notices for unmet dependencies. Called on the admin_notices hook.
 	 */
-	public function display_admin_notices() {
+	public function display_admin_notices(): void {
 
 		// Do not show alerts while installing plugins.
 		if ( self::is_at_plugin_install_page() ) {
@@ -105,7 +105,7 @@ class Blaze_Dependency_Service {
 		$wc_version     = $plugin_headers['WCRequires'];
 
 		// Check if the version of WooCommerce is compatible with Blaze Ads.
-		return ( defined( 'BLAZEADS_WC_VERSION' ) && version_compare( BLAZEADS_WC_VERSION, $wc_version, '>=' ) );
+		return ( defined( 'BLAZE_ADS_WC_VERSION' ) && version_compare( BLAZE_ADS_WC_VERSION, $wc_version, '>=' ) );
 	}
 
 	/**
@@ -145,10 +145,10 @@ class Blaze_Dependency_Service {
 							'blaze-ads'
 						),
 						'Blaze Ads',
-						BLAZEADS_VERSION_NUMBER,
+						BLAZE_ADS_VERSION_NUMBER,
 						'WooCommerce',
 						$wc_version,
-						BLAZEADS_WC_VERSION
+						BLAZE_ADS_WC_VERSION
 					),
 					array( 'strong' => '<strong>' )
 				);
