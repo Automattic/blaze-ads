@@ -52,6 +52,7 @@ class Blaze_Ads_Utils {
 
 		$response_code         = wp_remote_retrieve_response_code( $response );
 		$response_body_content = wp_remote_retrieve_body( $response );
+		$response_body         = json_decode( $response_body_content, true );
 
 		return array(
 			'status' => $response_code,
