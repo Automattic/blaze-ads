@@ -37,7 +37,7 @@ class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 	public function test_it_adds_admin_menu_correctly() {
 		( new Blaze_Dashboard() )->add_admin_menu();
 
-		$menu_url = menu_page_url( 'wc-blaze' );
+		$menu_url = menu_page_url( 'wp-blaze' );
 		$this->assertNotEmpty( $menu_url );
 		$this->assertMatchesRegularExpression( '/woocommerce-marketing/', $menu_url );
 	}

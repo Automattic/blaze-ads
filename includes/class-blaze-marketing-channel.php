@@ -157,10 +157,10 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 */
 	public function get_setup_url(): string {
 		if ( $this->is_setup_completed() ) {
-			return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/%s', $this->get_site_hostname() ) );
+			return admin_url( sprintf( 'admin.php?page=wp-blaze#!/wp-blaze/%s', $this->get_site_hostname() ) );
 		}
 
-		return admin_url( sprintf( 'admin.php?page=wc-blaze#!/wc-blaze/setup/%s', $this->get_site_hostname() ) );
+		return admin_url( sprintf( 'admin.php?page=wp-blaze#!/wp-blaze/setup/%s', $this->get_site_hostname() ) );
 	}
 
 	/**
@@ -189,7 +189,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	public function get_campaign_url( array $campaign, string $site_url ): string {
 		return admin_url(
 			sprintf(
-				'admin.php?page=wc-blaze#!/wc-blaze/campaigns/%s/%s',
+				'admin.php?page=wp-blaze#!/wp-blaze/campaigns/%s/%s',
 				$campaign['campaign_id'],
 				$site_url
 			)
@@ -279,7 +279,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	public function get_campaign_create_url(): string {
 		return admin_url(
 			sprintf(
-				'admin.php?page=wc-blaze#!/wc-blaze/posts/promote/post-0/%s',
+				'admin.php?page=wp-blaze#!/wp-blaze/posts/promote/post-0/%s',
 				$this->get_site_hostname()
 			)
 		);
