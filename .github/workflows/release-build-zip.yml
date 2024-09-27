@@ -16,6 +16,9 @@ on:
         default: "trunk"
         description: "Branch to be used for building zip file"
 
+permissions:
+  contents: read
+
 jobs:
   build-zip:
     name: "Build the zip file"
@@ -43,8 +46,8 @@ jobs:
 
       - name: "Upload the zip file as an artifact"
         uses: actions/upload-artifact@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        permissions:
+          actions: write  # Permissions needed for uploading the artifact
         with:
           name: "blaze-ads"
           path: release
