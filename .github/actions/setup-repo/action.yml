@@ -27,7 +27,7 @@ runs:
         cache: "pnpm"
 
     - name: "Enable composer dependencies caching"
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       if: ${{ inputs.setup-php == 'true' }}
       with:
         path: ~/.cache/composer/

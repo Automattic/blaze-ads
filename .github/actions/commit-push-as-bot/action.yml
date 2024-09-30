@@ -18,6 +18,7 @@ runs:
       env:
         RELEASE_VERSION: ${{ inputs.release-version }}
         BRANCH_NAME: ${{ inputs.branch }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       run: |
         git config user.name "github-actions[bot]"
         # We could consider fetching the bot's ID through an API call to be future-proof. Hardcoded for now.

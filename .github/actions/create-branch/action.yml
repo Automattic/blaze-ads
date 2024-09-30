@@ -17,7 +17,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: "Check the format of the version provide"
+    - name: "Check the format of the version provided"
       id: version_format_check
       uses: ./.github/actions/version-check
       with:
@@ -28,10 +28,12 @@ runs:
       shell: bash
       env:
         VERSION: ${{ steps.version_format_check.outputs.trimmed-version }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         BRANCH_NAME="release/$VERSION"
         echo ":rocket: Created branch $BRANCH_NAME. :rocket:" >> $GITHUB_STEP_SUMMARY
 
+        # Create and push the branch using authentication
         git checkout -b $BRANCH_NAME
-        git push origin $BRANCH_NAME
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} $BRANCH_NAME
         echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
