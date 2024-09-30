@@ -13,6 +13,9 @@ on:
         default: "today"
         type: string
 
+permissions:
+  contents: read
+
 defaults:
   run:
     shell: bash
