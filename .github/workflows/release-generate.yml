@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read  # Default permissions for the workflow
+  contents: write # needs write permissions to create a tag
 
 defaults:
   run:
@@ -17,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       releaseVersion: ${{ steps.current-version.outputs.RELEASE_VERSION }}
-    permissions:
-      contents: read  # Checkout only requires read access to repository contents
 
     steps:
       - name: "Checkout repository (trunk)"
@@ -39,8 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE_VERSION: ${{ needs.get-last-released-version.outputs.releaseVersion }}
-    permissions:
-      contents: write  # This job needs write access to create the tag and the release
 
     steps:
       - name: "Checkout repository (trunk)"
@@ -81,5 +77,3 @@ jobs:
         run: |
           RELEASE_NOTES=$(echo -e "${CHANGELOG}")
           gh release create $RELEASE_VERSION --notes "$RELEASE_NOTES" --title "$TAG_MESSAGE" $FILENAME
-        permissions:
-          contents: write  # Required for creating a release in the GitHub repository
