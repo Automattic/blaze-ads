@@ -48,6 +48,7 @@ jobs:
         uses: ./.github/actions/create-branch
         with:
           version: ${{ env.RELEASE_VERSION }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Define the release date"
         id: define_var
