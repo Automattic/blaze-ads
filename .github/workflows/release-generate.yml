@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: "Checkout repository (trunk)"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: 'trunk'
 
@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: "Checkout repository (trunk)"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: 'trunk'
 
