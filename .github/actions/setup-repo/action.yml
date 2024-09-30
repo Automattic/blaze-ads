@@ -15,7 +15,7 @@ runs:
   using: composite
   steps:
     - name: "Set up pnpm"
-      uses: pnpm/action-setup@v2
+      uses: pnpm/action-setup@v3
       if: ${{ inputs.setup-node-pnpm == 'true' }}
       with:
         version: 9
