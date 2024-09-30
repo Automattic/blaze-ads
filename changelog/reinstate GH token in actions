@@ -1,0 +1,4 @@
+Significance: patch
+Type: fix
+
+Reinstate GH token in release PR action
