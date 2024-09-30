@@ -14,7 +14,8 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: read   # Required for repository access
+  actions: write   # Required to allow the `release-build-zip.yml` workflow to upload artifacts
 
 defaults:
   run:
