@@ -4,9 +4,6 @@ name: "Release - Create tag and release trunk"
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write # needs write permissions to create a tag
-
 defaults:
   run:
     shell: bash

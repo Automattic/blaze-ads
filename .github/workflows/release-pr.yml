@@ -13,10 +13,6 @@ on:
         default: "today"
         type: string
 
-permissions:
-  contents: read   # Required for repository access
-  actions: write   # Required to allow the `release-build-zip.yml` workflow to upload artifacts
-
 defaults:
   run:
     shell: bash
@@ -48,7 +44,6 @@ jobs:
         uses: ./.github/actions/create-branch
         with:
           version: ${{ env.RELEASE_VERSION }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Define the release date"
         id: define_var
