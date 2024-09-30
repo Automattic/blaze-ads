@@ -17,7 +17,8 @@ on:
         description: "Branch to be used for building zip file"
 
 permissions:
-  contents: read
+  contents: read # Needed for checking out the repository
+  actions: write # Needed for uploading the artifact
 
 jobs:
   build-zip:
@@ -46,8 +47,6 @@ jobs:
 
       - name: "Upload the zip file as an artifact"
         uses: actions/upload-artifact@v3
-        permissions:
-          actions: write  # Permissions needed for uploading the artifact
         with:
           name: "blaze-ads"
           path: release
