@@ -5,6 +5,9 @@ inputs:
   version:
     description: "The version that the action should use to create the branch (e.g. 0.5.0)"
     required: true
+  GH_TOKEN:
+    description: "GitHub token for authentication"
+    required: true
 
 outputs:
   trimmed-version:
@@ -28,7 +31,7 @@ runs:
       shell: bash
       env:
         VERSION: ${{ steps.version_format_check.outputs.trimmed-version }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.GH_TOKEN }}
       run: |
         BRANCH_NAME="release/$VERSION"
         echo ":rocket: Created branch $BRANCH_NAME. :rocket:" >> $GITHUB_STEP_SUMMARY
