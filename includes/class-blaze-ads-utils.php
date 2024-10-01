@@ -47,7 +47,7 @@ class Blaze_Ads_Utils {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			throw new Base_Exception( $response->get_error_message(), 'blazeads_dsp_request_failed' );
+			throw new Base_Exception( esc_html( $response->get_error_message() ), 'blazeads_dsp_request_failed' );
 		}
 
 		$response_code         = wp_remote_retrieve_response_code( $response );
