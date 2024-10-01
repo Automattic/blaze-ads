@@ -4,7 +4,7 @@ Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,9 @@ If your site uses WooCommerce, you’ll also find Blaze Ads alongside your other
 Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Privacy Policy](https://automattic.com/privacy/) and our [Advertising Policy](https://automattic.com/advertising-policy/) for full details on how we handle data and ensure compliance.
 
 == Changelog ==
+
+= 0.5.1 - 2024-10-01 =
+* Update - Run error reponses though esc_html
 
 = 0.5.0 - 2024-09-30 =
 * Fix - fixing "The workflow is requesting 'actions: write', but is only allowed 'actions: none'."

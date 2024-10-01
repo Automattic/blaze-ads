@@ -1,5 +1,8 @@
 *** Blaze Ads Changelog ***
 
+2024-10-01 - version 0.5.1
+* Update - Run error reponses though esc_html
+
 2024-09-30 - version 0.5.0
 * Fix - fixing "The workflow is requesting 'actions: write', but is only allowed 'actions: none'."
 * Fix - Reinstate GH token in release PR action
