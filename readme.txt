@@ -4,7 +4,7 @@ Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.4.1
+Stable tag: 0.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,20 @@ If your site uses WooCommerce, you’ll also find Blaze Ads alongside your other
 Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Privacy Policy](https://automattic.com/privacy/) and our [Advertising Policy](https://automattic.com/advertising-policy/) for full details on how we handle data and ensure compliance.
 
 == Changelog ==
+
+= 0.5.0 - 2024-09-30 =
+* Fix - fixing "The workflow is requesting 'actions: write', but is only allowed 'actions: none'."
+* Fix - Reinstate GH token in release PR action
+* Fix - Removes old dashboard compatibility classes. They are no longer needed
+* Fix - Removes permissions that were on the step level, this is not supported and caused action failures
+* Update - Changes the menu slug from wc-blaze to wp-blaze
+* Update - Improves the handling of the DSP API responses
+* Update - minor code cleanups, type hinting, access modifiers, return types
+* Update - Refactors the rest of the files to follow the new plugin's name
+* Update - Removes a reference to a remote image, and brings it into the plugin
+* Update - Removes the custom translation code to start using the default dotorg mechanism
+* Update - Update action permissions on a per job basis
+* Dev - Adds composer.json to the release build
 
 = 0.4.1 - 2024-08-19 =
 * Dev - fix concerns reported by running Plugin Check (PCP)

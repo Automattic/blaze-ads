@@ -1,4 +1,0 @@
-Significance: patch
-Type: fix
-
-fixing "The workflow is requesting 'actions: write', but is only allowed 'actions: none'."
