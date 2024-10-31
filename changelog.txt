@@ -1,5 +1,9 @@
 *** Blaze Ads Changelog ***
 
+2024-10-31 - version 0.5.2
+* Add - Adds the assets for the DotOrg directory
+* Update - updates composer dependency for the Blaze package
+
 2024-10-01 - version 0.5.1
 * Update - Run error reponses though esc_html
 
