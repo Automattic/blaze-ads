@@ -4,7 +4,7 @@ Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Pri
 6. See how your campaign has performed!
 
 == Changelog ==
+
+= 0.5.2 - 2024-10-31 =
+* Add - Adds the assets for the DotOrg directory
+* Update - updates composer dependency for the Blaze package
 
 = 0.5.1 - 2024-10-01 =
 * Update - Run error reponses though esc_html
