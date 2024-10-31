@@ -59,6 +59,16 @@ If your site uses WooCommerce, you’ll also find Blaze Ads alongside your other
 
 Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Privacy Policy](https://automattic.com/privacy/) and our [Advertising Policy](https://automattic.com/advertising-policy/) for full details on how we handle data and ensure compliance.
 
+
+
+== Screenshots ==
+1. Transform your content to an ad with a click
+2. Choose an eye-catching image, an engaging title and pick your audience budget and duration
+3. Review your campaign
+4. Or make more advanced changes
+5. All Set! Your campaign has been sent for moderation
+6. See how your campaign has performed!
+
 == Changelog ==
 
 = 0.5.1 - 2024-10-01 =
