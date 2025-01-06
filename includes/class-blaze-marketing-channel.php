@@ -66,7 +66,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 */
 	public function can_register_marketing_channel(): bool {
 		// Check if the Multichannel Marketing plugin is active.
-		if ( ! defined( 'WC_MCM_EXISTS' ) ) {
+		if ( ! class_exists( MarketingChannels::class ) ) {
 			return false;
 		}
 
