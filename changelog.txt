@@ -1,5 +1,9 @@
 *** Blaze Ads Changelog ***
 
+2025-01-06 - version 0.5.3
+* Fix - Fixes a compatibility bug with with newer versions of WooCommerce
+* Update - Updates composer dependencies to use the new Blaze package version
+
 2024-10-31 - version 0.5.2
 * Add - Adds the assets for the DotOrg directory
 * Update - updates composer dependency for the Blaze package
