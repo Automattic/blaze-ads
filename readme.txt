@@ -4,7 +4,7 @@ Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.5.3
+Stable tag: 0.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,9 @@ Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Pri
 6. See how your campaign has performed!
 
 == Changelog ==
+
+= 0.6.0 - 2025-01-08 =
+* Update - Updates the plugin documentation page
 
 = 0.5.3 - 2025-01-06 =
 * Fix - Fixes a compatibility bug with with newer versions of WooCommerce
