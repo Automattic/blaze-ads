@@ -12,13 +12,16 @@ Promote your products and services to over 100 million users across Tumblr and W
 
 == Description ==
 
-Blaze Ads helps you reach over 100 million users across Tumblr and WordPress blogs—whether you're building an audience of readers, fans, customers, or subscribers.
+Blaze is by far the simplest way to start promoting your site, and it can reach over 100 million users across Tumblr and WordPress blogs. With an intuitive ad-building interface seamlessly integrated into your WordPress or WooCommerce site, you can get started in just minutes.
 
-Turn your content into an ad with just a few clicks!
+Blaze is built for people who have a business to run or stories to tell, and don’t have time for endless settings and options. You can truly get started advertising in just a few minutes.
 
-Blaze Ads is the simplest way to promote your site. Start advertising in minutes and reach over 100 million shoppers across the Automattic ecosystem. Designed to work across all retail verticals and product types, Blaze helps site owners drive more traffic and generate more sales with minimal effort.
+* Get readers to your blog
+* Find new customers
+* Get new newsletter subscribers
+* Reach new fans and followers
 
-Blaze Ads offers a fast, intuitive, and streamlined interface to create a Blaze Ad campaign for any of your pages, products or services, even if you’ve never advertised before. Customize your ad image, copy, and audience targeting to maximize impact, reach, and performance.
+Create ads using existing content on your site or upload custom images. The AI assistant can help you write the text, and with geographic and interest targeting, you can connect with the audience that matters most to you.
 
 = Want to learn more about Blaze? =
 
