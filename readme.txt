@@ -12,9 +12,9 @@ Promote your products and services to over 100 million users across Tumblr and W
 
 == Description ==
 
-Blaze is by far the easiest way to start promoting your site, and it can reach over 100 million users across Tumblr and WordPress blogs. Get started in minutes with an intuitive ad-building interface that’s fully integrated with your WordPress or WooCommerce site.
+Blaze is by far the simplest way to start promoting your site, and it can reach over 100 million users across Tumblr and WordPress blogs. With an intuitive ad-building interface seamlessly integrated into your WordPress or WooCommerce site, you can get started in just minutes.
 
-Blaze is built for people who have a business to run or articles to write, and don’t have time for endless settings and options. You can truly get started advertising in just a few minutes.
+Blaze is built for people who have a business to run or stories to tell, and don’t have time for endless settings and options. You can truly get started advertising in just a few minutes.
 
 * Get readers to your blog
 * Find new customers
