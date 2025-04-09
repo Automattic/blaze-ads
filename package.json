@@ -6,7 +6,7 @@
 	"description": "Blaze Ads",
 	"engines": {
 		"node": "^20.8.1",
-		"pnpm": "^9.3.0"
+		"pnpm": "^10.8.0"
 	},
 	"scripts": {
 		"docker:up": "docker-compose up --build -d",

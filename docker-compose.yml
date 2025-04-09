@@ -33,7 +33,7 @@ services:
       - 'host.docker.internal:host-gateway'
   db:
     container_name: blaze_ads_mysql
-    image: mariadb:10.5.8
+    image: mariadb:11.4.5
     ports:
       - '3308:3306'
     env_file:
