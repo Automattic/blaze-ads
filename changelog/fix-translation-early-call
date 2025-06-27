@@ -1,0 +1,4 @@
+Significance: minor
+Type: fix
+
+Fixes the i18n notices on the plugin (Jetpack IDC config and marketing channel descriptions)
