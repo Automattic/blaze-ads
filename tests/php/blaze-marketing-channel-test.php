@@ -17,14 +17,14 @@ use Automattic\WooCommerce\Admin\Marketing\MarketingCampaignType;
  * Tests the Blaze_Marketing_Channel class.
  */
 class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
-
 	/** @var Blaze_Marketing_Channel $channel */
-	protected Blaze_Marketing_Channel $channel;
+	protected static Blaze_Marketing_Channel $channel;
 
-	public function set_up() {
-		parent::set_up();
+	public static function setUpBeforeClass(): void {
+		parent::setUpBeforeClass();
 
-		$this->channel = new Blaze_Marketing_Channel();
+		self::$channel = new Blaze_Marketing_Channel();
+		self::$channel->setup_marketing_channel();
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_slug
 	 */
 	public function test_get_slug_is_not_empty() {
-		$this->assertNotEmpty( $this->channel->get_slug() );
+		$this->assertNotEmpty( self::$channel->get_slug() );
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_name
 	 */
 	public function test_get_name_is_not_empty() {
-		$this->assertNotEmpty( $this->channel->get_name() );
+		$this->assertNotEmpty( self::$channel->get_name() );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_description
 	 */
 	public function test_get_description_is_not_empty() {
-		$this->assertNotEmpty( $this->channel->get_description() );
+		$this->assertNotEmpty( self::$channel->get_description() );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_product_listings_status
 	 */
 	public function test_get_product_listings_status_is_not_empty() {
-		$this->assertNotEmpty( $this->channel->get_product_listings_status() );
+		$this->assertNotEmpty( self::$channel->get_product_listings_status() );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_product_listings_status
 	 */
 	public function test_get_errors_count_is_valid() {
-		$this->assertEquals( 0, $this->channel->get_errors_count() );
+		$this->assertEquals( 0, self::$channel->get_errors_count() );
 	}
 
 	/**
@@ -78,13 +78,13 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_supported_campaign_types
 	 */
 	public function test_get_supported_campaign_types_returns_ads_campaign() {
-		$this->assertCount( 1, $this->channel->get_supported_campaign_types() );
+		$this->assertCount( 1, self::$channel->get_supported_campaign_types() );
 		$this->assertContainsOnlyInstancesOf(
 			MarketingCampaignType::class,
-			$this->channel->get_supported_campaign_types()
+			self::$channel->get_supported_campaign_types()
 		);
-		$this->assertArrayHasKey( 'woo-blaze', $this->channel->get_supported_campaign_types() );
-		$this->assertEquals( 'woo-blaze', $this->channel->get_supported_campaign_types()['woo-blaze']->get_id() );
+		$this->assertArrayHasKey( 'woo-blaze', self::$channel->get_supported_campaign_types() );
+		$this->assertEquals( 'woo-blaze', self::$channel->get_supported_campaign_types()['woo-blaze']->get_id() );
 	}
 
 	/**
@@ -93,8 +93,8 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_icon_url
 	 */
 	public function test_get_icon_url_is_valid() {
-		$this->assertNotEmpty( $this->channel->get_icon_url() );
-		$this->assertNotFalse( filter_var( $this->channel->get_icon_url(), FILTER_VALIDATE_URL ) );
+		$this->assertNotEmpty( self::$channel->get_icon_url() );
+		$this->assertNotFalse( filter_var( self::$channel->get_icon_url(), FILTER_VALIDATE_URL ) );
 	}
 
 	/**
@@ -103,8 +103,8 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_setup_url
 	 */
 	public function test_get_setup_url_is_valid() {
-		$this->assertNotEmpty( $this->channel->get_setup_url() );
-		$this->assertNotFalse( filter_var( $this->channel->get_setup_url(), FILTER_VALIDATE_URL ) );
+		$this->assertNotEmpty( self::$channel->get_setup_url() );
+		$this->assertNotFalse( filter_var( self::$channel->get_setup_url(), FILTER_VALIDATE_URL ) );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Blaze_Marketing_Channel_Test extends BA_Unit_Test_Case {
 	 * @covers BlazeAds\Blaze_Marketing_Channel::get_setup_url
 	 */
 	public function test_get_campaigns_returns_array() {
-		$campaigns = $this->channel->get_campaigns();
+		$campaigns = self::$channel->get_campaigns();
 		$this->assertIsArray( $campaigns );
 	}
 }

@@ -24,12 +24,12 @@
   "require": {
     "php": ">=7.4",
     "composer/installers": "~1.7",
-    "automattic/jetpack-connection": "^6.2.0",
-    "automattic/jetpack-config": "^3.0.0",
-    "automattic/jetpack-autoloader": "^5.0.0",
+    "automattic/jetpack-connection": "^6.7.3",
+    "automattic/jetpack-config": "^3.0.1",
+    "automattic/jetpack-autoloader": "^5.0.2",
     "automattic/jetpack-constants": "^3.0.1",
-    "automattic/jetpack-blaze": "^0.25.3",
-    "automattic/jetpack-sync": "^4.1.0",
+    "automattic/jetpack-blaze": "^0.25.33",
+    "automattic/jetpack-sync": "^4.8.3",
     "automattic/jetpack-plans": "*",
     "automattic/jetpack-status": "*",
     "ext-json": "*"

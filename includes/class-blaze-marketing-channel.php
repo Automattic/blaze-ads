@@ -37,10 +37,6 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 */
 	public function __construct() {
 		$this->campaign_types = array();
-
-		if ( $this->can_register_marketing_channel() ) {
-			$this->campaign_types = $this->generate_campaign_types();
-		}
 	}
 
 	/**
@@ -53,11 +49,19 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 			return;
 		}
 
+		add_action( 'woocommerce_init', array( $this, 'setup_marketing_channel' ) );
+	}
+
+	/**
+	 * Setups the WooCommerce marketing channel for Blaze Ads
+	 */
+	public function setup_marketing_channel() {
+		$this->campaign_types = $this->generate_campaign_types();
+
 		$wc_container       = $GLOBALS['wc_container'];
 		$marketing_channels = $wc_container->get( MarketingChannels::class );
 		$marketing_channels->register( $this );
 	}
-
 
 	/**
 	 * Check if the Multichannel Marketing plugin is active.
