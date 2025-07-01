@@ -1,0 +1,4 @@
+Significance: patch
+Type: fix
+
+Update actions/upload-artifact from v3 to v4 to use the latest version
