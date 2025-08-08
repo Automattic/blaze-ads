@@ -75,6 +75,7 @@ Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Pri
 == Changelog ==
 
 = 0.8.0 - 2025-08-08 =
+* Add - Added the new Payments tab for viewing user's order history
 
 
 = 0.7.0 - 2025-07-02 =
