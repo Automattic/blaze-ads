@@ -1,5 +1,8 @@
 *** Blaze Ads Changelog ***
 
+2025-08-12 - version 0.8.0
+* Update - update jetpack-blaze package to use latest version
+
 2025-07-02 - version 0.7.0
 * Fix - Fixes the i18n notices on the plugin (Jetpack IDC config and marketing channel descriptions)
 * Fix - Update actions/upload-artifact from v3 to v4 to use the latest version
