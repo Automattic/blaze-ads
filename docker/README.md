@@ -13,7 +13,11 @@ pnpm docker:up:recreate
 
 This will (re-)create all containers and run a setup script to ensure everything is configured.
 
-Once you've created the environment, you can quickly bring it back up with `pnpm docker:up`.
+Once you've created the environment, you can quickly bring it back up with:
+```
+pnpm docker:up
+```
+
 
 ## WordPress Admin
 Open http://localhost:8082/wp-admin/
