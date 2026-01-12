@@ -87,7 +87,7 @@ jobs:
       - name: "Create a PR to trunk"
         id: create-pr-to-trunk
         env:
-          GITHUB_TOKEN: ${{ secrets.BOTWOO_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_NAME: ${{ steps.create_branch.outputs.branch-name }}
           CHANGELOG: ${{ steps.generate_changelog.outputs.changelog }}
           RELEASE_VERSION: ${{ steps.create_branch.outputs.trimmed-version }}
