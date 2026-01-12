@@ -113,7 +113,7 @@ class Blaze_Marketing_Channel implements MarketingChannelInterface {
 	 * @return string
 	 */
 	public function get_icon_url(): string {
-		return plugins_url( 'assets/images/blaze-flame-woo.svg', BLAZEADS_PLUGIN_FILE );
+		return plugins_url( 'assets/images/blaze-flame.svg', BLAZEADS_PLUGIN_FILE );
 	}
 
 	/**
