@@ -4,7 +4,7 @@ Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.8.0
+Stable tag: 0.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Pri
 6. See how your campaign has performed!
 
 == Changelog ==
+
+= 0.8.1 - 2026-01-12 =
+* Update - Updates the latest tested version and readme
+* Update - Updates the Woo logo from the Woo purple to blaze orange flame
 
 = 0.8.0 - 2025-08-12 =
 * Update - update jetpack-blaze package to use latest version
