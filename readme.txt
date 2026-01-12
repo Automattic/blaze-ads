@@ -12,9 +12,9 @@ Promote your products and services to over 100 million users across Tumblr and W
 
 == Description ==
 
-Blaze is by far the simplest way to start promoting your site, and it can reach over 100 million users across Tumblr and WordPress blogs. With an intuitive ad-building interface seamlessly integrated into your WordPress or WooCommerce site, you can get started in just minutes.
+Blaze Ads is by far the simplest way to start promoting your site, and it can reach over 100 million users across Tumblr and WordPress blogs. With an intuitive ad-building interface seamlessly integrated into your WordPress or WooCommerce site, you can get started in just minutes.
 
-Blaze is built for people who have a business to run or stories to tell, and don’t have time for endless settings and options. You can truly get started advertising in just a few minutes.
+Blaze Ads is built for people who have a business to run or stories to tell, and don’t have time for endless settings and options. You can truly get started advertising in just a few minutes.
 
 * Get readers to your blog
 * Find new customers
@@ -23,9 +23,9 @@ Blaze is built for people who have a business to run or stories to tell, and don
 
 Create ads using existing content on your site or upload custom images. The AI assistant can help you write the text, and with geographic and interest targeting, you can connect with the audience that matters most to you.
 
-= Want to learn more about Blaze? =
+= Want to learn more about Blaze Ads? =
 
-Explore more about how Blaze can help grow your business by visiting our [information page](https://wordpress.com/advertising/). You can also dive into our comprehensive [support documents](https://wordpress.com/support/promote-a-post/) for step-by-step guides and tips, or reach out to our [dedicated support team](https://wordpress.com/help/contact/), always ready to assist with any questions you have.
+Explore more about how Blaze Ads can help grow your business by visiting our [information page](https://wordpress.com/advertising/). You can also dive into our comprehensive [support documents](https://wordpress.com/support/promote-a-post/) for step-by-step guides and tips, or reach out to our [dedicated support team](https://wordpress.com/help/contact/), always ready to assist with any questions you have.
 
 = Integrations =
 
