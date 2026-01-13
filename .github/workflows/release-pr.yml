@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOTWOO_TOKEN }}
 
       - name: "Set up repository"
         uses: ./.github/actions/setup-repo
@@ -87,7 +89,7 @@ jobs:
       - name: "Create a PR to trunk"
         id: create-pr-to-trunk
         env:
-          GH_TOKEN: ${{ secrets.BOTWOO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOTWOO_TOKEN }}
           BRANCH_NAME: ${{ steps.create_branch.outputs.branch-name }}
           CHANGELOG: ${{ steps.generate_changelog.outputs.changelog }}
           RELEASE_VERSION: ${{ steps.create_branch.outputs.trimmed-version }}
