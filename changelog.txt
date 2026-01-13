@@ -1,5 +1,9 @@
 *** Blaze Ads Changelog ***
 
+2026-01-13 - version 999.9.9
+* Update - Updates the latest tested version and readme
+* Update - Updates the Woo logo from the Woo purple to blaze orange flame
+
 2025-08-12 - version 0.8.0
 * Update - update jetpack-blaze package to use latest version
 
