@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d15988f7dba457f3380c7fdfa4e6aca",
+    "content-hash": "62c5674b13b215f50c0c3052443c68bd",
     "packages": [
         {
             "name": "automattic/jetpack-a8c-mc-stats",
@@ -175,16 +175,16 @@
         },
         {
             "name": "automattic/jetpack-autoloader",
-            "version": "v5.0.8",
+            "version": "v5.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-autoloader.git",
-                "reference": "6a73ae61ff47600534735946572284341b07bc11"
+                "reference": "d5263d6ffa91dc0d0d39b1df54de1e9bb2091364"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/6a73ae61ff47600534735946572284341b07bc11",
-                "reference": "6a73ae61ff47600534735946572284341b07bc11",
+                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/d5263d6ffa91dc0d0d39b1df54de1e9bb2091364",
+                "reference": "d5263d6ffa91dc0d0d39b1df54de1e9bb2091364",
                 "shasum": ""
             },
             "require": {
@@ -192,7 +192,7 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^6.0.5",
+                "automattic/jetpack-changelogger": "^6.0.12",
                 "automattic/phpunit-select-config": "^1.0.3",
                 "composer/composer": "^2.2",
                 "yoast/phpunit-polyfills": "^4.0.0"
@@ -234,9 +234,9 @@
                 "wordpress"
             ],
             "support": {
-                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v5.0.8"
+                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v5.0.15"
             },
-            "time": "2025-06-23T19:59:46+00:00"
+            "time": "2025-12-15T11:22:11+00:00"
         },
         {
             "name": "automattic/jetpack-blaze",
