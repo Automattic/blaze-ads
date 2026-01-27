@@ -1,0 +1,5 @@
+Significance: patch
+Type: fix
+Comment: Fixes the env variable used in the release-pr workflow
+
+
