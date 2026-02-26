@@ -31,8 +31,36 @@ Key architectural facts:
 - For CI: `bin/run-ci-tests.sh` handles full setup (composer install, MySQL, WordPress + WooCommerce test lib installation)
 - Manual smoke testing on a live site is standard before releases — install the built zip on a Jurassic Ninja site
 
+# Release
+
+Blaze Ads is a **managed plugin** — the Atomic team handles deployment to Atomic sites.
+
+## Release Flow
+
+1. Merge branch to `trunk`
+2. Run GitHub Action: **Release — Prepare a release PR to trunk** (specify version number)
+3. Follow the PR checklist, smoke test the generated zip on a live site
+4. Squash-merge the release PR
+5. Run GitHub Action: **Release — Create tag and release trunk**
+6. Atomic team picks up the new release automatically
+
+## Release to WordPress.org
+
+After GitHub release, manually push to SVN:
+- SVN URL: `https://plugins.svn.wordpress.org/blaze-ads/`
+- Username: `automattic` (case sensitive), password in the secret store
+- WooCommerce Marketplace auto-syncs from WordPress.org — no separate step needed
+
 # Safety
 
 - This plugin is deployed to Atomic sites by the Atomic team — do not bypass Jetpack connection flows
 - Do not remove Jetpack Sync calls without understanding mobile app implications (Blaze SPA in mobile loads via `wordpress.com/advertising`)
 - When bumping `jetpack-blaze` version, use `composer update --with-all-dependencies` if transitive deps changed
+
+# Related Systems
+
+- **Dashboard frontend**: `wp-calypso/apps/blaze-dashboard` (Calypso repo)
+- **Jetpack Blaze package**: `automattic/jetpack-blaze` on Packagist — release standalone versions via [Jetpack release process](https://fieldguide.automattic.com/releasing-jetpack/jetpack-release-best-practices/releasing-stand-alone-package-versions/)
+- **DSP backend**: proxied through WPCOM REST API
+- **Payment**: Adpurchase (dedicated Woo instance with Stripe)
+- Previously called **Woo Blaze** — old repo `Automattic/woo-blaze` is archived
