@@ -53,11 +53,12 @@ function blazeads_jetpack_init() {
 		)
 	);
 
-	$is_woo_store = Blaze_Dependency_Service::is_woo_core_active();
-	$idc_config   = array(
+	$is_woo_store   = Blaze_Dependency_Service::is_woo_core_active();
+	$admin_page_url = '/wp-admin/' . ( new BlazeAds\Blaze_Dashboard() )->get_admin_page_url_path();
+	$idc_config     = array(
 		'slug'          => 'blaze-ads',
 		'customContent' => $custom_content,
-		'admin_page'    => $is_woo_store ? '/wp-admin/admin.php?page=wp-blaze' : '/wp-admin/tools.php?page=wp-blaze',
+		'admin_page'    => $admin_page_url,
 		'priority'      => 5,
 	);
 

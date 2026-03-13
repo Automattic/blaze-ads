@@ -13,12 +13,23 @@ use Automattic\Jetpack\Blaze as Jetpack_Blaze;
 use Automattic\Jetpack\Blaze\Dashboard as Jetpack_Blaze_Dashboard;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
+use BlazeAds\Exceptions\Base_Exception;
+use Jetpack_Options;
 
 /**
  * Its responsibility is to render the customized version of the Blaze Dashboard.
  */
 class Blaze_Dashboard {
 
+	/**
+	 * Transient key for caching the active campaigns check.
+	 */
+	const ACTIVE_CAMPAIGNS_TRANSIENT = 'blazeads_has_active_campaigns';
+
+	/**
+	 * TTL for the active campaigns transient, in seconds (1 hour).
+	 */
+	const ACTIVE_CAMPAIGNS_TRANSIENT_TTL = HOUR_IN_SECONDS;
 
 	/**
 	 * Initializes/configures the Jetpack Blaze module.
@@ -64,13 +75,102 @@ class Blaze_Dashboard {
 	}
 
 	/**
+	 * Determines whether the non-Woo menu should be promoted to a top-level menu page.
+	 *
+	 * The menu is promoted when the site is not a WooCommerce store and has active
+	 * Blaze campaigns. This makes the Blaze Ads entry more visible in the admin sidebar.
+	 *
+	 * @return bool True if the menu should be a top-level page.
+	 */
+	public function should_promote_to_top_level(): bool {
+		if ( $this->can_display_marketing_menu() ) {
+			return false;
+		}
+
+		return self::has_active_campaigns();
+	}
+
+	/**
+	 * Checks if the site has any active Blaze campaigns by calling the DSP API.
+	 *
+	 * Results are cached with a transient for 1 hour. This method is independent of
+	 * the WooCommerce MarketingCampaign infrastructure and returns a simple boolean.
+	 *
+	 * @return bool True if the site has at least one active campaign.
+	 */
+	public static function has_active_campaigns(): bool {
+		$cached = get_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT );
+		if ( false !== $cached ) {
+			return (bool) $cached;
+		}
+
+		$has_campaigns = false;
+
+		try {
+			$blog_id = Jetpack_Options::get_option( 'id' );
+			if ( empty( $blog_id ) ) {
+				set_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT, 0, self::ACTIVE_CAMPAIGNS_TRANSIENT_TTL );
+				return false;
+			}
+
+			$query_params = array(
+				'status' => 'active',
+			);
+
+			$path     = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
+			$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
+
+			if ( 200 === $response['status'] && isset( $response['body']['campaigns'] ) && ! empty( $response['body']['campaigns'] ) ) {
+				$has_campaigns = true;
+			}
+		} catch ( Base_Exception $e ) {
+			// On failure, cache as false so we don't keep retrying on every page load.
+			$has_campaigns = false;
+		}
+
+		set_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT, $has_campaigns ? 1 : 0, self::ACTIVE_CAMPAIGNS_TRANSIENT_TTL );
+
+		return $has_campaigns;
+	}
+
+	/**
+	 * Returns the admin page base for the Blaze Ads dashboard.
+	 *
+	 * For WooCommerce stores the dashboard lives under admin.php. For non-Woo sites
+	 * it is either admin.php (when promoted to top-level) or tools.php (submenu fallback).
+	 *
+	 * @return string The page base, e.g. 'admin.php' or 'tools.php'.
+	 */
+	public function get_admin_page_base(): string {
+		if ( $this->can_display_marketing_menu() ) {
+			return 'admin.php';
+		}
+
+		if ( $this->should_promote_to_top_level() ) {
+			return 'admin.php';
+		}
+
+		return 'tools.php';
+	}
+
+	/**
+	 * Returns the full admin URL path for the Blaze Ads dashboard page.
+	 *
+	 * @return string E.g. 'admin.php?page=wp-blaze' or 'tools.php?page=wp-blaze'.
+	 */
+	public function get_admin_page_url_path(): string {
+		return $this->get_admin_page_base() . '?page=wp-blaze';
+	}
+
+	/**
 	 * Adds Blaze entry point to the menu under the Marketing section.
 	 */
 	public function add_admin_menu(): void {
 		$menu_slug              = 'wp-blaze';
 		$display_marketing_menu = $this->can_display_marketing_menu();
+		$promote_to_top_level   = $this->should_promote_to_top_level();
 
-		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $display_marketing_menu ? 'admin.php' : 'tools.php', $menu_slug, 'woo-blaze' );
+		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $this->get_admin_page_base(), $menu_slug, 'woo-blaze' );
 
 		if ( $display_marketing_menu ) {
 			$page_suffix = add_submenu_page(
@@ -81,11 +181,21 @@ class Blaze_Dashboard {
 				$menu_slug,
 				array( $blaze_dashboard, 'render' )
 			);
+		} elseif ( $promote_to_top_level ) {
+			$page_suffix = add_menu_page(
+				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
+				__( 'Blaze Ads', 'blaze-ads' ),
+				'manage_options',
+				$menu_slug,
+				array( $blaze_dashboard, 'render' ),
+				'dashicons-megaphone',
+				30
+			);
 		} else {
 			$page_suffix = add_submenu_page(
 				'tools.php',
-				esc_attr__( 'Advertising', 'blaze-ads' ),
-				__( 'Advertising', 'blaze-ads' ),
+				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
+				__( 'Blaze Ads', 'blaze-ads' ),
 				'manage_options',
 				$menu_slug,
 				array( $blaze_dashboard, 'render' ),
@@ -206,7 +316,7 @@ class Blaze_Dashboard {
 	 * @return string Jetpack connect url.
 	 */
 	public function get_connect_url( string $blazeads_connect_from = '1' ): string {
-		$admin_page = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wp-blaze' : 'tools.php?page=wp-blaze';
+		$admin_page = $this->get_admin_page_url_path();
 		$url        = add_query_arg(
 			array( 'blaze-ads-connect' => $blazeads_connect_from ),
 			admin_url( $admin_page )
