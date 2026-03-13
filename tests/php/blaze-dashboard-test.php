@@ -123,14 +123,36 @@ class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 	}
 
 	/**
-	 * Ensure that should_promote_to_top_level returns false for WooCommerce stores.
+	 * Ensure that WooCommerce stores with active campaigns promote to top-level.
 	 *
 	 * @covers BlazeAds\Blaze_Dashboard::should_promote_to_top_level
 	 */
-	public function test_should_not_promote_when_woo_active() {
+	public function test_should_promote_when_woo_active_with_campaigns() {
+		// Seed the transient with a "true" value to simulate active campaigns.
+		set_transient( Blaze_Dashboard::ACTIVE_CAMPAIGNS_TRANSIENT, 1, HOUR_IN_SECONDS );
+
 		// The test bootstrap loads WooCommerce, so can_display_marketing_menu() returns true.
 		$dashboard = new Blaze_Dashboard();
+		$this->assertTrue( $dashboard->should_promote_to_top_level() );
+
+		// Clean up.
+		delete_transient( Blaze_Dashboard::ACTIVE_CAMPAIGNS_TRANSIENT );
+	}
+
+	/**
+	 * Ensure that WooCommerce stores without active campaigns do not promote to top-level.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::should_promote_to_top_level
+	 */
+	public function test_should_not_promote_when_woo_active_without_campaigns() {
+		// Seed the transient with a "false" value to simulate no active campaigns.
+		set_transient( Blaze_Dashboard::ACTIVE_CAMPAIGNS_TRANSIENT, 0, HOUR_IN_SECONDS );
+
+		$dashboard = new Blaze_Dashboard();
 		$this->assertFalse( $dashboard->should_promote_to_top_level() );
+
+		// Clean up.
+		delete_transient( Blaze_Dashboard::ACTIVE_CAMPAIGNS_TRANSIENT );
 	}
 
 	/**
@@ -242,12 +264,4 @@ class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 		$this->assertEquals( 'tools.php', $dashboard->get_admin_page_base() );
 	}
 
-	private function mock_wp_remote_get( $response ) {
-		add_filter(
-			'pre_http_request',
-			function () use ( $response ) {
-				return $response;
-			}
-		);
-	}
 }

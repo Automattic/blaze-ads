@@ -86,7 +86,8 @@ class Jetpack_Connect_Handler {
 			set_transient( self::ERROR_MESSAGE_TRANSIENT, $error_message, 30 );
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=wp-blaze' ) );
+		$admin_page = ( new Blaze_Dashboard() )->get_admin_page_url_path();
+		wp_safe_redirect( admin_url( $admin_page ) );
 		exit();
 	}
 

@@ -75,18 +75,15 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Determines whether the non-Woo menu should be promoted to a top-level menu page.
+	 * Determines whether the menu should be promoted to a top-level menu page.
 	 *
-	 * The menu is promoted when the site is not a WooCommerce store and has active
-	 * Blaze campaigns. This makes the Blaze Ads entry more visible in the admin sidebar.
+	 * The menu is promoted when the site has active Blaze campaigns, regardless
+	 * of whether WooCommerce is active. This makes the Blaze Ads entry more
+	 * visible in the admin sidebar.
 	 *
 	 * @return bool True if the menu should be a top-level page.
 	 */
 	public function should_promote_to_top_level(): bool {
-		if ( $this->can_display_marketing_menu() ) {
-			return false;
-		}
-
 		return self::has_active_campaigns();
 	}
 
@@ -136,17 +133,18 @@ class Blaze_Dashboard {
 	/**
 	 * Returns the admin page base for the Blaze Ads dashboard.
 	 *
-	 * For WooCommerce stores the dashboard lives under admin.php. For non-Woo sites
-	 * it is either admin.php (when promoted to top-level) or tools.php (submenu fallback).
+	 * When promoted to top-level (active campaigns in any context) or displayed
+	 * under the WooCommerce Marketing submenu, the base is admin.php. Otherwise,
+	 * for non-Woo sites without active campaigns, it falls back to tools.php.
 	 *
 	 * @return string The page base, e.g. 'admin.php' or 'tools.php'.
 	 */
 	public function get_admin_page_base(): string {
-		if ( $this->can_display_marketing_menu() ) {
+		if ( $this->should_promote_to_top_level() ) {
 			return 'admin.php';
 		}
 
-		if ( $this->should_promote_to_top_level() ) {
+		if ( $this->can_display_marketing_menu() ) {
 			return 'admin.php';
 		}
 
@@ -166,22 +164,12 @@ class Blaze_Dashboard {
 	 * Adds Blaze entry point to the menu under the Marketing section.
 	 */
 	public function add_admin_menu(): void {
-		$menu_slug              = 'wp-blaze';
-		$display_marketing_menu = $this->can_display_marketing_menu();
-		$promote_to_top_level   = $this->should_promote_to_top_level();
+		$menu_slug            = 'wp-blaze';
+		$promote_to_top_level = $this->should_promote_to_top_level();
 
 		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $this->get_admin_page_base(), $menu_slug, 'woo-blaze' );
 
-		if ( $display_marketing_menu ) {
-			$page_suffix = add_submenu_page(
-				'woocommerce-marketing',
-				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-				__( 'Blaze Ads', 'blaze-ads' ),
-				'manage_options',
-				$menu_slug,
-				array( $blaze_dashboard, 'render' )
-			);
-		} elseif ( $promote_to_top_level ) {
+		if ( $promote_to_top_level ) {
 			$page_suffix = add_menu_page(
 				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
 				__( 'Blaze Ads', 'blaze-ads' ),
@@ -190,6 +178,15 @@ class Blaze_Dashboard {
 				array( $blaze_dashboard, 'render' ),
 				'dashicons-megaphone',
 				30
+			);
+		} elseif ( $this->can_display_marketing_menu() ) {
+			$page_suffix = add_submenu_page(
+				'woocommerce-marketing',
+				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
+				__( 'Blaze Ads', 'blaze-ads' ),
+				'manage_options',
+				$menu_slug,
+				array( $blaze_dashboard, 'render' )
 			);
 		} else {
 			$page_suffix = add_submenu_page(
@@ -215,7 +212,7 @@ class Blaze_Dashboard {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( 'tools.php' === $pagenow && isset( $_GET['page'] ) && 'advertising' === $_GET['page'] ) {
-			wp_safe_redirect( admin_url( '/admin.php?page=wp-blaze', 'http' ), 302 );
+			wp_safe_redirect( admin_url( '/' . $this->get_admin_page_url_path(), 'http' ), 302 );
 			exit;
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
