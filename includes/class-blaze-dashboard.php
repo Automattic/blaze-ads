@@ -211,7 +211,9 @@ class Blaze_Dashboard {
 		global $pagenow;
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( 'tools.php' === $pagenow && isset( $_GET['page'] ) && 'advertising' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'advertising' === $_GET['page']
+			&& in_array( $pagenow, array( 'tools.php', 'admin.php' ), true )
+		) {
 			wp_safe_redirect( admin_url( '/' . $this->get_admin_page_url_path(), 'http' ), 302 );
 			exit;
 		}
