@@ -264,4 +264,28 @@ class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 		$this->assertEquals( 'tools.php', $dashboard->get_admin_page_base() );
 	}
 
+	/**
+	 * Ensure the Jetpack Blaze menu is always disabled when the plugin is active.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::should_enable_jetpack_blaze_menu
+	 */
+	public function test_jetpack_blaze_menu_always_disabled() {
+		$dashboard = new Blaze_Dashboard();
+		$this->assertFalse( $dashboard->should_enable_jetpack_blaze_menu() );
+	}
+
+	/**
+	 * Ensure invalidate_campaigns_cache deletes the transient.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::invalidate_campaigns_cache
+	 */
+	public function test_invalidate_campaigns_cache_deletes_transient() {
+		set_transient( Blaze_Dashboard::ACTIVE_CAMPAIGNS_TRANSIENT, 1, HOUR_IN_SECONDS );
+
+		$dashboard = new Blaze_Dashboard();
+		$dashboard->invalidate_campaigns_cache();
+
+		$this->assertFalse( get_transient( Blaze_Dashboard::ACTIVE_CAMPAIGNS_TRANSIENT ) );
+	}
+
 }

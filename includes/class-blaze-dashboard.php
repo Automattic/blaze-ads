@@ -71,7 +71,7 @@ class Blaze_Dashboard {
 	 * @return bool
 	 */
 	public function should_enable_jetpack_blaze_menu(): bool {
-		return $this->can_display_marketing_menu();
+		return false;
 	}
 
 	/**
@@ -110,14 +110,10 @@ class Blaze_Dashboard {
 				return false;
 			}
 
-			$query_params = array(
-				'status' => 'active',
-			);
+			$path     = sprintf( 'v1/campaigns/site/%s/stats', $blog_id );
+			$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET' );
 
-			$path     = sprintf( 'v1/search/campaigns/site/%s', $blog_id );
-			$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET', $query_params );
-
-			if ( 200 === $response['status'] && isset( $response['body']['campaigns'] ) && ! empty( $response['body']['campaigns'] ) ) {
+			if ( 200 === $response['status'] && isset( $response['body']['total'] ) && ! empty( $response['body']['total'] ) ) {
 				$has_campaigns = true;
 			}
 		} catch ( Base_Exception $e ) {
@@ -200,6 +196,16 @@ class Blaze_Dashboard {
 			);
 		}
 		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
+		add_action( 'load-' . $page_suffix, array( $this, 'invalidate_campaigns_cache' ) );
+	}
+
+	/**
+	 * Invalidates the active campaigns transient when the user loads the
+	 * Blaze Ads dashboard page. This ensures the menu position updates on
+	 * the next admin page load after a campaign is created or finishes.
+	 */
+	public function invalidate_campaigns_cache(): void {
+		delete_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT );
 	}
 
 	/**
