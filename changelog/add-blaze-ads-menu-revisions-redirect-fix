@@ -1,0 +1,4 @@
+Significance: patch
+Type: fix
+
+Widen legacy advertising URL redirect to also accept admin.php entry point.
