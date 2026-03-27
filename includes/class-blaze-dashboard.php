@@ -10,11 +10,8 @@ namespace BlazeAds;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Blaze as Jetpack_Blaze;
-use Automattic\Jetpack\Blaze\Dashboard as Jetpack_Blaze_Dashboard;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
-use BlazeAds\Exceptions\Base_Exception;
-use Jetpack_Options;
 
 /**
  * Its responsibility is to render the customized version of the Blaze Dashboard.
@@ -22,26 +19,17 @@ use Jetpack_Options;
 class Blaze_Dashboard {
 
 	/**
-	 * Transient key for caching the active campaigns check.
-	 */
-	const ACTIVE_CAMPAIGNS_TRANSIENT = 'blazeads_has_active_campaigns';
-
-	/**
-	 * TTL for the active campaigns transient, in seconds (1 hour).
-	 */
-	const ACTIVE_CAMPAIGNS_TRANSIENT_TTL = HOUR_IN_SECONDS;
-
-	/**
 	 * Initializes/configures the Jetpack Blaze module.
 	 */
 	public function initialize(): void {
 		// Configures the additional information we need in the state.
 		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'blaze_ads_initial_config_data' ), 10, 1 );
-		// Allow disabling of the Jetpack Blaze menu for non-Woo sites, to avoid showing 2 advertising sub menus in the Tools menu.
-		add_filter( 'jetpack_blaze_enabled', array( $this, 'should_enable_jetpack_blaze_menu' ), 10, 1 );
 
-		// Add initial actions.
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 999 );
+		// Customize jetpack-blaze menu registration via filters (slug, CSS prefix).
+		add_filter( 'jetpack_blaze_menu_slug', array( $this, 'get_menu_slug' ) );
+		add_filter( 'jetpack_blaze_dashboard_css_prefix', array( $this, 'get_css_prefix' ) );
+
+		// Redirect legacy ?page=advertising URLs to ?page=wp-blaze.
 		add_action( 'admin_menu', array( $this, 'jetpack_dashboard_redirection' ), 999 );
 		add_action(
 			'admin_init',
@@ -49,7 +37,10 @@ class Blaze_Dashboard {
 			1000
 		); // Run this after dashboard redirect.
 
-		// We initialize the module ony if we are running standalone, or if Jetpack Blaze is enabled inside Jetpack plugin.
+		// Invalidate jetpack-blaze campaign cache on dashboard page load.
+		add_action( 'admin_init', array( $this, 'maybe_invalidate_campaigns_cache' ) );
+
+		// We initialize the module only if we are running standalone, or if Jetpack Blaze is enabled inside Jetpack plugin.
 		// We don't want to override the user's decision to disable Blaze. We have a specific page that shows how to re-enable it.
 		if ( $this->is_blaze_module_active() ) {
 			Jetpack_Blaze::init();
@@ -57,155 +48,49 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Checks if the Marketing Blaze submenu can be displayed on the site.
+	 * Returns the menu slug used by Blaze Ads.
 	 *
-	 * @return bool
+	 * Hooked to `jetpack_blaze_menu_slug` to override the default 'advertising'.
+	 *
+	 * @return string
 	 */
-	public function can_display_marketing_menu(): bool {
-		return Blaze_Dependency_Service::is_woo_core_active();
+	public function get_menu_slug(): string {
+		return 'wp-blaze';
 	}
 
 	/**
-	 * Checks if the Jetpack Blaze menu should be enabled.
+	 * Returns the CSS prefix for the Blaze Ads dashboard.
 	 *
-	 * @return bool
+	 * Hooked to `jetpack_blaze_dashboard_css_prefix` to override the default 'jp-blaze'.
+	 *
+	 * @return string
 	 */
-	public function should_enable_jetpack_blaze_menu(): bool {
-		return false;
-	}
-
-	/**
-	 * Determines whether the menu should be promoted to a top-level menu page.
-	 *
-	 * The menu is promoted when the site has active Blaze campaigns, regardless
-	 * of whether WooCommerce is active. This makes the Blaze Ads entry more
-	 * visible in the admin sidebar.
-	 *
-	 * @return bool True if the menu should be a top-level page.
-	 */
-	public function should_promote_to_top_level(): bool {
-		return self::has_active_campaigns();
-	}
-
-	/**
-	 * Checks if the site has any active Blaze campaigns by calling the DSP API.
-	 *
-	 * Results are cached with a transient for 1 hour. This method is independent of
-	 * the WooCommerce MarketingCampaign infrastructure and returns a simple boolean.
-	 *
-	 * @return bool True if the site has at least one active campaign.
-	 */
-	public static function has_active_campaigns(): bool {
-		$cached = get_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT );
-		if ( false !== $cached ) {
-			return (bool) $cached;
-		}
-
-		$has_campaigns = false;
-
-		try {
-			$blog_id = Jetpack_Options::get_option( 'id' );
-			if ( empty( $blog_id ) ) {
-				set_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT, 0, self::ACTIVE_CAMPAIGNS_TRANSIENT_TTL );
-				return false;
-			}
-
-			$path     = sprintf( 'v1/campaigns/site/%s/stats', $blog_id );
-			$response = Blaze_Ads_Utils::call_dsp_server( $blog_id, $path, 'GET' );
-
-			if ( 200 === $response['status'] && isset( $response['body']['total'] ) && ! empty( $response['body']['total'] ) ) {
-				$has_campaigns = true;
-			}
-		} catch ( Base_Exception $e ) {
-			// On failure, cache as false so we don't keep retrying on every page load.
-			$has_campaigns = false;
-		}
-
-		set_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT, $has_campaigns ? 1 : 0, self::ACTIVE_CAMPAIGNS_TRANSIENT_TTL );
-
-		return $has_campaigns;
-	}
-
-	/**
-	 * Returns the admin page base for the Blaze Ads dashboard.
-	 *
-	 * When promoted to top-level (active campaigns in any context) or displayed
-	 * under the WooCommerce Marketing submenu, the base is admin.php. Otherwise,
-	 * for non-Woo sites without active campaigns, it falls back to tools.php.
-	 *
-	 * @return string The page base, e.g. 'admin.php' or 'tools.php'.
-	 */
-	public function get_admin_page_base(): string {
-		if ( $this->should_promote_to_top_level() ) {
-			return 'admin.php';
-		}
-
-		if ( $this->can_display_marketing_menu() ) {
-			return 'admin.php';
-		}
-
-		return 'tools.php';
+	public function get_css_prefix(): string {
+		return 'woo-blaze';
 	}
 
 	/**
 	 * Returns the full admin URL path for the Blaze Ads dashboard page.
 	 *
-	 * @return string E.g. 'admin.php?page=wp-blaze' or 'tools.php?page=wp-blaze'.
+	 * @return string E.g. 'admin.php?page=wp-blaze'.
 	 */
 	public function get_admin_page_url_path(): string {
-		return $this->get_admin_page_base() . '?page=wp-blaze';
+		return 'admin.php?page=wp-blaze';
 	}
 
 	/**
-	 * Adds Blaze entry point to the menu under the Marketing section.
+	 * Invalidates the jetpack-blaze active campaigns transient when the user
+	 * loads the Blaze Ads dashboard page. This ensures the menu position
+	 * updates on the next admin page load after a campaign is created.
 	 */
-	public function add_admin_menu(): void {
-		$menu_slug            = 'wp-blaze';
-		$promote_to_top_level = $this->should_promote_to_top_level();
-
-		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $this->get_admin_page_base(), $menu_slug, 'woo-blaze' );
-
-		if ( $promote_to_top_level ) {
-			$page_suffix = add_menu_page(
-				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-				__( 'Blaze Ads', 'blaze-ads' ),
-				'manage_options',
-				$menu_slug,
-				array( $blaze_dashboard, 'render' ),
-				'dashicons-megaphone',
-				30
-			);
-		} elseif ( $this->can_display_marketing_menu() ) {
-			$page_suffix = add_submenu_page(
-				'woocommerce-marketing',
-				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-				__( 'Blaze Ads', 'blaze-ads' ),
-				'manage_options',
-				$menu_slug,
-				array( $blaze_dashboard, 'render' )
-			);
-		} else {
-			$page_suffix = add_submenu_page(
-				'tools.php',
-				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-				__( 'Blaze Ads', 'blaze-ads' ),
-				'manage_options',
-				$menu_slug,
-				array( $blaze_dashboard, 'render' ),
-				1
-			);
+	public function maybe_invalidate_campaigns_cache(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['page'] ) && 'wp-blaze' === $_GET['page'] ) {
+			$site_id = Jetpack_Connection_Manager::get_site_id();
+			if ( is_numeric( $site_id ) ) {
+				delete_transient( 'jetpack_blaze_has_active_campaigns_' . $site_id );
+			}
 		}
-		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
-		add_action( 'load-' . $page_suffix, array( $this, 'invalidate_campaigns_cache' ) );
-	}
-
-	/**
-	 * Invalidates the active campaigns transient when the user loads the
-	 * Blaze Ads dashboard page. This ensures the menu position updates on
-	 * the next admin page load after a campaign is created or finishes.
-	 */
-	public function invalidate_campaigns_cache(): void {
-		delete_transient( self::ACTIVE_CAMPAIGNS_TRANSIENT );
 	}
 
 	/**
