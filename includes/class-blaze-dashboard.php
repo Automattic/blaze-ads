@@ -88,7 +88,7 @@ class Blaze_Dashboard {
 		if ( isset( $_GET['page'] ) && 'wp-blaze' === $_GET['page'] ) {
 			$site_id = Jetpack_Connection_Manager::get_site_id();
 			if ( is_numeric( $site_id ) ) {
-				delete_transient( 'jetpack_blaze_has_active_campaigns_' . $site_id );
+				delete_transient( 'jetpack_blaze_has_site_campaigns_' . $site_id );
 			}
 		}
 	}
