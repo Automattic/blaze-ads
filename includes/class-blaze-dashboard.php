@@ -10,7 +10,6 @@ namespace BlazeAds;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Blaze as Jetpack_Blaze;
-use Automattic\Jetpack\Blaze\Dashboard as Jetpack_Blaze_Dashboard;
 use Automattic\Jetpack\Modules as Jetpack_Modules;
 use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
 
@@ -19,18 +18,18 @@ use Automattic\Jetpack\Connection\Manager as Jetpack_Connection_Manager;
  */
 class Blaze_Dashboard {
 
-
 	/**
 	 * Initializes/configures the Jetpack Blaze module.
 	 */
 	public function initialize(): void {
 		// Configures the additional information we need in the state.
 		add_filter( 'jetpack_blaze_dashboard_config_data', array( $this, 'blaze_ads_initial_config_data' ), 10, 1 );
-		// Allow disabling of the Jetpack Blaze menu for non-Woo sites, to avoid showing 2 advertising sub menus in the Tools menu.
-		add_filter( 'jetpack_blaze_enabled', array( $this, 'should_enable_jetpack_blaze_menu' ), 10, 1 );
 
-		// Add initial actions.
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 999 );
+		// Customize jetpack-blaze menu registration via filters (slug, CSS prefix).
+		add_filter( 'jetpack_blaze_menu_slug', array( $this, 'get_menu_slug' ) );
+		add_filter( 'jetpack_blaze_dashboard_css_prefix', array( $this, 'get_css_prefix' ) );
+
+		// Redirect legacy ?page=advertising URLs to ?page=wp-blaze.
 		add_action( 'admin_menu', array( $this, 'jetpack_dashboard_redirection' ), 999 );
 		add_action(
 			'admin_init',
@@ -38,7 +37,10 @@ class Blaze_Dashboard {
 			1000
 		); // Run this after dashboard redirect.
 
-		// We initialize the module ony if we are running standalone, or if Jetpack Blaze is enabled inside Jetpack plugin.
+		// Invalidate jetpack-blaze campaign cache on dashboard page load.
+		add_action( 'admin_init', array( $this, 'maybe_invalidate_campaigns_cache' ) );
+
+		// We initialize the module only if we are running standalone, or if Jetpack Blaze is enabled inside Jetpack plugin.
 		// We don't want to override the user's decision to disable Blaze. We have a specific page that shows how to re-enable it.
 		if ( $this->is_blaze_module_active() ) {
 			Jetpack_Blaze::init();
@@ -46,98 +48,53 @@ class Blaze_Dashboard {
 	}
 
 	/**
-	 * Checks if the Marketing Blaze submenu can be displayed on the site.
+	 * Returns the menu slug used by Blaze Ads.
 	 *
-	 * @return bool
+	 * Hooked to `jetpack_blaze_menu_slug` to override the default 'advertising'.
+	 *
+	 * @return string
 	 */
-	public function can_display_marketing_menu(): bool {
-		return Blaze_Dependency_Service::is_woo_core_active();
+	public function get_menu_slug(): string {
+		return 'wp-blaze';
 	}
 
 	/**
-	 * Checks if the Jetpack Blaze menu should be enabled.
+	 * Returns the CSS prefix for the Blaze Ads dashboard.
 	 *
-	 * Always returns false because blaze-ads registers its own menu in
-	 * add_admin_menu(). This prevents the jetpack-blaze package from
-	 * creating a duplicate entry.
+	 * Hooked to `jetpack_blaze_dashboard_css_prefix` to override the default 'jp-blaze'.
 	 *
-	 * @return bool
+	 * @return string
 	 */
-	public function should_enable_jetpack_blaze_menu(): bool {
-		return false;
+	public function get_css_prefix(): string {
+		return 'woo-blaze';
 	}
 
 	/**
-	 * Checks if the Jetpack top-level admin menu is registered.
+	 * Returns the full admin URL path for the Blaze Ads dashboard page.
 	 *
-	 * @return bool True if the 'jetpack' top-level menu exists.
+	 * @return string E.g. 'admin.php?page=wp-blaze'.
 	 */
-	private static function is_jetpack_parent_available(): bool {
-		global $menu;
-		foreach ( (array) $menu as $item ) {
-			if ( isset( $item[2] ) && 'jetpack' === $item[2] ) {
-				return true;
+	public function get_admin_page_url_path(): string {
+		return 'admin.php?page=wp-blaze';
+	}
+
+	/**
+	 * Invalidates the jetpack-blaze active campaigns transient when the user
+	 * loads the Blaze Ads dashboard page. This ensures the menu position
+	 * updates on the next admin page load after a campaign is created.
+	 */
+	public function maybe_invalidate_campaigns_cache(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['page'] ) && 'wp-blaze' === $_GET['page'] ) {
+			$site_id = Jetpack_Connection_Manager::get_site_id();
+			if ( is_numeric( $site_id ) ) {
+				delete_transient( 'jetpack_blaze_has_site_campaigns_' . $site_id );
 			}
 		}
-		return false;
 	}
 
 	/**
-	 * Adds Blaze entry point to the menu under the Marketing section.
-	 */
-	public function add_admin_menu(): void {
-		$menu_slug       = 'advertising';
-		$parent_slug     = $this->get_menu_parent();
-		$page_base       = 'tools.php' === $parent_slug ? 'tools.php' : 'admin.php';
-		$blaze_dashboard = new Jetpack_Blaze_Dashboard( $page_base, $menu_slug, 'woo-blaze' );
-
-		if ( 'tools.php' === $parent_slug ) {
-			// Fallback: no Jetpack, no WooCommerce — register under Tools.
-			$page_suffix = add_submenu_page(
-				'tools.php',
-				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-				__( 'Blaze Ads', 'blaze-ads' ),
-				'manage_options',
-				$menu_slug,
-				array( $blaze_dashboard, 'render' ),
-				1
-			);
-		} else {
-			// Register under Jetpack or WooCommerce Marketing — both resolve at admin.php.
-			$page_suffix = add_submenu_page(
-				$parent_slug,
-				esc_attr__( 'Blaze Ads', 'blaze-ads' ),
-				__( 'Blaze Ads', 'blaze-ads' ),
-				'manage_options',
-				$menu_slug,
-				array( $blaze_dashboard, 'render' ),
-				1
-			);
-		}
-		add_action( 'load-' . $page_suffix, array( $blaze_dashboard, 'admin_init' ) );
-	}
-
-	/**
-	 * Returns the parent menu slug for the Blaze Ads submenu.
-	 *
-	 * Priority: WooCommerce Marketing > Jetpack > Tools.
-	 *
-	 * @return string Parent menu slug.
-	 */
-	private function get_menu_parent(): string {
-		if ( $this->can_display_marketing_menu() ) {
-			return 'woocommerce-marketing';
-		}
-
-		if ( self::is_jetpack_parent_available() ) {
-			return 'jetpack';
-		}
-
-		return 'tools.php';
-	}
-
-	/**
-	 * Handles the redirection from the legacy wp-blaze slug to the current advertising slug.
+	 * Handles the redirection from the Jetpack Blaze dashboard URL to the new Blaze Ads dashboard
 	 *
 	 * @return void
 	 */
@@ -145,10 +102,10 @@ class Blaze_Dashboard {
 		global $pagenow;
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_GET['page'] ) && 'wp-blaze' === $_GET['page']
+		if ( isset( $_GET['page'] ) && 'advertising' === $_GET['page']
 			&& in_array( $pagenow, array( 'tools.php', 'admin.php' ), true )
 		) {
-			wp_safe_redirect( admin_url( 'admin.php?page=advertising' ), 302 );
+			wp_safe_redirect( admin_url( '/' . $this->get_admin_page_url_path(), 'http' ), 302 );
 			exit;
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
@@ -175,7 +132,7 @@ class Blaze_Dashboard {
 		$setup_reason = $this->check_setup_plugin_status();
 
 		$data['is_blaze_plugin']       = true;
-		$data['dashboard_path_prefix'] = '/advertising';
+		$data['dashboard_path_prefix'] = '/wp-blaze';
 		$data['is_woo_store']          = Blaze_Dependency_Service::is_woo_core_active();
 		$data['need_setup']            = $setup_reason ?? false;
 
@@ -249,7 +206,7 @@ class Blaze_Dashboard {
 	 * @return string Jetpack connect url.
 	 */
 	public function get_connect_url( string $blazeads_connect_from = '1' ): string {
-		$admin_page = 'admin.php?page=advertising';
+		$admin_page = $this->get_admin_page_url_path();
 		$url        = add_query_arg(
 			array( 'blaze-ads-connect' => $blazeads_connect_from ),
 			admin_url( $admin_page )
