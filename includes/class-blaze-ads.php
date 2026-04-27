@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use BlazeAds\Abilities\Blaze_Abilities;
+use Automattic\Jetpack\Blaze\Abilities\Blaze_Abilities;
 use BlazeAds\Blaze_Marketing_Channel;
 use BlazeAds\Blaze_Dashboard;
 use BlazeAds\Blaze_Conversions;
@@ -59,7 +59,9 @@ class Blaze_Ads {
 			( new Blaze_Conversions() )->initialize();
 		}
 
-		// Register Blaze abilities and opt them into Woo's MCP server (no-op when Woo MCP isn't present).
+		// Opt into the Blaze MCP ability shipped by the jetpack-blaze package
+		// (single source of truth across the standalone plugin and Jetpack).
+		// No-op when Woo MCP isn't present.
 		Blaze_Abilities::init();
 	}
 
