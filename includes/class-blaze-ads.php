@@ -7,6 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use BlazeAds\Abilities\Blaze_Abilities;
 use BlazeAds\Blaze_Marketing_Channel;
 use BlazeAds\Blaze_Dashboard;
 use BlazeAds\Blaze_Conversions;
@@ -57,6 +58,9 @@ class Blaze_Ads {
 		if ( Blaze_Dependency_Service::is_woo_core_active() ) {
 			( new Blaze_Conversions() )->initialize();
 		}
+
+		// Register Blaze abilities and opt them into Woo's MCP server (no-op when Woo MCP isn't present).
+		Blaze_Abilities::init();
 	}
 
 	/**
