@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@woocommerce/dependency-extraction-webpack-plugin": "1.6.0",
-		"@woocommerce/eslint-plugin": "latest",
+		"@woocommerce/eslint-plugin": "2.2.0",
 		"@wordpress/eslint-plugin": "^17.5.0",
 		"@wordpress/i18n": "^4.49.0",
 		"@wordpress/prettier-config": "^3.5.0",
@@ -67,7 +67,8 @@
 	},
 	"pnpm": {
 		"overrides": {
-			"basic-ftp": ">=5.2.0",
+			"basic-ftp": "5.3.1",
+			"form-data": "4.0.4",
 			"flatted": ">=3.4.0",
 			"immutable": ">=4.3.8",
 			"minimatch": ">=3.1.3",
