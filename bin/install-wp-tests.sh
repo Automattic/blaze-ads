@@ -33,7 +33,7 @@ wp() {
 	if [ ! -f $TMPDIR/wp-cli.phar ]; then
 		download https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar  "$TMPDIR/wp-cli.phar"
 	fi
-	php "$TMPDIR/wp-cli.phar" $@
+	php -d memory_limit="${WP_CLI_MEMORY_LIMIT:-512M}" "$TMPDIR/wp-cli.phar" "$@"
 
 	cd "$WORKING_DIR"
 }

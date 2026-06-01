@@ -2,7 +2,7 @@
 Contributors: woocommerce, automattic
 Tags: blaze ads, woo blaze, blaze, advertising
 Requires at least: 6.3
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 0.9.0
 License: GPLv2 or later
@@ -173,4 +173,3 @@ Yes, you can review our [Terms of Service](https://wordpress.com/tos/), our [Pri
 * Add - Adds GitHub actions and workflows to the repository
 * Add - Adds the Blaze for Woo entry point
 * Add - translation github action
-
