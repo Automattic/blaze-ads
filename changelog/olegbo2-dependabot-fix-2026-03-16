@@ -1,0 +1,5 @@
+Significance: patch
+Type: dev
+Comment: Add pnpm overrides to resolve Dependabot alerts for vulnerable transitive dev dependencies.
+
+
