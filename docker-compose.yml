@@ -11,7 +11,6 @@ services:
       dockerfile: ./docker/wordpress_xdebug/Dockerfile
       args:
         - XDEBUG_REMOTE_PORT=9000 # IDE/Editor's listener port
-    container_name: blaze_ads_wordpress
     image: blaze_ads_wordpress
     restart: always
     depends_on:
@@ -32,7 +31,6 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   db:
-    container_name: blaze_ads_mysql
     image: mariadb:11.4.5
     ports:
       - '3308:3306'

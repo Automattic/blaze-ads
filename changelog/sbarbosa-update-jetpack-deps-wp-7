@@ -1,0 +1,5 @@
+Significance: patch
+Type: update
+Comment: Update Jetpack Composer dependencies and WordPress tested compatibility
+
+Update Jetpack dependencies to latest versions and confirm compatibility with WordPress 7.0.

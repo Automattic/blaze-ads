@@ -3,8 +3,54 @@
 # Exit if any command fails.
 set -e
 
-WP_CONTAINER=${1-blaze_ads_wordpress}
-SITE_URL=${WP_URL-"localhost:8082"}
+get_compose_wordpress_container() {
+	local container_id
+	local container_name
+
+	container_id=$(docker compose ps -q wordpress 2> /dev/null | head -n 1)
+	if [[ -z "$container_id" ]]; then
+		return 1
+	fi
+
+	container_name=$(docker inspect --format '{{.Name}}' "$container_id" 2> /dev/null | sed 's#^/##')
+	if [[ -z "$container_name" ]]; then
+		return 1
+	fi
+
+	echo "$container_name"
+}
+
+get_compose_site_url() {
+	local port_mapping
+	local port
+
+	port_mapping=$(docker compose port wordpress 80 2> /dev/null | head -n 1)
+	if [[ -z "$port_mapping" ]]; then
+		return 1
+	fi
+
+	port="${port_mapping##*:}"
+	if [[ ! "$port" =~ ^[0-9]+$ ]]; then
+		return 1
+	fi
+
+	echo "localhost:$port"
+}
+
+WP_CONTAINER=${1:-}
+if [[ -z "$WP_CONTAINER" ]]; then
+	WP_CONTAINER=$(get_compose_wordpress_container || true)
+fi
+if [[ -z "$WP_CONTAINER" ]]; then
+	echo "Unable to detect the WordPress container. Run docker compose up first or pass a container name as the first argument."
+	exit 1
+fi
+
+SITE_URL=${WP_URL:-}
+if [[ -z "$SITE_URL" ]]; then
+	SITE_URL=$(get_compose_site_url || true)
+fi
+SITE_URL=${SITE_URL:-localhost:8082}
 
 redirect_output() {
 	if [[ -z "$DEBUG" ]]; then
