@@ -15,19 +15,19 @@ runs:
   using: composite
   steps:
     - name: "Set up pnpm"
-      uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
       if: ${{ inputs.setup-node-pnpm == 'true' }}
       with:
         version: 10
     - name: "Set up Node"
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       if: ${{ inputs.setup-node-pnpm == 'true' }}
       with:
         node-version-file: '.nvmrc'
         cache: "pnpm"
 
     - name: "Enable composer dependencies caching"
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       if: ${{ inputs.setup-php == 'true' }}
       with:
         path: ~/.cache/composer/
