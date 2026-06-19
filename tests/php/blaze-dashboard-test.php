@@ -30,16 +30,57 @@ class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 	}
 
 	/**
-	 * Ensure the new admin menu is added in the correct section.
+	 * Ensure the menu slug filter is registered on initialize.
 	 *
-	 * @covers BlazeAds\Blaze_Dashboard::add_admin_menu
+	 * @covers BlazeAds\Blaze_Dashboard::initialize
 	 */
-	public function test_it_adds_admin_menu_correctly() {
-		( new Blaze_Dashboard() )->add_admin_menu();
+	public function test_initialize_registers_menu_slug_filter() {
+		$dashboard = new Blaze_Dashboard();
+		$dashboard->initialize();
 
-		$menu_url = menu_page_url( 'wp-blaze' );
-		$this->assertNotEmpty( $menu_url );
-		$this->assertMatchesRegularExpression( '/woocommerce-marketing/', $menu_url );
+		$this->assertNotFalse( has_filter( 'jetpack_blaze_menu_slug', array( $dashboard, 'get_menu_slug' ) ) );
+	}
+
+	/**
+	 * Ensure the CSS prefix filter is registered on initialize.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::initialize
+	 */
+	public function test_initialize_registers_css_prefix_filter() {
+		$dashboard = new Blaze_Dashboard();
+		$dashboard->initialize();
+
+		$this->assertNotFalse( has_filter( 'jetpack_blaze_dashboard_css_prefix', array( $dashboard, 'get_css_prefix' ) ) );
+	}
+
+	/**
+	 * Ensure get_menu_slug returns 'wp-blaze'.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::get_menu_slug
+	 */
+	public function test_get_menu_slug() {
+		$dashboard = new Blaze_Dashboard();
+		$this->assertEquals( 'wp-blaze', $dashboard->get_menu_slug() );
+	}
+
+	/**
+	 * Ensure get_css_prefix returns 'woo-blaze'.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::get_css_prefix
+	 */
+	public function test_get_css_prefix() {
+		$dashboard = new Blaze_Dashboard();
+		$this->assertEquals( 'woo-blaze', $dashboard->get_css_prefix() );
+	}
+
+	/**
+	 * Ensure get_admin_page_url_path returns the correct path.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::get_admin_page_url_path
+	 */
+	public function test_get_admin_page_url_path() {
+		$dashboard = new Blaze_Dashboard();
+		$this->assertEquals( 'admin.php?page=wp-blaze', $dashboard->get_admin_page_url_path() );
 	}
 
 	/**
@@ -55,12 +96,14 @@ class Blaze_Dashboard_Test extends BA_Unit_Test_Case {
 		$this->assertNotEmpty( $data['need_setup'] );
 	}
 
-	private function mock_wp_remote_get( $response ) {
-		add_filter(
-			'pre_http_request',
-			function () use ( $response ) {
-				return $response;
-			}
-		);
+	/**
+	 * Ensure connect URL uses admin.php with wp-blaze slug.
+	 *
+	 * @covers BlazeAds\Blaze_Dashboard::get_connect_url
+	 */
+	public function test_connect_url_uses_admin_php() {
+		$dashboard = new Blaze_Dashboard();
+		$url       = $dashboard->get_connect_url();
+		$this->assertStringContainsString( 'admin.php?page=wp-blaze', $url );
 	}
 }

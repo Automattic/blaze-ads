@@ -58,7 +58,7 @@ class Jetpack_Connect_Handler {
 	 * @return void
 	 */
 	private function redirect_to_onboarding_flow_page( string $source ) {
-		$admin_page   = Blaze_Dependency_Service::is_woo_core_active() ? 'admin.php?page=wp-blaze' : 'tools.php?page=wp-blaze';
+		$admin_page   = ( new Blaze_Dashboard() )->get_admin_page_url_path();
 		$redirect_url = add_query_arg(
 			array( 'source' => $source ),
 			admin_url( $admin_page )
@@ -86,7 +86,8 @@ class Jetpack_Connect_Handler {
 			set_transient( self::ERROR_MESSAGE_TRANSIENT, $error_message, 30 );
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=wp-blaze' ) );
+		$admin_page = ( new Blaze_Dashboard() )->get_admin_page_url_path();
+		wp_safe_redirect( admin_url( $admin_page ) );
 		exit();
 	}
 
